@@ -20,6 +20,6 @@ Vue + Spring boot를 활용한 게시판 만들기
 <h3>back-end</h3>
 
 - java: 11
-- spring-boot: 2.7.0
+- spring-boot: 2.7.1
 - mybatis 
 - gradle
