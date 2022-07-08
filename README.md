@@ -16,7 +16,7 @@ Vue + Spring boot를 활용한 게시판 만들기
 - vue-router: 3.5.3
 - vuetify: 2.6.0
 - vuex: 3.6.2
-
+- axios: 0.27.2
 <h3>back-end</h3>
 
 - java: 11
