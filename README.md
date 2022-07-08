@@ -9,9 +9,17 @@ Vue + Spring boot를 활용한 게시판 만들기
 - 첨부파일 등록
 
 
-개발환경
-front-end:
-vue
+<h2> 개발 환경(IntelliJ IDEA) </h2>
+<h3>front-end</h3>
 
-back-end:
-spring-boot
+- vue: 2.6.14
+- vue-router: 3.5.3
+- vuetify: 2.6.0
+- vuex: 3.6.2
+
+<h3>back-end</h3>
+
+- java: 11
+- spring-boot: 2.7.0
+- mybatis 
+- gradle
