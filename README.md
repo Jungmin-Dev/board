@@ -21,5 +21,7 @@ Vue + Spring boot를 활용한 게시판 만들기
 
 - java: 11
 - spring-boot: 2.7.1
-- mybatis 
+- mybatis
 - gradle
+- database: oracle, mybatis
+- lombok
