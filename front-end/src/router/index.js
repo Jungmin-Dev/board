@@ -31,7 +31,7 @@ const routes = [
     name:'Greet',
   },
   {
-    path: '/create-board',
+    path: '/create-board/:contentId?',
     component:CreateBoard,
     name:'CreateBoard',
   },
