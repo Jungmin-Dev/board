@@ -6,6 +6,10 @@ import Greet from '@/views/GreetViews'
 import Login from '@/views/loginViews'
 import CreateBoard from '@/components/CreateBoard'
 import DetailBoard from '@/components/DetailBoard'
+import BoardPage from "@/components/BoardPage";
+import ContentDetail from "@/components/ContentDetail"
+import CreatePage from "@/components/CreatePage"
+
 Vue.use(VueRouter);
 
 
@@ -40,7 +44,21 @@ const routes = [
     component:DetailBoard,
     name:'DetailBoard',
   },
-
+  {
+    path: '/board-page',
+    component:BoardPage,
+    name:'BoardPage',
+  },
+  {
+    path: '/board-page/detail/:contentId',
+    name: 'ContentDetail',
+    component: ContentDetail
+  },
+  {
+    path: '/board-page/create-page/:contentId?',
+    name: 'CreatePage',
+    component: CreatePage
+  },
 ]
 
 const router = new VueRouter({
