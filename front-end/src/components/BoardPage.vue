@@ -1,6 +1,13 @@
 <template>
   <div>
-    <b-table striped hover :items="items" :fields="fields" @row-clicked="rowClick"></b-table>
+    <b-table striped hover :items="items" :per-page="perPage" :current-page="currentPage" :fields="fields" @row-clicked="rowClick"></b-table>
+    <b-pagination
+        align="center"
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+    ></b-pagination>
     <b-button @click="writeContent">글쓰기</b-button>
   </div>
 </template>
@@ -12,6 +19,7 @@ export default {
   name: "BoardPage",
 
   data() {
+
     let items = data.Content.sort((a,b)=>{
       return b.content_id - a.content_id
     })
@@ -21,6 +29,8 @@ export default {
       }
     })
     return {
+      perPage: 10,
+      currentPage: 1,
       fields:[
         {
           key: 'content_id',
@@ -52,6 +62,11 @@ export default {
       this.$router.push({
         path: '/board-page/create-page'
       })
+    }
+  },
+  computed:{
+    rows(){
+      return this.items.length
     }
   }
 }

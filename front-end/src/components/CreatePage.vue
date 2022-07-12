@@ -7,7 +7,7 @@
         rows="3"
         max-rows="6"
     >{{ context }}</b-form-textarea>
-    <b-button @click="contentId === undefined ? upload() : update()">{{contentId === undefined ? "저장" : "수정"}}</b-button>
+    <b-button @click="updateMode ? update() : upload()">저장</b-button>
     <b-button @click="cancle">취소</b-button>
   </div>
 </template>
@@ -16,16 +16,24 @@
 import data from '@/store/testdata'
 export default{
   name: 'CreatePage',
-  data () {
+  mounted(){
+    console.log(this.$route.params.contentId);
+    if(this.$route.params.contentId > 0){
     const contentId = Number(this.$route.params.contentId);
-    let contentData = data.Content.filter(item => item.content_id === contentId)[0];
+    this.updateObject = data.Content.filter(item => item.content_id === contentId)[0];
+    this.subject = this.updateObject.title;
+    this.context = this.updateObject.context;
+    }
+  },
+  data () {
     return {
-      contentId: contentId,
-      subject: contentId === false ? '' : contentData.title,
-      context: contentId === false ? '' : contentData.context,
+      subject: '',
+      context: '',
       userId: 1,
       create_at: new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] + "   " + new Date().toTimeString().split(" ")[0],
       update_at: null,
+      updateObject: null,
+      updateMode : this.$route.params.contentId > 0 ? true: false,
     }
   },
   methods:{
@@ -52,8 +60,11 @@ export default{
       })
     },
     update(){
+      this.updateObject.title = this.subject;
+      this.updateObject.context = this.context
+      this.updateObject.created_at = this.create_at;
       this.$router.push({
-        path: `/board-page/detail/${this.contentId}`
+        path: '/board-page'
       })
     }
   }

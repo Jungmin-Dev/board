@@ -27,7 +27,7 @@
         <b-button variant="success" @click="deleteData">삭제</b-button>
       </div>
       <div class="content-detail-comment">
-        덧글
+        <CommentList :contentId="contentId"></CommentList>
       </div>
     </b-card>
   </div>
@@ -35,12 +35,14 @@
 
 <script>
 import data from "@/store/testdata";
+import CommentList from "./CommentList";
 
 export default {
   name: "ContentDetail",
+  components: {CommentList},
+
   data() {
     const contentId = Number(this.$route.params.contentId);
-    console.log(contentId)
     const contentData = data.Content.filter(item => item.content_id === contentId)[0]
     return {
       contentId: contentId,
@@ -62,9 +64,7 @@ export default {
     updateData() {
       this.$router.push({
         path: `/board-page/create-page/${this.contentId}`,
-      })
-
-    }
+      })}
   }
 };
 </script>
