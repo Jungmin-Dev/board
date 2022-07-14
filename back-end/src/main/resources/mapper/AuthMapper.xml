@@ -9,7 +9,7 @@
         SELECT
         user_id, user_password
         FROM
-        BOARD."User"
-        WHERE user_id =#{user_id}
+        Auth_Info
+        WHERE user_id =#{userId}
     </select>
 </mapper>

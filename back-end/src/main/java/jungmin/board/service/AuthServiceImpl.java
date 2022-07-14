@@ -18,9 +18,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public login login(login param) throws Exception {
-        System.out.println("서비스 진입");
         login result = authMapper.userInfo(param);
-        System.out.println("로그인 성공 = " + result);
 
         return result;
     }

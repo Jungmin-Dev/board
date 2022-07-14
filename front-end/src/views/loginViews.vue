@@ -1,8 +1,8 @@
 <template>
   <div>
     <form action="" method="post">
-  <input v-model="User.user_id" placeholder="아이디" type="text"/>
-  <input v-model="User.user_password" placeholder="비밀번호" type="text"/>
+  <input v-model="user.userId" placeholder="아이디" type="text"/>
+  <input v-model="user.userPassword" placeholder="비밀번호" type="text"/>
   <b-button variant="info" @click="login">로그인</b-button>
     </form>
   </div>
@@ -15,15 +15,15 @@ export default{
 
   data(){
     return{
-      User:{
-        user_id: '',
-        user_password: '',
+      user:{
+        userId: '123',
+        userPassword: '123',
       }
     }
   },
   methods:{
     async login(){
-      await request('post', '/auth/login', this.User);
+      await request('post', '/auth/login', this.user);
     }
   }
 }
