@@ -31,4 +31,10 @@ public class AuthController {
         login info = authService.login(param);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
+    @RequestMapping(value="/test", method = RequestMethod.GET)
+    @ResponseBody
+    public String test() throws Exception{
+        return "abc";
+    }
 }
