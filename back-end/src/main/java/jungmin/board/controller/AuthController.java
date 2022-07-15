@@ -21,7 +21,6 @@ import java.util.Map;
 @RequestMapping("/auth")
 @Controller
 @CrossOrigin(origins="*")
-@Slf4j
 public class AuthController {
 
     private final AuthService authService;

@@ -5,6 +5,9 @@ plugins {
 	id 'war'
 }
 
+apply plugin: 'war'
+
+
 group = 'jungmin'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
