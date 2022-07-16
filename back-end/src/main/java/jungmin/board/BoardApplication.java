@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @MapperScan(basePackages = {"jungmin.board.mapper"})
-@SpringBootApplication(scanBasePackages = {"jungmin.board.controller" ,"jungmin.board.service" })
+@SpringBootApplication(scanBasePackages = {"jungmin.board.config", "jungmin.board.controller" ,"jungmin.board.service" })
 public class BoardApplication {
 
 
