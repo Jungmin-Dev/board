@@ -5,9 +5,38 @@
             <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] [%thread] %-5level %logger{36} - %msg%n</Pattern>
         </encoder>
     </appender>
+    <!-- Application Loggers -->
+    <logger name="jungmin.board.controller">
+        <level value="info" />
+    </logger>
+    <logger name="jungmin.board.service">
+        <level value="info" />
+    </logger>
 
-    <logger name="jdbc.resultset" level="OFF" />
-    <logger name="jdbc.connection" level="error" />
+    <!-- 3rdparty Loggers -->
+    <logger name="org.springframework.core">
+        <level value="info" />
+    </logger>
+
+    <logger name="org.springframework.beans">
+        <level value="info" />
+    </logger>
+
+    <logger name="org.springframework.context">
+        <level value="info" />
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="info" />
+    </logger>
+
+    <logger name="jdbc" level="OFF"/>
+    <logger name="jdbc.sqlonly" level="debug"/>
+    <logger name="jdbc.sqltiming" level="debug"/>
+    <logger name="jdbc.audit" level="error"/>
+    <logger name="jdbc.resultset" level="error"/>
+    <logger name="jdbc.resultsettable" level="DEBUG"/>
+    <logger name="jdbc.connection" level="error"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

@@ -24,7 +24,7 @@ public class AuthController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> login(@RequestBody login param) throws Exception{
-        System.out.println(param.getUser_id());
+        System.out.println(param.getUserId());
         Map<String, Object> map = new HashMap<>();
         System.out.println(authService);
         login info = authService.login(param);
