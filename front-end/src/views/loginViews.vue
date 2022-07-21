@@ -1,10 +1,10 @@
 <template>
   <div>
-    <form action="" method="post">
   <input v-model="user.userId" placeholder="아이디" type="text"/>
   <input v-model="user.userPassword" placeholder="비밀번호" type="text"/>
   <b-button variant="info" @click="login">로그인</b-button>
-    </form>
+  <b-button variant="info" @click="test">Test</b-button>
+
   </div>
 </template>
 
@@ -16,14 +16,18 @@ export default{
   data(){
     return{
       user:{
-        userId: '123',
-        userPassword: '123',
+        userId: '1234',
+        userPassword: '1234',
       }
     }
   },
   methods:{
     async login(){
       await request('post', '/auth/login', this.user);
+    },
+    async test(){
+      await request('get', '/auth/test', this.user);
+
     }
   }
 }
