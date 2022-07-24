@@ -3,7 +3,8 @@
   <input v-model="user.userId" placeholder="아이디" type="text"/>
   <input v-model="user.userPassword" placeholder="비밀번호" type="text"/>
   <b-button variant="info" @click="login">로그인</b-button>
-  <b-button variant="info" @click="test">Test</b-button>
+  <b-button variant="info" @click="join">회원가입</b-button>
+
 
   </div>
 </template>
@@ -25,9 +26,10 @@ export default{
     async login(){
       await request('post', '/auth/login', this.user);
     },
-    async test(){
-      await request('get', '/auth/test', this.user);
-
+    join(){
+      this.$router.push({
+        path : '/board-page/join-page'
+      })
     }
   }
 }

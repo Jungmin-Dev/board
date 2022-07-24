@@ -1,6 +1,6 @@
 package jungmin.board.service;
 
-import jungmin.board.domain.login;
+import jungmin.board.domain.Info;
 import jungmin.board.mapper.AuthMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -17,9 +17,20 @@ public class AuthServiceImpl implements AuthService{
     private final AuthMapper authMapper;
 
     @Override
-    public login login(login param) throws Exception {
-        login result = authMapper.userInfo(param);
+    public Info join(Info param) throws Exception {
 
-        return result;
+        // db에서 데이터 가져와서 중복체크
+        authMapper.userInfo(param);
+
+        // 회원기ㅏ입
+
+        return null;
+    }
+
+    @Override
+    public Info login(Info param) throws Exception {
+//        Info result = authMapper.userInfo(param);
+
+        return null;
     }
 }

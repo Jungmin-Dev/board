@@ -5,11 +5,12 @@
 
 <mapper namespace="jungmin.board.mapper.AuthMapper">
     <!--로그인등 사용자 정보 학인  -->
-    <select id="userInfo" resultType="login">
+    <select id="userInfo" resultType="Info">
         SELECT
         user_id, user_password
         FROM
         Auth_Info
         WHERE user_id =#{userId}
     </select>
+
 </mapper>

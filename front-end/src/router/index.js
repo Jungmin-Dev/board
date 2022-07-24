@@ -4,6 +4,7 @@ import Login from '@/views/loginViews'
 import BoardPage from "@/components/BoardPage";
 import ContentDetail from "@/components/ContentDetail"
 import CreatePage from "@/components/CreatePage"
+import JoinPage from "@/components/JoinPage";
 
 Vue.use(VueRouter);
 
@@ -25,10 +26,14 @@ const routes = [
     component: ContentDetail
   },
   {
-
     path: '/board-page/create-page/:contentId?',
     name: 'CreatePage',
     component: CreatePage
+  },
+  {
+    path: '/board-page/join-page',
+    name: 'JoinPage',
+    component: JoinPage
   },
 ]
 

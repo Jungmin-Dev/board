@@ -2,7 +2,7 @@ package jungmin.board.controller;
 
 
 import ch.qos.logback.classic.Logger;
-import jungmin.board.domain.login;
+import jungmin.board.domain.Info;
 import jungmin.board.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -25,16 +25,26 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @RequestMapping(value="/duplicate", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> duplicate() throws Exception{
+        return null;
+    }
+
+    @RequestMapping(value="/join", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> join() throws Exception{
+        return null;
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> login(@RequestBody login param) throws Exception{
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Info param) throws Exception{
         Map<String, Object> map = new HashMap<>();
-        login info = authService.login(param);
+        authService.login(param);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/test", method = RequestMethod.GET)
-    @ResponseBody
-    public String test() throws Exception{
-        return "abc";
-    }
+
+
+
 }
