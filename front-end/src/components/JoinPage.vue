@@ -37,12 +37,12 @@ export default {
   },
   methods:{
     async duplicate(){
-      let result = await request('post', '/Auth/duplicate', this.userId)
+      let result = await request('post', '/auth/duplicate', this.userId)
       if(result!==false)
         this.check='1'
     },
     async join(){
-      let result = await request('post', '/Auth/join', this.info)
+      let result = await request('post', '/auth/join', this.info)
       if(result!=false && this.check === '1'){
       await this.$router.push({
         path: '/',

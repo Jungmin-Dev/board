@@ -8,8 +8,8 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="#">공지사항</b-nav-item>
-          <b-nav-item to="/board-page">게시판</b-nav-item>
-          <b-nav-item href="#">구인구직</b-nav-item>
+          <b-nav-item router :to="{name : 'BoardPage' }">게시판</b-nav-item>
+          <b-nav-item router :to="{name : 'Login' }">login</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

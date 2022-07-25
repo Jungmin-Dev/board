@@ -1,39 +1,62 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router'
-import Login from '@/views/loginViews'
-import BoardPage from "@/components/BoardPage";
-import ContentDetail from "@/components/ContentDetail"
-import CreatePage from "@/components/CreatePage"
-import JoinPage from "@/components/JoinPage";
-
+import store from '../store'
 Vue.use(VueRouter);
 
-
+// 라우터 가드
+const rejectAuthUser = (to, from, next) =>{
+  if(store.state.isLogin === true){
+    //이미 로그인 된 유저
+    alert('이미 로그인됨');
+    next('/board-page');
+  }
+  else{
+    next();
+  }
+}
+// 라우터 가드
+const onlyAuthUser = (to, from, next) =>{
+  if(store.state.isLogin === true){
+    // 이미 로그인 된 유저
+    next();
+  }
+  else{
+    alert('로그인하세요');
+    next('/')
+  }
+}
 const routes = [
   {
     path: '/',
-    component:Login,
     name:'Login',
+    beforeEnter: rejectAuthUser,
+    component: () =>
+      import("@/views/loginViews"),
   },
   {
     path: '/board-page',
-    component:BoardPage,
     name:'BoardPage',
+    beforeEnter: onlyAuthUser,
+    component: () =>
+      import("@/components/BoardPage"),
   },
   {
     path: '/board-page/detail/:contentId',
     name: 'ContentDetail',
-    component: ContentDetail
+    component: () =>
+      import("@/components/ContentDetail"),
   },
   {
     path: '/board-page/create-page/:contentId?',
     name: 'CreatePage',
-    component: CreatePage
+    component: () =>
+      import("@/components/CreatePage"),
   },
   {
     path: '/board-page/join-page',
     name: 'JoinPage',
-    component: JoinPage
+    component: () =>
+      import("@/components/JoinPage"),
   },
 ]
 
