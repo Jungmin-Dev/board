@@ -3,10 +3,11 @@ package jungmin.board.mapper;
 import jungmin.board.domain.Info;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 
 public interface AuthMapper {
     // 로그인 확인
-    public Info userInfo(Info userId) throws Exception;
-
+    public Info userInfo(Info info) throws Exception;
+    public Info userDuplicate(Info info) throws Exception;
 }

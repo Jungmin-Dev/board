@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Log
@@ -19,12 +20,19 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public Info join(Info param) throws Exception {
 
-        // db에서 데이터 가져와서 중복체크
-        authMapper.userInfo(param);
 
         // 회원기ㅏ입
 
         return null;
+    }
+
+    @Override
+    public Optional<Info> duplicate(Info param) throws Exception {
+        // 중복 체크
+        Optional<Info> optional = Optional.ofNullable(authMapper.userDuplicate(param));
+        System.out.println(optional);
+        return optional;
+
     }
 
     @Override

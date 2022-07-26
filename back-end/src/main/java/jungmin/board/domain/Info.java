@@ -11,5 +11,6 @@ public class Info {
     private String userId;
     private String userPassword;
     private String Name;
-    private String createAt;
+    private String createdAt;
+    private String Email;
 }

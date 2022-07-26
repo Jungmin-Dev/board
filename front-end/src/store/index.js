@@ -9,8 +9,10 @@ const store = new Vuex.Store({
   state: {
     userInfo: null,
     user: {
-      userId: null,
-      userPassword: null,
+        userName: '',
+        userId: '',
+        userPassword: '',
+        Email: '',
     },
     isLogin: false,
     isLoginError: false,
@@ -26,6 +28,11 @@ const store = new Vuex.Store({
     loginError(state) {
       state.isLogin = false;
       state.isLoginError = true;
+    },
+    logout(state){
+      state.isLogin = false;
+      state.isLoginError = false;
+      state.userInfo = null;
     }
   },
   actions: {
@@ -43,6 +50,12 @@ const store = new Vuex.Store({
         })
       }
     },
+    logout({commit}) {
+      commit('logout')
+      router.push({
+        name : 'Login'
+      })
+    }
   },
   getters: {
 
