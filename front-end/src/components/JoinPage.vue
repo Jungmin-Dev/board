@@ -8,18 +8,26 @@
         <b-form-input v-model="user[type]"></b-form-input>
       </b-col>
       <b-col sm="3">
-        <b-button v-if="type==='userId'" variant="info" @click="duplicate" :disabled="check=== '1'"> 중복체크 </b-button>
+        <b-button v-if="type==='userId'" variant="info" @click="duplicate(user)"> 중복체크 </b-button>
+        <b-button v-if="type==='Email'" variant="info" @click="emailCheck(user)"> 이메일 인증 </b-button>
       </b-col>
     </b-row>
     <b-button variant="info" @click="join">회원가입</b-button>
-    <v-alert v-if="check==='0'" type="error"> 중복체크 해주세요. </v-alert>
-    <v-alert v-else-if="check==='1'" type="info"> 중복체크 완료. </v-alert>
+    <v-alert v-if="duplicateCheck===false" type="error"> 사용중인 아이디 입니다 (중복체크 해주세요) </v-alert>
+    <v-alert v-else-if="duplicateCheck===true" type="info"> 아이디 중복체크 완료.</v-alert>
+
+    <v-alert v-if="emailCheck===false" type="error"> 이메일 인증 해주세요 </v-alert>
+    <v-alert v-else-if="emailCheck===true" type="info"> 이메일 인증 완료. </v-alert>
   </b-container>
 </template>
 
 <script>
-import {request} from "@/api";
+import {mapState, mapActions} from "vuex";
+
 export default {
+  computed:{
+    ...mapState(['duplicateCheck', "user", 'emailCheck'])
+  },
   data() {
     return {
       types: [
@@ -28,36 +36,11 @@ export default {
         'userPassword',
         'Email',
       ],
-      user:{
-        userName: '',
-        userId: '',
-        userPassword: '',
-        Email: '',
-      },
-      check : '',
     }
   },
-  methods:{
-    async duplicate(){
-      let result = await request('post', '/auth/duplicate', this.user.userId);
-      console.log("result 입니다" + result);
-      if(result!==null)
-        this.check='1'
-      else if(result===null)
-        this.check='0'
-    },
-    async join(){
-      let result = await request('post', '/auth/join', this.user);
 
-      if(result!=false && this.check === '1'){
-      await this.$router.push({
-        path: '/',
-      })
-      }
-      else if(this.check!= '1'){
-        this.check='0'
-      }
-    }
+  methods:{
+    ...mapActions(['duplicate', 'join', 'emailCheck'])
   }
 }
 </script>

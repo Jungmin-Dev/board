@@ -13,11 +13,11 @@
         WHERE user_id =#{userId}
     </select>
 
-    <select id="userDuplicate" resultType="Info">
+    <select id="userDuplicate" parameterType="string" resultType="Info">
         SELECT
             user_id
         FROM
             Auth_Info
-        WHERE user_id =#{userId}
+        WHERE user_id = #{userId}
     </select>
 </mapper>

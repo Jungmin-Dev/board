@@ -8,6 +8,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     userInfo: null,
+    duplicateCheck: null,
+    emailCheck: null,
     user: {
         userName: '',
         userId: '',
@@ -33,10 +35,45 @@ const store = new Vuex.Store({
       state.isLogin = false;
       state.isLoginError = false;
       state.userInfo = null;
-    }
+    },
+    duplicateCheck(state, payload){
+      payload === null ? state.duplicateCheck = true : state.duplicateCheck = false;
+    },
+    emailCheck(state, payload){
+      payload === null ? state.emailCheck = true : state.emailCheck = false;
+    },
   },
   actions: {
-    // 로그인 시도
+    // 회원 가입 시 ID 중복 체크
+    async duplicate({commit}, payload){
+      if(payload.userId !== ''){
+      const Check = await request('post', '/auth/duplicate', payload);
+      commit('duplicateCheck', Check.userId);
+      }
+
+    },
+    // 이메일 체크
+    async emailCheck({commit}, payload){
+      if(payload.Email !== '') {
+        const Check = await request('post', '/auth/duplicate', payload);
+        commit('emailCheck', Check.Email);
+      }
+    },
+
+    // 회원 가입
+    async join({commit}, payload){
+      if(this.duplicateCheck===true)
+      this.user = await request('post', '/auth/join', payload);
+      else commit('duplicateFalse')
+      // if(this.user!==null){
+      //   await this.$router.push({
+      //     path: '/',
+      //   })
+      // }
+    },
+
+
+    // 로그인 시도 -- 다시 짜야함
     async login({commit}, payload) {
       let result = null;
       result = await request('post', '/auth/login', payload);

@@ -27,12 +27,9 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public Optional<Info> duplicate(Info param) throws Exception {
+    public Optional duplicate(String param) throws Exception {
         // 중복 체크
-        Optional<Info> optional = Optional.ofNullable(authMapper.userDuplicate(param));
-        System.out.println(optional);
-        return optional;
-
+        return Optional.ofNullable(authMapper.userDuplicate(param));
     }
 
     @Override

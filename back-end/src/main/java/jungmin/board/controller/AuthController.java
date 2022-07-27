@@ -24,8 +24,15 @@ public class AuthController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> duplicate(@RequestBody Info param) throws Exception{
         Map<String, Object> map = new HashMap<>();
-        map.put("userId",authService.duplicate(param));
+        map.put("userId",authService.duplicate(param.getUserId()));
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/emailcheck", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> emailCheck() throws Exception{
+
+        return null;
     }
 
     @RequestMapping(value="/join", method = RequestMethod.POST)
