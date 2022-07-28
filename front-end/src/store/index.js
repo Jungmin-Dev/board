@@ -72,23 +72,17 @@ const store = new Vuex.Store({
         console.log("서버에러");
       }
     },
-    // 이메일 체크
-    async emailCheck({commit}, payload){
-      if(payload.Email !== '') {
-        const Check = await request('post', '/auth/duplicate', payload);
-        commit('emailCheck', Check.Email);
-      }
-    },
 
     // 로그인 시도 -- 다시 짜야함
     async login({commit}, payload) {
-      let result = null;
-      result = await request('post', '/auth/login', payload);
-      console.log(result===null)
-      if(result === null)
+      const Check = await request('post', '/auth/login', payload);
+      console.log(Check.login);
+      if(Check.login === 0){
         commit("loginError");
-      else{
-        commit('loginSuccess', result);
+      }
+
+      else if(Check.login !== 0){
+        commit('loginSuccess', payload);
         await router.push({
           name: 'BoardPage',
         })
@@ -99,6 +93,14 @@ const store = new Vuex.Store({
       router.push({
         name : 'Login'
       })
+    }
+  },
+
+  // 이메일 체크
+  async emailCheck({commit}, payload){
+    if(payload.Email !== '') {
+      const Check = await request('post', '/auth/duplicate', payload);
+      commit('emailCheck', Check.Email);
     }
   },
 })

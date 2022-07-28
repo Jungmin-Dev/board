@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -35,18 +36,23 @@ public class AuthController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Info param) throws Exception{
+        Map<String, Object> map = new HashMap<>();
+        Optional info = authService.login(param);
+        if(info!= Optional.empty()){
+            map.put("login", info.get());
+        }
+        else if(info == Optional.empty()){
+            map.put("login", 0);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
     @RequestMapping(value="/emailcheck", method = RequestMethod.POST)
     @ResponseBody
     public String join() throws Exception{
 
         return "하이";
     }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Info param) throws Exception{
-        Map<String, Object> map = new HashMap<>();
-        authService.login(param);
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
 }

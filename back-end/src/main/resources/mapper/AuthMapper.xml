@@ -4,13 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="jungmin.board.mapper.AuthMapper">
-    <!--로그인등 사용자 정보 학인  -->
-    <select id="userInfo" resultType="Info">
+    <!--로그인-->
+    <select id="userLogin" resultType="Info">
         SELECT
-        user_id, user_password
+        user_name
         FROM
         Auth_Info
-        WHERE user_id =#{id}
+        WHERE user_id =#{userId}
+        AND
+            user_password=#{userPassword}
     </select>
 
     <select id="userDuplicate" resultType="Info">
