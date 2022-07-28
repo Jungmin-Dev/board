@@ -10,14 +10,27 @@
         user_id, user_password
         FROM
         Auth_Info
-        WHERE user_id =#{userId}
+        WHERE user_id =#{id}
     </select>
 
-    <select id="userDuplicate" parameterType="string" resultType="Info">
+    <select id="userDuplicate" resultType="Info">
         SELECT
             user_id
         FROM
             Auth_Info
-        WHERE user_id = #{userId}
+        WHERE user_id = #{value}
     </select>
+
+    <insert id="userJoin">
+        INSERT INTO
+            Auth_Info
+        values
+            (
+             #{userId},
+             #{userPassword},
+             #{userName},
+             TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss'),
+             #{userEmail}
+             )
+    </insert>
 </mapper>

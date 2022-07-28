@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,17 +27,19 @@ public class AuthController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/emailcheck", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> emailCheck() throws Exception{
-
-        return null;
-    }
-
     @RequestMapping(value="/join", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> join() throws Exception{
-        return null;
+    public ResponseEntity<Map<String, Object>> emailCheck(@RequestBody Info param) throws Exception{
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", authService.join(param));
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/emailcheck", method = RequestMethod.POST)
+    @ResponseBody
+    public String join() throws Exception{
+
+        return "하이";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

@@ -4,10 +4,8 @@ import jungmin.board.domain.Info;
 import jungmin.board.mapper.AuthMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.HashMap;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,12 +16,9 @@ public class AuthServiceImpl implements AuthService{
     private final AuthMapper authMapper;
 
     @Override
-    public Info join(Info param) throws Exception {
-
-
-        // 회원기ㅏ입
-
-        return null;
+    public int join(Info param) throws Exception {
+        // 회원가입
+        return authMapper.userJoin(param);
     }
 
     @Override
@@ -31,6 +26,7 @@ public class AuthServiceImpl implements AuthService{
         // 중복 체크
         return Optional.ofNullable(authMapper.userDuplicate(param));
     }
+
 
     @Override
     public Info login(Info param) throws Exception {

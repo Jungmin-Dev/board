@@ -8,16 +8,31 @@
         <b-form-input v-model="user[type]"></b-form-input>
       </b-col>
       <b-col sm="3">
-        <b-button v-if="type==='userId'" variant="info" @click="duplicate(user)"> 중복체크 </b-button>
-        <b-button v-if="type==='Email'" variant="info" @click="emailCheck(user)"> 이메일 인증 </b-button>
+        <b-button v-if="type==='userId'" variant="info" @click="duplicate(user)"> 중복 체크 </b-button>
+        <b-button v-if="type==='userEmail'" variant="info"> 이메일 인증 </b-button>
       </b-col>
     </b-row>
-    <b-button variant="info" @click="join">회원가입</b-button>
-    <v-alert v-if="duplicateCheck===false" type="error"> 사용중인 아이디 입니다 (중복체크 해주세요) </v-alert>
-    <v-alert v-else-if="duplicateCheck===true" type="info"> 아이디 중복체크 완료.</v-alert>
 
-    <v-alert v-if="emailCheck===false" type="error"> 이메일 인증 해주세요 </v-alert>
-    <v-alert v-else-if="emailCheck===true" type="info"> 이메일 인증 완료. </v-alert>
+    <b-button v-if="
+                        duplicateCheck===true
+                        & user.Email!==''
+                        & user.userPassword!==''
+                        & user.userId!==''
+                        & user.userName!==''"
+              variant="info" @click="join(user)" block class="mb-3">
+      회원가입
+    </b-button>
+    <v-alert v-else type="error" class="pa-3">
+      회원가입 정보를 모두 입력해주세요.
+      <br>(중복 체크가 완료 되면 회원가입이 가능합니다.)
+    </v-alert>
+
+    <v-alert v-if="duplicateCheck===false" type="error" class="pa-3"> 사용중인 아이디 입니다 (중복체크 해주세요) </v-alert>
+    <v-alert v-else-if="duplicateCheck===true" type="info" class="pa-3"> 아이디 중복체크 완료.</v-alert>
+
+    <v-alert v-if="emailCheck===false" type="error" class="pa-3"> 이메일 인증 해주세요 </v-alert>
+    <v-alert v-else-if="emailCheck===true" type="info" class="pa-3"> 이메일 인증 완료. </v-alert>
+
   </b-container>
 </template>
 
@@ -26,7 +41,7 @@ import {mapState, mapActions} from "vuex";
 
 export default {
   computed:{
-    ...mapState(['duplicateCheck', "user", 'emailCheck'])
+    ...mapState(['duplicateCheck', "user", 'emailCheck']),
   },
   data() {
     return {
@@ -34,7 +49,7 @@ export default {
         'userName',
         'userId',
         'userPassword',
-        'Email',
+        'userEmail',
       ],
     }
   },

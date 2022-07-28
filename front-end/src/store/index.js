@@ -14,7 +14,7 @@ const store = new Vuex.Store({
         userName: '',
         userId: '',
         userPassword: '',
-        Email: '',
+        userEmail: '',
     },
     isLogin: false,
     isLoginError: false,
@@ -43,14 +43,34 @@ const store = new Vuex.Store({
       payload === null ? state.emailCheck = true : state.emailCheck = false;
     },
   },
+  getters:{
+    duplicateStat: (state) => {
+      return state.duplicateCheck;
+    }
+  },
   actions: {
     // 회원 가입 시 ID 중복 체크
     async duplicate({commit}, payload){
       if(payload.userId !== ''){
       const Check = await request('post', '/auth/duplicate', payload);
-      commit('duplicateCheck', Check.userId);
-      }
+        console.log(Check);
 
+        commit('duplicateCheck', Check.userId);
+      }
+    },
+
+    // 회원 가입
+    async join({commit}, payload){
+      const Check = await request('post', '/auth/join', payload);
+      commit('duplicateCheck', Check.userId);
+      if(Check.user>=1){
+        await router.push({
+          path: '/',
+        })
+      }
+      else{
+        console.log("서버에러");
+      }
     },
     // 이메일 체크
     async emailCheck({commit}, payload){
@@ -59,19 +79,6 @@ const store = new Vuex.Store({
         commit('emailCheck', Check.Email);
       }
     },
-
-    // 회원 가입
-    async join({commit}, payload){
-      if(this.duplicateCheck===true)
-      this.user = await request('post', '/auth/join', payload);
-      else commit('duplicateFalse')
-      // if(this.user!==null){
-      //   await this.$router.push({
-      //     path: '/',
-      //   })
-      // }
-    },
-
 
     // 로그인 시도 -- 다시 짜야함
     async login({commit}, payload) {
@@ -93,9 +100,6 @@ const store = new Vuex.Store({
         name : 'Login'
       })
     }
-  },
-  getters: {
-
   },
 })
 export default store;
