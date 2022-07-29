@@ -24,13 +24,13 @@ public class AuthController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> duplicate(@RequestBody Info param) throws Exception{
         Map<String, Object> map = new HashMap<>();
-        map.put("userId",authService.duplicate(param.getUserId()));
+        map.put("userEmail",authService.duplicate(param.getUserEmail()));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @RequestMapping(value="/join", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> emailCheck(@RequestBody Info param) throws Exception{
+    public ResponseEntity<Map<String, Object>> join(@RequestBody Info param) throws Exception{
         Map<String, Object> map = new HashMap<>();
         map.put("user", authService.join(param));
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -51,8 +51,28 @@ public class AuthController {
 
     @RequestMapping(value="/emailcheck", method = RequestMethod.POST)
     @ResponseBody
-    public String join() throws Exception{
+    public ResponseEntity<Map<String, Object>> emailcheck(@RequestBody Info param) throws Exception{
+        Map<String, Object> map = new HashMap<>();
+        String info =  authService.mailCheck(param);
+        if(info=="1"){
+            map.put("userEmail", 1);
+        }
+        else if(info!="1"){
+            map.put("userEmail", 0);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
 
-        return "하이";
+    @RequestMapping(value="/certificationcheck", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> certificationcheck(@RequestBody Info param) throws Exception{
+        Map<String, Object> map = new HashMap<>();
+        int info =  authService.Certification(param);
+        if(info>0)
+            map.put("selfAuth", 1);
+        else{
+            map.put("selfAuth", 0);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

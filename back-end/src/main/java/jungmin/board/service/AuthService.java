@@ -14,4 +14,8 @@ public interface AuthService {
     // Id 중복 체크 검사
     public Optional duplicate(String param) throws Exception;
 
+    public String mailCheck(Info info) throws Exception;
+
+    public int Certification(Info info) throws Exception;
+
 }

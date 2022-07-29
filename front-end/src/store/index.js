@@ -7,14 +7,17 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
+    // commit 무조건 사용해야하는 ESLint로 빈 state 생성
+    empty:null,
+    emailSend:null,
     userInfo: null,
     duplicateCheck: null,
     emailCheck: null,
     user: {
-        userName: '',
-        userId: '',
-        userPassword: '',
-        userEmail: '',
+      userEmail: '',
+      userName: '',
+      userPassword: '',
+      selfAuth: '',
     },
     isLogin: false,
     isLoginError: false,
@@ -40,29 +43,46 @@ const store = new Vuex.Store({
       payload === null ? state.duplicateCheck = true : state.duplicateCheck = false;
     },
     emailCheck(state, payload){
-      payload === null ? state.emailCheck = true : state.emailCheck = false;
+      payload >= 1 ? state.emailCheck = true : state.emailCheck = false;
     },
+    emailSendCheck(state, payload){
+      if(payload===1)
+        state.emailSend = true;
+      else
+        state.emailSend = false;
+    },
+    joinClear(state, payload){
+      if(payload === null)
+      {
+        state.user.userEmail= '';
+        state.user.userName= '';
+        state.user.userPassword= '';
+        state.user.selfAuth= '';
+        state.emailSend=null;
+        state.duplicateCheck= null;
+        state.emailCheck= null;
+      }
+    },
+    empty(state){
+      state.empty=null;
+    }
   },
   getters:{
-    duplicateStat: (state) => {
-      return state.duplicateCheck;
-    }
+
   },
   actions: {
     // 회원 가입 시 ID 중복 체크
     async duplicate({commit}, payload){
-      if(payload.userId !== ''){
-      const Check = await request('post', '/auth/duplicate', payload);
-        console.log(Check);
-
-        commit('duplicateCheck', Check.userId);
+      if(payload.userEmail !== ''){
+        const Check = await request('post', '/auth/duplicate', payload);
+        commit('duplicateCheck', Check.userEmail);
       }
     },
 
     // 회원 가입
     async join({commit}, payload){
       const Check = await request('post', '/auth/join', payload);
-      commit('duplicateCheck', Check.userId);
+      commit('joinClear', Check.user);
       if(Check.user>=1){
         await router.push({
           path: '/',
@@ -93,15 +113,19 @@ const store = new Vuex.Store({
       router.push({
         name : 'Login'
       })
+    },
+    // 이메일 체크
+    async emailCheckActions({commit}, payload){
+      const Check = await request('post', '/auth/emailcheck', payload);
+      commit('emailSendCheck', Check.userEmail);
+    },
+
+    // 인증번호 확인
+    async certificationCheck({commit}, payload){
+      const Check = await request('post', '/auth/certificationcheck', payload);
+      commit('emailCheck', Check.selfAuth);
     }
   },
 
-  // 이메일 체크
-  async emailCheck({commit}, payload){
-    if(payload.Email !== '') {
-      const Check = await request('post', '/auth/duplicate', payload);
-      commit('emailCheck', Check.Email);
-    }
-  },
 })
 export default store;

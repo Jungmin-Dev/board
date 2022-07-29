@@ -7,32 +7,58 @@
     <!--로그인-->
     <select id="userLogin" resultType="Info">
         SELECT
-        user_name
+            user_name
         FROM
-        Auth_Info
-        WHERE user_id =#{userId}
-        AND
+            Auth_Info
+        WHERE user_email =#{userEmail}
+          AND
             user_password=#{userPassword}
     </select>
 
     <select id="userDuplicate" resultType="Info">
         SELECT
-            user_id
+            user_email
         FROM
             Auth_Info
-        WHERE user_id = #{value}
+        WHERE user_email =#{userEmail}
     </select>
 
     <insert id="userJoin">
         INSERT INTO
             Auth_Info
+            (USER_PASSWORD, USER_NAME, CREATED_AT, USER_EMAIL)
         values
             (
-             #{userId},
-             #{userPassword},
-             #{userName},
-             TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss'),
-             #{userEmail}
-             )
+                #{userPassword},
+                #{userName},
+                TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss'),
+                #{userEmail}
+            )
+    </insert>
+
+    <insert id="userEmailCertification">
+        INSERT INTO
+            EMAIL_CERTIFICATION
+            (TEMP_USER_EMAIL, SELFAUTH, CREATED_AT)
+        values
+            (
+                #{userEmail},
+                #{selfAuth},
+                TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss')
+            )
+    </insert>
+
+    <insert id="userEmailCertificationCheck">
+        DELETE FROM
+            EMAIL_CERTIFICATION
+        WHERE TEMP_USER_EMAIL =
+              (
+                  SELECT
+                      TEMP_USER_EMAIL
+                  FROM
+                      (SELECT * FROM EMAIL_CERTIFICATION WHERE TEMP_USER_EMAIL=#{userEmail} ORDER BY CREATED_AT DESC)
+                  WHERE rownum &lt;= 1
+              )
+
     </insert>
 </mapper>

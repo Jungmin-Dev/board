@@ -8,9 +8,10 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Info {
-    private String userId;
+    private String userEmail;
     private String userPassword;
     private String userName;
     private String createdAt;
-    private String userEmail;
+    private String selfAuth;
+
 }

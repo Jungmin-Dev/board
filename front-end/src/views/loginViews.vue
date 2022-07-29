@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height style='max-width: 450px;' >
+  <v-container fill-height style='max-width: 500px;' >
     <v-layout align-center row wrap>
       <v-flex xs12>
         <v-alert
