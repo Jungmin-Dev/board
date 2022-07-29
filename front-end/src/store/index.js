@@ -114,7 +114,7 @@ const store = new Vuex.Store({
         name : 'Login'
       })
     },
-    // 이메일 체크
+    // 인증번호 보내기
     async emailCheckActions({commit}, payload){
       const Check = await request('post', '/auth/emailcheck', payload);
       commit('emailSendCheck', Check.userEmail);

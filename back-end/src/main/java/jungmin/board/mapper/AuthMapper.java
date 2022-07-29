@@ -14,6 +14,8 @@ public interface AuthMapper {
     public int userJoin(Info info) throws Exception;
     // 인증번호 저장 (비교를 위한 DB 저장)
     public int userEmailCertification(Info info) throws Exception;
-    // 인증번호 확인 (인증번호 일치 시 인증번호 DB 삭제) -- DB 과부하 예방
-    public int userEmailCertificationCheck(Info info) throws Exception;
+    // 인증번호 일치 시 인증번호 DB 삭제 -- DB 과부하 예방
+    public int userEmailCertificationDelete(Info info) throws Exception;
+    // 인증번호 일치 여부 확인
+    public Optional<Info> userEmailCertificationCheck(Info info) throws Exception;
 }

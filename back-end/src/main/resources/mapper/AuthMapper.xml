@@ -48,17 +48,18 @@
             )
     </insert>
 
-    <insert id="userEmailCertificationCheck">
+    <select id="userEmailCertificationCheck" resultType="Info">
+        SELECT
+            *
+        FROM
+            (SELECT * FROM EMAIL_CERTIFICATION WHERE TEMP_USER_EMAIL=#{userEmail} ORDER BY CREATED_AT DESC)
+        WHERE rownum &lt;= 1
+    </select>
+
+
+    <delete id="userEmailCertificationDelete">
         DELETE FROM
             EMAIL_CERTIFICATION
-        WHERE TEMP_USER_EMAIL =
-              (
-                  SELECT
-                      TEMP_USER_EMAIL
-                  FROM
-                      (SELECT * FROM EMAIL_CERTIFICATION WHERE TEMP_USER_EMAIL=#{userEmail} ORDER BY CREATED_AT DESC)
-                  WHERE rownum &lt;= 1
-              )
-
-    </insert>
+        WHERE TEMP_USER_EMAIL = #{userEmail}
+    </delete>
 </mapper>

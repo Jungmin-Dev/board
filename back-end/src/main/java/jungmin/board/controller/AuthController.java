@@ -49,6 +49,7 @@ public class AuthController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    // 인증번호 보내기
     @RequestMapping(value="/emailcheck", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> emailcheck(@RequestBody Info param) throws Exception{
@@ -67,7 +68,7 @@ public class AuthController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> certificationcheck(@RequestBody Info param) throws Exception{
         Map<String, Object> map = new HashMap<>();
-        int info =  authService.Certification(param);
+        int info = authService.Certification(param);
         if(info>0)
             map.put("selfAuth", 1);
         else{

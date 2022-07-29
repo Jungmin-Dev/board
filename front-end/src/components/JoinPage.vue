@@ -56,6 +56,7 @@
           <b-button v-if="emailSend===true" @click="certificationCheck(user)" variant="info" class="mt-3" block> 인증하기 </b-button>
 
           <v-alert v-if="emailCheck===true" type="info" class="pa-3 mt-3"> 이메일 인증 성공. </v-alert>
+          <v-alert v-if="emailCheck===false" type="error" class="pa-3 mt-3"> 인증번호 불일치. </v-alert>
 
           <b-button v-if="
                         duplicateCheck===true

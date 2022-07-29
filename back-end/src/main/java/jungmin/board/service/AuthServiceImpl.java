@@ -31,8 +31,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public int Certification(Info info) throws Exception {
+        int result = 0;
+        Optional<Info> check = authMapper.userEmailCertificationCheck(info);
 
-        return authMapper.userEmailCertificationCheck(info);
+        if(check.isPresent() && check.get().getSelfAuth().equals(info.getSelfAuth())){
+            result = authMapper.userEmailCertificationDelete(info);
+        }
+        return result;
     }
 
     @Override
