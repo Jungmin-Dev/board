@@ -17,8 +17,8 @@
           </v-toolbar>
           <div class="pa-3">
           <v-text-field
-              v-model="user.userId"
-              label="아이디를 입력하세요">
+              v-model="user.userEmail"
+              label="아이디(이메일)를 입력하세요">
           </v-text-field>
 
           <v-text-field
@@ -27,6 +27,7 @@
               type="password">
           </v-text-field>
             <b-button block variant="info" @click="join">회원가입</b-button>
+            <b-button block variant="info" @click="findPw">비밀번호 찾기</b-button>
             <b-button block variant="info" @click="login(user)">로그인</b-button>
           </div>
         </v-card>
@@ -39,23 +40,23 @@
 import {mapActions, mapState} from 'vuex'
 export default{
   name: 'loginViews',
-
   data(){
     return{
-      user:{
-        userId: null,
-        userPassword: null,
-      },
     }
   },
   computed:{
-    ...mapState(['isLogin', 'isLoginError'])
+    ...mapState(['isLogin', 'isLoginError', 'user'])
   },
   methods:{
     ...mapActions(['login']),
     join(){
       this.$router.push({
         path : '/board-page/join-page'
+      })
+    },
+    findPw(){
+      this.$router.push({
+        name : 'PasswordFind',
       })
     }
   }

@@ -43,24 +43,23 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String mailCheck(Info info) throws Exception {
 
-
         String ePw = createKey();
         String FROM_ADDRESS = "jungminkim96@naver.com";
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         mimeMessage.setFrom(new InternetAddress(FROM_ADDRESS,"uni-core"));
         mimeMessage.addRecipients(Message.RecipientType.TO, info.getUserEmail());//보내는 대상
-        mimeMessage.setSubject("회원가입 이메일 인증");
+        mimeMessage.setSubject("uni-core 이메일 인증");
         String msgg="";
 
         msgg+= "<div style='margin:5px;'>";
         msgg+= "<h2> 안녕하세요 uni-core입니다. </h2>";
         msgg+= "<br>";
-        msgg+= "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
+        msgg+= "<p>아래 코드를 창으로 돌아가 입력해주세요<p>";
         msgg+= "<br>";
         msgg+= "<p>감사합니다!<p>";
         msgg+= "<br>";
         msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
-        msgg+= "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
+        msgg+= "<h3 style='color:blue;'>인증 코드입니다.</h3>";
         msgg+= "<div style='font-size:130%'>";
         msgg+= "CODE : <strong>";
         msgg+= ePw+"</strong><div><br/> ";
@@ -102,16 +101,24 @@ public class AuthServiceImpl implements AuthService {
         return key.toString();
     }
 
-
     @Override
     public Optional duplicate(String param) throws Exception {
         // 중복 체크
         return Optional.ofNullable(authMapper.userDuplicate(param));
     }
 
-
     @Override
     public Optional login(Info param) throws Exception {
         return Optional.ofNullable(authMapper.userLogin(param));
+    }
+
+    @Override
+    public Optional findPassword(String param) throws Exception {
+        return Optional.ofNullable(authMapper.userFindEmail(param));
+    }
+
+    @Override
+    public int changePassword(Info param) throws Exception {
+        return authMapper.userChangePw(param);
     }
 }

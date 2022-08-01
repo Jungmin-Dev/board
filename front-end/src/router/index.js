@@ -58,6 +58,12 @@ const routes = [
     component: () =>
       import("@/components/JoinPage"),
   },
+  {
+    path: '/passwordfind',
+    name: 'PasswordFind',
+    component: () =>
+      import("@/components/PasswordFind"),
+  },
 ]
 
 const router = new VueRouter({

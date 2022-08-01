@@ -18,4 +18,8 @@ public interface AuthMapper {
     public int userEmailCertificationDelete(Info info) throws Exception;
     // 인증번호 일치 여부 확인
     public Optional<Info> userEmailCertificationCheck(Info info) throws Exception;
+    // 비밀번호 찾기 (이메일 유효 검사)
+    public Info userFindEmail(String info) throws Exception;
+    // 비밀번호 찾기 (비밀번호 변경)
+    public int userChangePw(Info info) throws Exception;
 }

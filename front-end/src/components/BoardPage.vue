@@ -1,6 +1,8 @@
 <template>
+
   <div>
-    <b-table striped hover :items="items" :per-page="perPage" :current-page="currentPage" :fields="fields" @row-clicked="rowClick"></b-table>
+    <div align="right">{{this.$store.state.userInfo}}님 환영합니다.</div>
+      <b-table striped hover :items="items" :per-page="perPage" :current-page="currentPage" :fields="fields" @row-clicked="rowClick"></b-table>
     <b-pagination
         align="center"
         v-model="currentPage"
@@ -67,7 +69,7 @@ export default {
   computed:{
     rows(){
       return this.items.length
-    }
+    },
   }
 }
 </script>

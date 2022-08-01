@@ -15,8 +15,8 @@
               @blur="duplicate(user)" v-model="user.userEmail">
           </v-text-field>
           <v-alert v-if="duplicateCheck===false" type="error" class="pa-3"> 사용 중인 이메일입니다 </v-alert>
-          <v-alert v-else-if="duplicateCheck===true" type="info" class="pa-3"> 아주 멋진 이메일 입니다 :)</v-alert>
-
+          <v-alert v-if="emailValidate===false" type="error" class="pa-3"> 이메일 형식으로 작성해주세요. </v-alert>
+          <v-alert v-else-if="duplicateCheck===true && emailValidate===true" type="info" class="pa-3"> 아주 멋진 이메일 입니다 :)</v-alert>
           <v-text-field
               class="pa-3"
               label="이름"
@@ -40,7 +40,7 @@
               disabled>
           </v-text-field>
 
-          <b-button @click="emailCheckActions(user)" variant="info" class="mt-3" block> 이메일 인증 </b-button>
+          <b-button :disabled="duplicateCheck===null || emailValidate===false" @click="emailCheckActions(user)" variant="info" class="mt-3" block> 이메일 인증 </b-button>
           <v-alert v-if="emailSend===true" type="info" class="pa-3 mt-3"> 멋진 이메일로 인증번호를 전송했습니다. :) <br> 인증번호를 확인해주세요 </v-alert>
           <v-alert v-else-if="emailSend===false" type="error" class="pa-3 mt-3"> 인증번호 전송에 실패했습니다. <br> 다시 시도해주세요 </v-alert>
 
@@ -82,7 +82,7 @@ import {mapState, mapActions} from "vuex";
 
 export default {
   computed:{
-    ...mapState(['duplicateCheck', "user", 'emailCheck', 'emailSend']),
+    ...mapState(['duplicateCheck', "user", 'emailCheck', 'emailSend', 'emailValidate']),
   },
   data() {
     return{

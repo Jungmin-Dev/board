@@ -62,4 +62,18 @@
             EMAIL_CERTIFICATION
         WHERE TEMP_USER_EMAIL = #{userEmail}
     </delete>
+
+    <select id="userFindEmail" resultType="Info">
+        SELECT
+            user_email
+        FROM
+            Auth_Info
+        WHERE user_email =#{userEmail}
+    </select>
+    <update id="userChangePw">
+        UPDATE Auth_Info
+        SET USER_PASSWORD = #{userPassword}
+        WHERE user_email = #{userEmail}
+    </update>
+
 </mapper>
