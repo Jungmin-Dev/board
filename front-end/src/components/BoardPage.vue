@@ -16,6 +16,7 @@
 
 <script>
 import data from '@/store/testdata'
+import {mapState} from "vuex";
 
 export default {
   name: "BoardPage",
