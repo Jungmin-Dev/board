@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping(value = "/auth")
 @Controller
 @CrossOrigin(origins="*")
 public class AuthController {

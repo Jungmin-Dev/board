@@ -12,6 +12,8 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -26,28 +28,32 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public int join(Info param) throws Exception {
         // 회원가입
-        return authMapper.userJoin(param);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Password", param.getUserPassword());
+        map.put("Name", param.getUserName());
+        map.put("Email", param.getUserEmail());
+        return authMapper.userJoin(map);
     }
 
     @Override
-    public int Certification(Info info) throws Exception {
+    public int Certification(Info param) throws Exception {
         int result = 0;
-        Optional<Info> check = authMapper.userEmailCertificationCheck(info);
+        Optional<Info> check = authMapper.userEmailCertificationCheck(param.getUserEmail());
 
-        if(check.isPresent() && check.get().getSelfAuth().equals(info.getSelfAuth())){
-            result = authMapper.userEmailCertificationDelete(info);
+        if(check.isPresent() && check.get().getSelfAuth().equals(param.getSelfAuth())){
+            result = authMapper.userEmailCertificationDelete(param.getUserEmail());
         }
         return result;
     }
 
     @Override
-    public String mailCheck(Info info) throws Exception {
+    public String mailCheck(Info param) throws Exception {
 
         String ePw = createKey();
         String FROM_ADDRESS = "jungminkim96@naver.com";
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         mimeMessage.setFrom(new InternetAddress(FROM_ADDRESS,"uni-core"));
-        mimeMessage.addRecipients(Message.RecipientType.TO, info.getUserEmail());//보내는 대상
+        mimeMessage.addRecipients(Message.RecipientType.TO, param.getUserEmail());//보내는 대상
         mimeMessage.setSubject("uni-core 이메일 인증");
         String msgg="";
 
@@ -69,9 +75,13 @@ public class AuthServiceImpl implements AuthService {
 
         javaMailSender.send(mimeMessage);
 
-        info.setSelfAuth(ePw);
+        param.setSelfAuth(ePw);
 
-        authMapper.userEmailCertification(info);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Email", param.getUserEmail());
+        map.put("selfAuth", param.getSelfAuth());
+
+        authMapper.userEmailCertification(map);
 
         return "1";
     }
@@ -104,12 +114,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Optional duplicate(String param) throws Exception {
         // 중복 체크
-        return Optional.ofNullable(authMapper.userDuplicate(param));
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Email", param);
+        return Optional.ofNullable(authMapper.userDuplicate(map));
     }
 
     @Override
     public Optional login(Info param) throws Exception {
-        return Optional.ofNullable(authMapper.userLogin(param));
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Email", param.getUserEmail());
+        map.put("Password", param.getUserPassword());
+        return Optional.ofNullable(authMapper.userLogin(map));
     }
 
     @Override
@@ -119,6 +134,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public int changePassword(Info param) throws Exception {
-        return authMapper.userChangePw(param);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Email", param.getUserEmail());
+        map.put("Password", param.getUserPassword());
+        return authMapper.userChangePw(map);
     }
 }

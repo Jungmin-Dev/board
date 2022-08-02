@@ -10,9 +10,9 @@
             user_name
         FROM
             Auth_Info
-        WHERE user_email =#{userEmail}
+        WHERE user_email =#{Email}
           AND
-            user_password=#{userPassword}
+            user_password=#{Password}
     </select>
 
     <select id="userDuplicate" resultType="Info">
@@ -20,7 +20,7 @@
             user_email
         FROM
             Auth_Info
-        WHERE user_email =#{userEmail}
+        WHERE user_email =#{Email}
     </select>
 
     <insert id="userJoin">
@@ -29,10 +29,10 @@
             (USER_PASSWORD, USER_NAME, CREATED_AT, USER_EMAIL)
         values
             (
-                #{userPassword},
-                #{userName},
+                #{Password},
+                #{Name},
                 TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss'),
-                #{userEmail}
+                #{Email}
             )
     </insert>
 
@@ -42,7 +42,7 @@
             (TEMP_USER_EMAIL, SELFAUTH, CREATED_AT)
         values
             (
-                #{userEmail},
+                #{Email},
                 #{selfAuth},
                 TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss')
             )
@@ -52,7 +52,7 @@
         SELECT
             *
         FROM
-            (SELECT * FROM EMAIL_CERTIFICATION WHERE TEMP_USER_EMAIL=#{userEmail} ORDER BY CREATED_AT DESC)
+            (SELECT * FROM EMAIL_CERTIFICATION WHERE TEMP_USER_EMAIL=#{Email} ORDER BY CREATED_AT DESC)
         WHERE rownum &lt;= 1
     </select>
 
@@ -60,7 +60,7 @@
     <delete id="userEmailCertificationDelete">
         DELETE FROM
             EMAIL_CERTIFICATION
-        WHERE TEMP_USER_EMAIL = #{userEmail}
+        WHERE TEMP_USER_EMAIL = #{Email}
     </delete>
 
     <select id="userFindEmail" resultType="Info">
@@ -68,12 +68,12 @@
             user_email
         FROM
             Auth_Info
-        WHERE user_email =#{userEmail}
+        WHERE user_email =#{Email}
     </select>
     <update id="userChangePw">
         UPDATE Auth_Info
-        SET USER_PASSWORD = #{userPassword}
-        WHERE user_email = #{userEmail}
+        SET USER_PASSWORD = #{Password}
+        WHERE user_email = #{Email}
     </update>
 
 </mapper>
