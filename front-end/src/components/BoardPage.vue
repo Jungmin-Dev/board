@@ -1,86 +1,84 @@
 <template>
 
   <div>
-    <div align="right">{{this.$store.state.userInfo}}님 환영합니다.</div>
-    <div align="right">{{contents.title}}님 환영합니다.</div>
-      <b-table striped hover :items="contents" :per-page="perPage" :current-page="currentPage" :fields="fields" @row-clicked="rowClick"></b-table>
-    <b-pagination
-        align="center"
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
-    ></b-pagination>
+    <template>
+      <v-data-table
+          :headers="headers"
+          :items="contents"
+          item-key="contents.contentId"
+          :items-per-page="5"
+          class="elevation-1"
+          @click:row="rowClick"
+      ></v-data-table>
+    </template>
     <b-button @click="writeContent">글쓰기</b-button>
   </div>
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from "vuex";
+import {mapState, mapActions} from "vuex";
 
 export default {
   name: "BoardPage",
 
+
+  // items = items.map(item => {
+  //   return {...item,
+  //     user_name: this.contentList.User.filter(userItem => userItem.userEmail === item.userEmail)[0].name
+  //   }
+  // })
   data() {
 
-    // let items = this.contentList.Content.sort((a,b)=>{
-    //   return b.content_id - a.content_id
-    // })
-    // items = items.map(item => {
-    //   return {...item,
-    //     user_name: this.contentList.User.filter(userItem => userItem.userEmail === item.userEmail)[0].name
-    //   }
-    // })
     return {
-      perPage: 10,
-      currentPage: 1,
-      fields:[
+
+      headers: [
         {
-          key: 'contentId',
-          label: '글번호'
+          text: '글 번호',
+          align: 'start',
+          sortable: false,
+          value: 'contentId',
         },
-        {
-          key: 'title',
-          label: '제목'
-        },
-        {
-          key: 'created_at',
-          label: '작성'
-        },
-        {
-          key: 'user_name',
-          label: '글쓴이'
-        }
+        { text: '글 제목', value: 'title' },
+        { text: '작성자', value: 'userEmail' },
+        { text: '작성일', value: 'createdAt' },
       ],
     }
-  },
-  methods:{
-    rowClick(item){
-      this.$router.push({
-        path: `/board-page/detail/${item.content_id}`,
-      })
-    },
-    writeContent(){
-      this.$router.push({
-        path: '/board-page/create-page'
-      })
-    },
-    list(){
-      this.contents = this.contentList();
-    },
-    ...mapActions("Content",['contentList']),
-  },
-  computed:{
-    ...mapState("Content",["contents"]),
-    ...mapMutations("Content",["contentListUpdate"])
-    // rows(){
-    //   return this.items.length
-    // },
-  },
-  mounted() {
-    this.list();
+  }
+  ,
+  methods:
+      {
+        rowClick(event, { item } )
+        {
+          console.log(item);
+          console.log(this.contents.indexOf(item));
+          console.log(this.editedItem = Object.assign({}, item));
+          this.$router.push({
+            path: `/board-page/detail/${item}`,
+          })
+        }
+        ,
+        writeContent()
+        {
+          this.$router.push({
+            path: '/board-page/create-page'
+          })
+        }
+        ,
+        ...
+            mapActions("Content", ['contentList']),
+      }
+  ,
+  computed: {
+    ...
+        mapState("Content", ["contents"]),
 
   }
+  ,
+  created()
+  {
+    this.contents = this.contentList();
+  }
+
 }
 </script>
 <style scoped>

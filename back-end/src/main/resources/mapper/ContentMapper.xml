@@ -10,5 +10,6 @@
             *
         FROM
             CONTENT
+        ORDER BY CONTENT_ID DESC
     </select>
 </mapper>

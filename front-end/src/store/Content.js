@@ -19,6 +19,7 @@ const Content ={
     // 게시글 불러오기
     async contentList({commit}){
     const Check = await request('post', '/content/list');
+    console.log(Check.contentList)
     commit("contentListUpdate", Check.contentList);
     }
   }

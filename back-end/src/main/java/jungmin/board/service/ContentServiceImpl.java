@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Log
@@ -15,7 +16,7 @@ public class ContentServiceImpl implements ContentService{
 
     private final ContentMapper contentMapper;
     @Override
-    public Optional<Content> contentList() throws Exception {
+    public List<Content> contentList() throws Exception {
         return contentMapper.contentList();
     }
 }
