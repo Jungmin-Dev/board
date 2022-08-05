@@ -7,9 +7,19 @@
     <!--게시글 목록 가져오기-->
     <select id="contentList" resultType="Content">
         SELECT
+            content_id, user_email, title, created_at, updated_at
+        FROM
+            CONTENT
+        ORDER BY CONTENT_ID
+    </select>
+    <!--게시글 내용 자세히 가져오기(게시글 클릭 시)-->
+    <select id="contentDetail" resultType="Content">
+        SELECT
             *
         FROM
             CONTENT
-        ORDER BY CONTENT_ID DESC
+        where content_id = #{contentId}
     </select>
+
+
 </mapper>

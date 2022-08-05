@@ -5,6 +5,7 @@ const Content ={
 
   state:{
     contents: null,
+    contentDetail: null,
   },
   getters : {
 
@@ -13,14 +14,21 @@ const Content ={
   mutations : {
     contentListUpdate(state, payload){
       state.contents = payload;
+    },
+    contentDetailList(state, payload){
+      state.contentDetail = payload;
     }
   },
   actions : {
     // 게시글 불러오기
     async contentList({commit}){
     const Check = await request('post', '/content/list');
-    console.log(Check.contentList)
-    commit("contentListUpdate", Check.contentList);
+    await commit("contentListUpdate", Check.contentList);
+    },
+
+    async contentDetailLoad({commit}, payload){
+      const Check = await request('get', `/content/detail/${payload}`)
+      await commit("contentDetailList", Check.contentList);
     }
   }
 }

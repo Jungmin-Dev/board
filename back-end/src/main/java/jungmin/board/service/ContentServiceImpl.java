@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Log
@@ -18,5 +20,12 @@ public class ContentServiceImpl implements ContentService{
     @Override
     public List<Content> contentList() throws Exception {
         return contentMapper.contentList();
+    }
+
+    @Override
+    public Content contentDetail(String param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("contentId", param);
+        return contentMapper.contentDetail(map);
     }
 }

@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface ContentService {
     public List<Content> contentList() throws Exception;
+    public Content contentDetail(String param) throws Exception;
 }

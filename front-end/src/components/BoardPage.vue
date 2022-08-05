@@ -3,6 +3,7 @@
   <div>
     <template>
       <v-data-table
+          v-if="contents!==null"
           :headers="headers"
           :items="contents"
           item-key="contents.contentId"
@@ -21,12 +22,6 @@ import {mapState, mapActions} from "vuex";
 export default {
   name: "BoardPage",
 
-
-  // items = items.map(item => {
-  //   return {...item,
-  //     user_name: this.contentList.User.filter(userItem => userItem.userEmail === item.userEmail)[0].name
-  //   }
-  // })
   data() {
 
     return {
@@ -47,13 +42,10 @@ export default {
   ,
   methods:
       {
-        rowClick(event, { item } )
+        rowClick(event, item)
         {
-          console.log(item);
-          console.log(this.contents.indexOf(item));
-          console.log(this.editedItem = Object.assign({}, item));
           this.$router.push({
-            path: `/board-page/detail/${item}`,
+            path: `/board-page/detail/${item.item.contentId}`,
           })
         }
         ,
@@ -71,12 +63,11 @@ export default {
   computed: {
     ...
         mapState("Content", ["contents"]),
-
   }
   ,
-  created()
+  async created()
   {
-    this.contents = this.contentList();
+    this.contents = await this.contentList();
   }
 
 }

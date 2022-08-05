@@ -29,4 +29,13 @@ public class ContentController {
         map.put("contentList",contentService.contentList());
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
+    // 게시글 내용 자세히 가져오기(게시글 클릭 시)
+    @RequestMapping(value="/detail/{contentId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> detail(@PathVariable String contentId) throws Exception{
+        Map<String, Object> map = new HashMap<>();
+        map.put("contentList",contentService.contentDetail(contentId));
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
 }
