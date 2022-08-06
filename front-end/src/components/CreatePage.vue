@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import data from '@/store/testdata'
+import {mapActions, mapState, mapMutations} from "vuex";
 export default{
   name: 'CreatePage',
   mounted(){
@@ -43,6 +43,10 @@ export default{
       })
     },
     upload(){
+      // Data 삭제 후 DB에 업로드.
+      // 객체 형태로 제목 내용 등 받아서 작성하기
+      // 작성할 때 로그인 정보 넣어서 로그인된 계정으로 작성되게 만들기
+      // 정보들 DB에 Insert하기
       let items = data.Content.sort((a, b) => {
         return b.content_id - a.content_id;
       })

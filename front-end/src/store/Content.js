@@ -26,6 +26,7 @@ const Content ={
     await commit("contentListUpdate", Check.contentList);
     },
 
+    // 게시글 자세히 보기(게시글 내용 불러오기)
     async contentDetailLoad({commit}, payload){
       const Check = await request('get', `/content/detail/${payload}`)
       await commit("contentDetailList", Check.contentList);
