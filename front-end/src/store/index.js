@@ -9,7 +9,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     emailSend:null, // 이메일 전송 성공 여부
-    userInfo: null, // 유저 정보(현재 이름만 담음)
+    userInfo: null, // 유저 정보(현재 이름, 이메일 담음)
     duplicateCheck: null, // 아이디(이메일)중복 체크 여부
     emailCheck: null, // 인증번호 일치 여부
     emailValidate: null, // 이메일 유효성 검사 여부
@@ -123,7 +123,7 @@ const store = new Vuex.Store({
         commit("loginError");
       }
       else if(Check.login !== 0){
-        commit('loginSuccess', Check.login.userName);
+        commit('loginSuccess', Check.login);
         await router.push({
           name: 'BoardPage',
         })

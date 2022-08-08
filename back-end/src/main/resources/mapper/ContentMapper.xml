@@ -21,5 +21,17 @@
         where content_id = #{contentId}
     </select>
 
+    <insert id="contentInsert">
+        INSERT INTO
+            CONTENT
+            (CONTENT_ID, USER_EMAIL, TITLE, CREATED_AT, UPDATED_AT, CONTEXT)
+        VALUES(emp_seq.NEXTVAL,
+               #{userEmail},
+               #{title},
+               #{createdAt},
+               #{updatedAt},
+               #{context});
+    </insert>
+
 
 </mapper>

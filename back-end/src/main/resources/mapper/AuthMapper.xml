@@ -7,7 +7,7 @@
     <!--로그인-->
     <select id="userLogin" resultType="Info">
         SELECT
-            user_name
+            user_name, user_email
         FROM
             Auth_Info
         WHERE user_email =#{Email}

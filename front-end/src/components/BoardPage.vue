@@ -1,6 +1,7 @@
 <template>
 
   <div>
+    <div align="right"> {{ this.userInfo.userName }}님 환영합니다.</div>
     <template>
       <v-data-table
           v-if="contents!==null"
@@ -61,8 +62,9 @@ export default {
       }
   ,
   computed: {
-    ...
-        mapState("Content", ["contents"]),
+    ...mapState("Content", ["contents"]),
+    ...mapState(["userInfo"]),
+
   }
   ,
   async created()

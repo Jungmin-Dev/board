@@ -15,7 +15,10 @@
             글쓴이: {{contentDetail.userEmail}}
           </div>
           <div class="content-detail-content-info-right-created">
-            등록일: {{contentDetail.createAt}}
+            등록일: {{contentDetail.createdAt}}
+          </div>
+          <div class="content-detail-content-info-right-created" v-if="contentDetail.updatedAt">
+            수정됨: {{contentDetail.updatedAt}}
           </div>
         </div>
       </div>

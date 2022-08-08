@@ -38,4 +38,13 @@ public class ContentController {
         map.put("contentList",contentService.contentDetail(contentId));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
+    // 게시글 작성
+    @RequestMapping(value="/detail/insert", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> insert(@RequestBody Content param) throws Exception{
+        Map<String, Object> map = new HashMap<>();
+        map.put("contentInsert",contentService.contentInsert(param));
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
 }

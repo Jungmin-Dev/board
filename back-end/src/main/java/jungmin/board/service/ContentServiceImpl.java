@@ -17,6 +17,18 @@ import java.util.Optional;
 public class ContentServiceImpl implements ContentService{
 
     private final ContentMapper contentMapper;
+
+    @Override
+    public int contentInsert(Content param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userEmail", param.getUserEmail());
+        map.put("title", param.getTitle());
+        map.put("createdAt", param.getCreatedAt());
+        map.put("updatedAt", param.getUpdatedAt());
+        map.put("context", param.getContext());
+        return contentMapper.contentInsert(map);
+    }
+
     @Override
     public List<Content> contentList() throws Exception {
         return contentMapper.contentList();
