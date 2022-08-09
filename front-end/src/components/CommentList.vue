@@ -4,12 +4,12 @@
     <div v-for="item in comments" :key="item.comment_id">
       <CommentListItem :commentObject="item"></CommentListItem>
     </div>
-    <CommentCreate :contentId="contentId" :reloadComment="reloadComment"></CommentCreate>
+    <CommentCreate :contentId="contentId"></CommentCreate>
   </div>
 </template>
 
 <script>
-import data from '@/store/testdata'
+import {mapActions, mapState, mapMutations} from "vuex";
 import CommentListItem from "@/components/CommentListItem";
 import CommentCreate from "@/components/CommentCreate";
 export default{
@@ -21,15 +21,16 @@ export default{
   props: {
     contentId : Number,
   },
+  computed:{
+    ...mapState('Content',['contentDetail'])
+  },
   data(){
     return{
-      comments: data.Comment.filter(item => item.content_id === this.contentId)
+      comments: this.contentDetail,
     }
   },
   methods:{
-    reloadComment(){
-      this.comments = data.Comment.filter(item => item.content_id === this.contentId)
-    }
+
   }
 }
 </script>

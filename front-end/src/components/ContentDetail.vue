@@ -30,7 +30,7 @@
         <b-button variant="success" @click="deleteData">삭제</b-button>
       </div>
       <div class="content-detail-comment">
-<!--        <CommentList :contentId="contentId"></CommentList>-->
+        <CommentList :contentId="contentId"></CommentList>
       </div>
     </b-card>
   </div>
@@ -42,7 +42,7 @@ import CommentList from "./CommentList";
 
 export default {
   name: "ContentDetail",
-  // components: {CommentList},
+  components: {CommentList},
 
   data() {
     return {

@@ -10,27 +10,30 @@
             content_id, user_email, title, created_at, updated_at
         FROM
             CONTENT
-        ORDER BY CONTENT_ID
+        ORDER BY to_number(CONTENT_ID)
     </select>
     <!--게시글 내용 자세히 가져오기(게시글 클릭 시)-->
     <select id="contentDetail" resultType="Content">
         SELECT
-            *
+            c.CONTENT_ID , c.USER_EMAIL , c.TITLE , c.CREATED_AT , c.UPDATED_AT , c.CONTEXT, bc.COMMENT_ID , bc.CONTEXT AS COMMENT_CONTEXT, bc.CREATED_AT AS COMMENT_CREATEDAT, bc.UPDATE_AT AS COMMENT_UPDATE_AT
         FROM
-            CONTENT
-        where content_id = #{contentId}
+            CONTENT c
+                INNER JOIN BOARD_COMMENT bc
+                           ON c.CONTENT_ID = bc.CONTENT_ID
+        where c.CONTENT_ID  =  #{contentId}
     </select>
 
     <insert id="contentInsert">
         INSERT INTO
             CONTENT
-            (CONTENT_ID, USER_EMAIL, TITLE, CREATED_AT, UPDATED_AT, CONTEXT)
-        VALUES(emp_seq.NEXTVAL,
-               #{userEmail},
-               #{title},
-               #{createdAt},
-               #{updatedAt},
-               #{context});
+            (CONTENT_ID, USER_EMAIL, TITLE, CREATED_AT, CONTEXT)
+        VALUES(
+                  emp_seq.NEXTVAL,
+                  #{userEmail},
+                  #{title},
+                  TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss'),
+                  #{context}
+              )
     </insert>
 
 

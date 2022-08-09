@@ -34,10 +34,7 @@ const Content ={
 
     // 게시글 작성
     async contentInsert({commit}, payload){
-      const Check = await request('post', `/content/insert`, payload)
-      await this.$router.push({
-        path: '/board-page'
-      })
+      await request('post', '/content/insert', payload)
     }
   }
 }

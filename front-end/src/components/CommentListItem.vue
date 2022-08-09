@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import data from '@/store/testdata'
+import {mapActions, mapState, mapMutations} from "vuex";
 import CommentCreate from "@/components/CommentCreate";
 export default{
   name: 'CommentListItem',
@@ -43,20 +43,16 @@ export default{
   props:{
     commentObject : Object,
   },
-
+  computed:{
+    ...mapState('Content',['contentDetail'])
+  },
   data(){
     return {
-      name: data.User.filter(
-          item => item.user_id === this.commentObject.user_id
-      )[0].name,
+      name: this.contentDetail.userEmail,
       subCommentList: data.SubComment.filter(
           item => item.comment_id === this.commentObject.comment_id
       ).map(subCommentItem => ({
         ...subCommentItem,
-        user_name: data.User.filter(
-            item => item.user_id === subCommentItem.user_id
-        )[0].name
-      })),
       subCommentCreateToggle: false
     }
   },

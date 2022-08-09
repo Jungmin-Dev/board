@@ -40,7 +40,7 @@ public class ContentController {
     }
 
     // 게시글 작성
-    @RequestMapping(value="/detail/insert", method = RequestMethod.POST)
+    @RequestMapping(value="/insert", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> insert(@RequestBody Content param) throws Exception{
         Map<String, Object> map = new HashMap<>();

@@ -6,7 +6,7 @@
         placeholder="내용을 입력해 주세요"
         rows="3"
         max-rows="6"
-    >{{ createInfo.context }}</b-form-textarea>
+    >{{createInfo.context}}</b-form-textarea>
     <b-button @click="updateMode ? update() : upload()">저장</b-button>
     <b-button @click="cancle">취소</b-button>
   </div>
@@ -19,22 +19,16 @@ export default{
   computed:{
     ...mapState(['userInfo']),
     ...mapState("Content", ['contents']),
-
   },
-  mounted(){
-    // console.log(this.$route.params.contentId);
-    // if(this.$route.params.contentId > 0){
-    // const contentId = Number(this.$route.params.contentId);
-    // // this.subject = this.updateObject.title;
-    // // this.context = this.updateObject.context;
-    // }
+  created(){
+    this.createInfo.userEmail = this.userInfo.userEmail;
   },
   data () {
     return {
       createInfo: {
-      title: '',
-      context: '',
-      userEmail: this.userInfo.userEmail,
+        title: '',
+        context: '',
+        userEmail: '',
       },
       updateMode : this.$route.params.contentId > 0 ? true: false,
     }
@@ -52,8 +46,10 @@ export default{
       // 객체 형태로 제목 내용 등 받아서 작성하기
       // 작성할 때 로그인 정보 넣어서 로그인된 계정으로 작성되게 만들기
       // 정보들 DB에 Insert하기
-
-      this.contentInsert(this.createInfo)
+      this.contentInsert(this.createInfo);
+      this.$router.push({
+        path: '/board-page'
+      })
       // let items = data.Content.sort((a, b) => {
       //   return b.content_id - a.content_id;
       // })

@@ -23,8 +23,6 @@ public class ContentServiceImpl implements ContentService{
         HashMap<String, Object> map = new HashMap<>();
         map.put("userEmail", param.getUserEmail());
         map.put("title", param.getTitle());
-        map.put("createdAt", param.getCreatedAt());
-        map.put("updatedAt", param.getUpdatedAt());
         map.put("context", param.getContext());
         return contentMapper.contentInsert(map);
     }
