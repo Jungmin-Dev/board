@@ -38,4 +38,11 @@ public class ContentServiceImpl implements ContentService{
         map.put("contentId", param);
         return contentMapper.contentDetail(map);
     }
+
+    @Override
+    public List<Content> contentComment(String param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("contentId", param);
+        return contentMapper.contentComment(map);
+    }
 }

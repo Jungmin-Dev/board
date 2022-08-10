@@ -50,14 +50,14 @@ export default {
     };
   },
   computed: {
-    ...mapState("Content", ['contents', "contentDetail" ]),
+    ...mapState("Content", ['contents', "contentDetail", "contentComment"]),
 
   },
   created() {
     this.contentDetailLoad(Number(this.$route.params.contentId));
   },
   methods: {
-    ...mapActions("Content",['contentDetailLoad', "contentList"]),
+    ...mapActions("Content",['contentDetailLoad', "contentList", "contentDetailComment"]),
     deleteData() {
       // DB에서 삭제해야지
       // const content_index = data.Content.findIndex(item => item.content_id === this.contentId);
@@ -67,7 +67,6 @@ export default {
       })
     },
     updateData() {
-
       this.$router.push({
         path: `/board-page/create-page/${this.contentId}`,
       })}

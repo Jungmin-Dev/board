@@ -1,36 +1,36 @@
 <template>
   <div>
-    <div class="comment-list-item">
-      <div class="comment-list-item-name">
-        <div>{{ name }}</div>
-        <div>{{ commentObject.created_at }}</div>
-      </div>
-      <div class="comment-list-item-context"> {{commentObject.context}} </div>
-      <div class="comment-list-item-button">
-        <b-button variant="info">수정</b-button>
-        <b-button variant="info" @click="deleteComment">삭제</b-button>
-        <b-button variant="info" @click="subCommentToggle">댓글 달기</b-button>
-      </div>
-    </div>
-    <template v-if="subCommentCreateToggle">
-      <CommentCreate :isSubComment="true" :commentId="commentObject.comment_id" :reloadSubComments="reloadSubComment" :subCommentToggle="subCommentToggle"></CommentCreate>
-    </template>
-    <template v-if="subCommentList.length > 0">
-      <div
-          class="comment-list-item-subcomment-list"
-          v-for="item in subCommentList"
-          :key="item.user_name">
+    <div v-for="item in contentComment" :key="item.commentId">
+      <div class="comment-list-item" >
         <div class="comment-list-item-name">
-          <div>{{item.user_name}}</div>
-          <div>{{item.created_at}}</div>
+          <div>{{ item.subCommentEmail }} </div>
+          <div>{{ item.commentCreatedAt }} </div>
         </div>
-        <div class="comment-list-item-context">{{item.context}}</div>
+        <div class="comment-list-item-context"> {{item.commentContext}} </div>
         <div class="comment-list-item-button">
           <b-button variant="info">수정</b-button>
-          <b-button variant="info">삭제</b-button>
+          <b-button variant="info" @click="deleteComment">삭제</b-button>
+          <b-button variant="info" @click="subCommentToggle">댓글 달기</b-button>
         </div>
       </div>
-    </template>
+      <template v-if="subCommentCreateToggle">
+        <CommentCreate :isSubComment="true" :commentId="item.commentId" :subCommentToggle="subCommentToggle"></CommentCreate>
+      </template>
+      <template v-if="contentComment.length > 0">
+        <div
+            class="comment-list-item-subcomment-list">
+          <div class="comment-list-item-name">
+            <div>{{item.subCommentEmail }}</div>
+            <div>{{item.subCommentCreatedAt}}</div>
+          </div>
+          <div class="comment-list-item-context">{{item.subCommentContext}}</div>
+          <div class="comment-list-item-button">
+            <b-button variant="info">수정</b-button>
+            <b-button variant="info">삭제</b-button>
+          </div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -39,47 +39,39 @@ import {mapActions, mapState, mapMutations} from "vuex";
 import CommentCreate from "@/components/CommentCreate";
 export default{
   name: 'CommentListItem',
-  components: {CommentCreate},
-  props:{
-    commentObject : Object,
-  },
+  // components: {CommentCreate},
   computed:{
-    ...mapState('Content',['contentDetail'])
+    ...mapState('Content',['contentComment'])
   },
   data(){
     return {
-      name: this.contentDetail.userEmail,
-      subCommentList: data.SubComment.filter(
-          item => item.comment_id === this.commentObject.comment_id
-      ).map(subCommentItem => ({
-        ...subCommentItem,
+      subCommentList: '',
       subCommentCreateToggle: false
     }
   },
   methods:{
-    subCommentToggle(){
-      this.subCommentCreateToggle = !this.subCommentCreateToggle;
-    },
-    reloadSubComment(){
-      this.subCommentList = data.SubComment.filter(
-          item => item.comment_id === this.commentObject.comment_id
-      ).map(subCommentItem => ({
-        ...subCommentItem,
-        user_name: data.User.filter(
-            item => item.user_id === subCommentItem.user_id
-        )[0].name
-      }));
-    },
-    deleteComment(){
-      const comment_index = data.Comment.findIndex(item => item.comment_id === this.commentObject.comment_id)
-      data.Comment.splice(comment_index, 1);
-      this.$router.push({
-        path: '/board-page',
-      })
-      this.reloadComment();
-    },
-
-  }
+    ...mapActions('Content', ['contentDetailComment']),
+    //   subCommentToggle(){
+    //     this.subCommentCreateToggle = !this.subCommentCreateToggle;
+    //   },
+    //   reloadSubComment(){
+    //     this.subCommentList = data.SubComment.filter(
+    //         item => item.comment_id === this.commentObject.comment_id
+    //     ).map(subCommentItem => ({
+    //       ...subCommentItem,
+    //       user_name: data.User.filter(
+    //           item => item.user_id === subCommentItem.user_id
+    //       )[0].name
+    //     }));
+    //   },
+    //   deleteComment(){
+    //     const comment_index = data.Comment.findIndex(item => item.comment_id === this.commentObject.comment_id)
+    //     data.Comment.splice(comment_index, 1);
+    //     this.$router.push({
+    //       path: '/board-page',
+    //     })
+    //     this.reloadComment();
+  },
 }
 </script>
 

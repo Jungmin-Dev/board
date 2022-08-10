@@ -1,8 +1,7 @@
 <template>
   <div>
-
-    <div v-for="item in comments" :key="item.comment_id">
-      <CommentListItem :commentObject="item"></CommentListItem>
+    <div v-for="item in contentComment" :key="item.commentId">
+      <CommentListItem></CommentListItem>
     </div>
     <CommentCreate :contentId="contentId"></CommentCreate>
   </div>
@@ -22,15 +21,17 @@ export default{
     contentId : Number,
   },
   computed:{
-    ...mapState('Content',['contentDetail'])
+    ...mapState('Content',['contentComment'])
+  },
+  created() {
+    this.contentDetailComment(this.contentId);
   },
   data(){
     return{
-      comments: this.contentDetail,
     }
   },
   methods:{
-
+    ...mapActions('Content', ['contentDetailComment'])
   }
 }
 </script>

@@ -11,7 +11,10 @@ public interface ContentMapper {
 
     // 게시글 목록 가져오기
     public List<Content> contentList() throws Exception;
+
     public Content contentDetail(HashMap<String, Object> param) throws Exception;
+
+    public List<Content> contentComment(HashMap<String, Object> param) throws Exception;
 
     public int contentInsert(HashMap<String, Object> param) throws Exception;
 }
