@@ -16,5 +16,7 @@ public interface ContentMapper {
 
     public List<Content> contentComment(HashMap<String, Object> param) throws Exception;
 
+    public List<Content> contentSubComment(HashMap<String, Object> param) throws Exception;
+
     public int contentInsert(HashMap<String, Object> param) throws Exception;
 }

@@ -7,6 +7,7 @@ const Content ={
     contents: null,
     contentDetail: null,
     contentComment: null,
+    contentCommentSub: null,
   },
   getters : {
 
@@ -21,6 +22,9 @@ const Content ={
     },
     contentCommentList(state, payload){
       state.contentComment = payload;
+    },
+    contentCommentSubList(state, payload){
+      state.contentCommentSub = payload;
     }
   },
   actions : {
@@ -36,11 +40,21 @@ const Content ={
       await commit("contentDetailList", Check.contentList);
     },
 
-    // 게시글 자세히 보기(게시글 댓글 불러오기)
-    async contentDetailComment({commit}, payload){
+    // 게시글 댓글 불러오기
+    async contentCommentLoad({commit}, payload){
       const Check = await request('get', `/content/comment/${payload}`)
       await commit("contentCommentList", Check.contentCommentList)
+      console.log(Check.contentCommentList)
     },
+
+    // 게시글 대댓글 불러오기
+    async contentCommentSubLoad({commit}, payload){
+      const Check = await request('get', `/content/commentsub/${payload}`)
+      await commit("contentCommentSubList", Check.contentCommentSubList)
+      console.log(Check.contentCommentSubList)
+
+    },
+
 
     // 게시글 작성
     async contentInsert({commit}, payload){

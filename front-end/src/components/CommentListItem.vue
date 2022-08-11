@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-for="item in contentComment" :key="item.commentId">
-      <div class="comment-list-item" >
+    <div v-for="(item, index) in contentComment" :key="item.commentId">
+      <div class="comment-list-item">
         <div class="comment-list-item-name">
-          <div>{{ item.subCommentEmail }} </div>
+          <div>{{ item.commentEmail }}</div>
           <div>{{ item.commentCreatedAt }} </div>
         </div>
         <div class="comment-list-item-context"> {{item.commentContext}} </div>
@@ -18,12 +18,13 @@
       </template>
       <template v-if="contentComment.length > 0">
         <div
-            class="comment-list-item-subcomment-list">
+            class="comment-list-item-subcomment-list"
+            >
           <div class="comment-list-item-name">
-            <div>{{item.subCommentEmail }}</div>
-            <div>{{item.subCommentCreatedAt}}</div>
+            <div>{{contentCommentSub[index].subCommentEmail }}</div>
+            <div>{{contentCommentSub[index].subCommentCreatedAt}}</div>
           </div>
-          <div class="comment-list-item-context">{{item.subCommentContext}}</div>
+          <div class="comment-list-item-context">{{contentCommentSub[index].subCommentContext}}</div>
           <div class="comment-list-item-button">
             <b-button variant="info">수정</b-button>
             <b-button variant="info">삭제</b-button>
@@ -41,19 +42,18 @@ export default{
   name: 'CommentListItem',
   // components: {CommentCreate},
   computed:{
-    ...mapState('Content',['contentComment'])
+    ...mapState('Content',['contentComment', 'contentCommentSub'])
   },
   data(){
     return {
-      subCommentList: '',
       subCommentCreateToggle: false
     }
   },
+
   methods:{
-    ...mapActions('Content', ['contentDetailComment']),
-    //   subCommentToggle(){
-    //     this.subCommentCreateToggle = !this.subCommentCreateToggle;
-    //   },
+      // subCommentToggle(){
+      //   this.subCommentCreateToggle = !this.subCommentCreateToggle;
+      // },
     //   reloadSubComment(){
     //     this.subCommentList = data.SubComment.filter(
     //         item => item.comment_id === this.commentObject.comment_id

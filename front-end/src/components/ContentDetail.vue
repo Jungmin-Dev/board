@@ -24,6 +24,7 @@
       </div>
       <div class="content-detail-content">
         {{contentDetail.context}}
+
       </div>
       <div class="content-detail-button">
         <b-button variant="primary" @click="updateData">수정</b-button>
@@ -57,7 +58,7 @@ export default {
     this.contentDetailLoad(Number(this.$route.params.contentId));
   },
   methods: {
-    ...mapActions("Content",['contentDetailLoad', "contentList", "contentDetailComment"]),
+    ...mapActions("Content",['contentDetailLoad', "contentList", ]),
     deleteData() {
       // DB에서 삭제해야지
       // const content_index = data.Content.findIndex(item => item.content_id === this.contentId);

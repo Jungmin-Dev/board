@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-for="item in contentComment" :key="item.commentId">
+    <div>
       <CommentListItem></CommentListItem>
     </div>
-    <CommentCreate :contentId="contentId"></CommentCreate>
+<!--    <CommentCreate :contentId="contentId"></CommentCreate>-->
   </div>
 </template>
 
@@ -15,23 +15,24 @@ export default{
   name: 'CommentList',
   components:{
     CommentListItem,
-    CommentCreate,
+    // CommentCreate,
   },
   props: {
     contentId : Number,
   },
   computed:{
-    ...mapState('Content',['contentComment'])
+    ...mapState('Content',['contentComment', 'contentCommentSub'])
   },
   created() {
-    this.contentDetailComment(this.contentId);
+    this.contentCommentLoad(this.contentId);
+    this.contentCommentSubLoad(this.contentId);
   },
   data(){
     return{
     }
   },
   methods:{
-    ...mapActions('Content', ['contentDetailComment'])
+    ...mapActions('Content', ['contentCommentLoad', 'contentCommentSubLoad'])
   }
 }
 </script>

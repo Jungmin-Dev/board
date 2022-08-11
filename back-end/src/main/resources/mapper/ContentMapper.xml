@@ -22,10 +22,20 @@
         where c.CONTENT_ID  =  #{contentId}
     </select>
 
-    <!--게시글 댓글 내용 자세히 가져오기(게시글 클릭 시)-->
+    <!-- 게시글 댓글 -->
     <select id="contentComment" resultType="Content">
         SELECT
-            bc.COMMENT_ID ,bc.USER_EMAIL AS COMMENT_EMAIL, bc.CONTEXT AS COMMENT_CONTEXT, bc.CREATED_AT AS COMMENT_CREATEDAT, bc.UPDATE_AT AS COMMENT_UPDATED_AT,
+            bc.COMMENT_ID ,bc.USER_EMAIL AS COMMENT_EMAIL, bc.CONTEXT AS COMMENT_CONTEXT, bc.CREATED_AT AS COMMENT_CREATEDAT, bc.UPDATE_AT AS COMMENT_UPDATED_AT
+        FROM
+            CONTENT c
+                INNER JOIN BOARD_COMMENT bc
+                           ON c.CONTENT_ID = bc.CONTENT_ID
+        WHERE  c.CONTENT_ID = #{contentId}
+    </select>
+
+    <!-- 게시글 대댓글 -->
+    <select id="contentSubComment" resultType="Content">
+        SELECT
             sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATE_AT AS SUB_COMMENT_CREATEDAT , sc.UPDATE_AT  AS SUB_COMMENT_UPDATED_AT
         FROM
             CONTENT c
@@ -33,9 +43,10 @@
                            ON c.CONTENT_ID = bc.CONTENT_ID
                 INNER JOIN SUB_COMMENT sc
                            ON bc.COMMENT_ID = sc.COMMENT_ID
-        WHERE  c.CONTENT_ID  = #{contentId}
+        WHERE  c.CONTENT_ID = #{contentId}
     </select>
 
+    <!--     게시글 작성     -->
     <insert id="contentInsert">
         INSERT INTO
             CONTENT

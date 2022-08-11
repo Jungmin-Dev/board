@@ -39,12 +39,21 @@ public class ContentController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    // 게시글 댓글 가져오기(게시글 클릭 시)
+    // 게시글 댓글 가져오기
     @RequestMapping(value="/comment/{contentId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> comment(@PathVariable String contentId) throws Exception{
         Map<String, Object> map = new HashMap<>();
         map.put("contentCommentList",contentService.contentComment(contentId));
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    // 게시글 대댓글 가져오기
+    @RequestMapping(value="/commentsub/{contentId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> commentSub(@PathVariable String contentId) throws Exception{
+        Map<String, Object> map = new HashMap<>();
+        map.put("contentCommentSubList",contentService.contentCommentSub(contentId));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
