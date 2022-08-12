@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(item, index) in contentComment" :key="item.commentId">
+    <div v-for="item in contentComment" :key="item.commentId">
       <div class="comment-list-item">
         <div class="comment-list-item-name">
           <div>{{ item.commentEmail }}</div>
@@ -19,12 +19,13 @@
       <template v-if="contentComment.length > 0">
         <div
             class="comment-list-item-subcomment-list"
+            v-for="subItem in contentCommentSub" :key="subItem.subCommentId"
             >
-          <div class="comment-list-item-name">
-            <div>{{contentCommentSub[index].subCommentEmail }}</div>
-            <div>{{contentCommentSub[index].subCommentCreatedAt}}</div>
+          <div class="comment-list-item-name" v-if="subItem.commentId = item.commentId">
+            <div>{{subItem.subCommentEmail }}</div>
+            <div>{{subItem.subCommentCreatedAt}}</div>
           </div>
-          <div class="comment-list-item-context">{{contentCommentSub[index].subCommentContext}}</div>
+          <div class="comment-list-item-context" v-if="subItem.commentId = item.commentId">{{subItem.subCommentContext}}</div>
           <div class="comment-list-item-button">
             <b-button variant="info">수정</b-button>
             <b-button variant="info">삭제</b-button>
@@ -40,7 +41,7 @@ import {mapActions, mapState, mapMutations} from "vuex";
 import CommentCreate from "@/components/CommentCreate";
 export default{
   name: 'CommentListItem',
-  // components: {CommentCreate},
+  components: {CommentCreate},
   computed:{
     ...mapState('Content',['contentComment', 'contentCommentSub'])
   },

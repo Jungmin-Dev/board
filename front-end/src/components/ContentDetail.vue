@@ -58,12 +58,11 @@ export default {
     this.contentDetailLoad(Number(this.$route.params.contentId));
   },
   methods: {
-    ...mapActions("Content",['contentDetailLoad', "contentList", ]),
-    deleteData() {
-      // DB에서 삭제해야지
-      // const content_index = data.Content.findIndex(item => item.content_id === this.contentId);
-      // data.Content.splice(content_index, 1);
-      this.$router.push({
+    ...mapActions("Content",['contentDetailLoad', "contentList", "contentContentDelete"]),
+    async deleteData() {
+      await this.contentContentDelete(Number(this.$route.params.contentId));
+
+      await this.$router.push({
         path: '/board-page',
       })
     },

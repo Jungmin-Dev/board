@@ -51,15 +51,17 @@ const Content ={
     async contentCommentSubLoad({commit}, payload){
       const Check = await request('get', `/content/commentsub/${payload}`)
       await commit("contentCommentSubList", Check.contentCommentSubList)
-      console.log(Check.contentCommentSubList)
 
     },
-
-
     // 게시글 작성
     async contentInsert({commit}, payload){
       await request('post', '/content/insert', payload)
-    }
+    },
+    // 게시글 삭제
+    async contentContentDelete({commit}, payload){
+      await request('get', `/content/delete/${payload}`)
+    },
+
   }
 }
 
