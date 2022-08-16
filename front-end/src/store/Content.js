@@ -16,27 +16,15 @@ const Content ={
   mutations : {
     contentList(state, payload){
       state.contents = payload;
-      if(!payload){
-        state.contents = null;
-      }
     },
     contentDetailList(state, payload){
       state.contentDetail = payload;
-      if(!payload){
-        state.contentDetail = null;
-      }
     },
     contentCommentList(state, payload){
       state.contentComment = payload;
-      if(!payload){
-        state.contentComment = null;
-      }
     },
     contentCommentSubList(state, payload){
       state.contentCommentSub = payload;
-      if(!payload){
-        state.contentCommentSub = null;
-      }
     }
   },
   actions : {
@@ -56,7 +44,7 @@ const Content ={
     async contentCommentLoad({commit}, payload){
       const Check = await request('get', `/content/comment/${payload}`)
       await commit("contentCommentList", Check.contentCommentList)
-
+      console.log(Check.contentCommentList)
     },
 
     // 게시글 대댓글 불러오기
