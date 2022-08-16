@@ -61,8 +61,15 @@ public class ContentController {
     @RequestMapping(value="/insert", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> insert(@RequestBody Content param) throws Exception{
-        Map<String, Object> map = new HashMap<>();
-        map.put("contentInsert",contentService.contentInsert(param));
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        contentService.contentInsert(param);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 게시글 삭제
+    @RequestMapping(value="/delete/{contentId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable String contentId) throws Exception{
+        contentService.contentContentDelete(contentId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

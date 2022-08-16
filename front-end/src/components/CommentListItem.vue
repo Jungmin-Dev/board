@@ -5,6 +5,7 @@
         <div class="comment-list-item-name">
           <div>{{ item.commentEmail }}</div>
           <div>{{ item.commentCreatedAt }} </div>
+          <div>{{item.commentId}}</div>
         </div>
         <div class="comment-list-item-context"> {{item.commentContext}} </div>
         <div class="comment-list-item-button">
@@ -21,9 +22,10 @@
             class="comment-list-item-subcomment-list"
             v-for="subItem in contentCommentSub" :key="subItem.subCommentId"
             >
-          <div class="comment-list-item-name" v-if="subItem.commentId = item.commentId">
-            <div>{{subItem.subCommentEmail }}</div>
-            <div>{{subItem.subCommentCreatedAt}}</div>
+          <div class="comment-list-item-name">
+            <div  v-if="subItem.commentId = item.commentId">{{subItem.subCommentEmail }}</div>
+            <div  v-if="subItem.commentId = item.commentId">{{subItem.subCommentCreatedAt}}</div>
+            <div>{{subItem.commentId}}</div>
           </div>
           <div class="comment-list-item-context" v-if="subItem.commentId = item.commentId">{{subItem.subCommentContext}}</div>
           <div class="comment-list-item-button">

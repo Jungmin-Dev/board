@@ -18,8 +18,6 @@ public class ContentServiceImpl implements ContentService{
 
     private final ContentMapper contentMapper;
 
-
-
     @Override
     public int contentInsert(Content param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
@@ -27,6 +25,13 @@ public class ContentServiceImpl implements ContentService{
         map.put("title", param.getTitle());
         map.put("context", param.getContext());
         return contentMapper.contentInsert(map);
+    }
+
+    @Override
+    public int contentContentDelete(String param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("contentId", param);
+        return contentMapper.contentContentDelete(map);
     }
 
     @Override

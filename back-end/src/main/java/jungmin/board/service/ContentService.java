@@ -12,4 +12,5 @@ public interface ContentService {
     public List<Content> contentComment(String param) throws Exception;
     public List<Content> contentCommentSub(String param) throws Exception;
     public int contentInsert(Content param) throws Exception;
+    public int contentContentDelete(String param) throws Exception;
 }
