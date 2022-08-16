@@ -36,17 +36,19 @@
     <!-- 게시글 대댓글 -->
     <select id="contentSubComment" resultType="Content">
         SELECT
-            bc.COMMENT_ID, sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATE_AT AS SUB_COMMENT_CREATEDAT , sc.UPDATE_AT  AS SUB_COMMENT_UPDATED_AT
+            sc.CONTENT_ID, sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATE_AT AS SUB_COMMENT_CREATEDAT , sc.UPDATE_AT  AS SUB_COMMENT_UPDATED_AT
         FROM
             CONTENT c
                 INNER JOIN BOARD_COMMENT bc
                            ON c.CONTENT_ID = bc.CONTENT_ID
+        AND  c.CONTENT_ID = #{contentId}
                 INNER JOIN SUB_COMMENT sc
                            ON bc.COMMENT_ID = sc.COMMENT_ID
-        WHERE  c.CONTENT_ID = #{contentId}
+        AND  sc.CONTENT_ID = #{contentId}
+
     </select>
 
-    <!-- 게시글 작성 -->
+    <!--     게시글 작성     -->
     <insert id="contentInsert">
         INSERT INTO
             CONTENT
@@ -60,10 +62,5 @@
               )
     </insert>
 
-    <!-- 게시글 삭제 -->
-    <insert id="contentContentDelete">
-        DELETE FROM CONTENT
-        WHERE CONTENT_ID = #{contentId}
-    </insert>
 
 </mapper>

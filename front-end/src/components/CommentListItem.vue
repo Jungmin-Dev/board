@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-for="item in contentComment" :key="item.commentId">
+
+    <div v-for="(item, index) in contentComment" :key="index">
       <div class="comment-list-item">
         <div class="comment-list-item-name">
-          <div>{{ item.commentEmail }}</div>
-          <div>{{ item.commentCreatedAt }} </div>
-          <div>{{item.commentId}}</div>
+          <div>{{ item?.commentEmail }}</div>
+          <div>{{ item?.commentCreatedAt }} </div>
         </div>
-        <div class="comment-list-item-context"> {{item.commentContext}} </div>
+        <div class="comment-list-item-context"> {{item?.commentContext}} </div>
         <div class="comment-list-item-button">
           <b-button variant="info">수정</b-button>
           <b-button variant="info" @click="deleteComment">삭제</b-button>
@@ -20,14 +20,13 @@
       <template v-if="contentComment.length > 0">
         <div
             class="comment-list-item-subcomment-list"
-            v-for="subItem in contentCommentSub" :key="subItem.subCommentId"
+            v-if="contentCommentSub[index]"
             >
-          <div class="comment-list-item-name">
-            <div  v-if="subItem.commentId = item.commentId">{{subItem.subCommentEmail }}</div>
-            <div  v-if="subItem.commentId = item.commentId">{{subItem.subCommentCreatedAt}}</div>
-            <div>{{subItem.commentId}}</div>
+          <div class="comment-list-item-name" >
+            <div>{{contentCommentSub[index]?.subCommentEmail }}</div>
+            <div>{{contentCommentSub[index]?.subCommentCreatedat }}</div>
           </div>
-          <div class="comment-list-item-context" v-if="subItem.commentId = item.commentId">{{subItem.subCommentContext}}</div>
+          <div class="comment-list-item-context">{{contentCommentSub[index]?.subCommentContext}}</div>
           <div class="comment-list-item-button">
             <b-button variant="info">수정</b-button>
             <b-button variant="info">삭제</b-button>
