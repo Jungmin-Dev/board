@@ -15,6 +15,15 @@ import java.util.Optional;
 @Log
 @Service
 public class ContentServiceImpl implements ContentService{
+    @Override
+    public int contentUpdate(Content param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userEmail", param.getUserEmail());
+        map.put("title", param.getTitle());
+        map.put("context", param.getContext());
+        map.put("contentId", param.getContentId());
+        return contentMapper.contentUpdate(map);
+    }
 
     private final ContentMapper contentMapper;
 

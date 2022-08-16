@@ -21,5 +21,7 @@ public interface ContentMapper {
     public int contentInsert(HashMap<String, Object> param) throws Exception;
     public int contentContentDelete(HashMap<String, Object> param) throws Exception;
 
+    public int contentUpdate(HashMap<String, Object> param) throws Exception;
+
 
 }

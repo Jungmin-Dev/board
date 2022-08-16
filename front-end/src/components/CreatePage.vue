@@ -17,58 +17,46 @@ import {mapActions, mapState, mapMutations} from "vuex";
 export default{
   name: 'CreatePage',
   computed:{
-    ...mapState(['userInfo']),
+    ...mapState(['userInfo', 'Content/contentDetail']),
     ...mapState("Content", ['contents']),
   },
   created(){
     this.createInfo.userEmail = this.userInfo.userEmail;
+
   },
   data () {
     return {
-      createInfo: {
-        title: '',
-        context: '',
-        userEmail: '',
-      },
       updateMode : this.$route.params.contentId > 0 ? true: false,
+      createInfo: {
+        title: this.updateMode ? this.contentDetail.title : '',
+        context: this.updateMode ? this.contentDetail.context : '',
+        userEmail: this.updateMode ? this.contentDetail.userEmail : '',
+        contentId: '',
+      },
     }
   },
   methods:{
-    ...mapActions("Content", ['contentInsert']),
+    ...mapActions("Content", ['contentInsert', 'contentUpdate']),
 
     cancle(){
       this.$router.push({
         path: '/board-page'
       })
     },
-    upload(){
+    async upload(){
       // Data 삭제 후 DB에 업로드.
       // 객체 형태로 제목 내용 등 받아서 작성하기
       // 작성할 때 로그인 정보 넣어서 로그인된 계정으로 작성되게 만들기
       // 정보들 DB에 Insert하기
-      this.contentInsert(this.createInfo);
-      this.$router.push({
+      await this.contentInsert(this.createInfo);
+      await this.$router.push({
         path: '/board-page'
       })
-      // let items = data.Content.sort((a, b) => {
-      //   return b.content_id - a.content_id;
-      // })
-      // const content_id = items[0].content_id + 1;
-      // data.Content.push({
-      //   content_id: content_id,
-      //   user_id: this.userId,
-      //   title: this.subject,
-      //   context: this.context,
-      //   created_at: this.create_at,
-      //   updated_at: null,
-      // })
-
     },
-    update(){
-      // this.updateObject.title = this.subject;
-      // this.updateObject.context = this.context
-      // this.updateObject.created_at = this.create_at;
-      this.$router.push({
+    async update(){
+      this.createInfo.contentId = this.$route.params.contentId;
+      await this.contentUpdate(this.createInfo);
+      await this.$router.push({
         path: '/board-page'
       })
     }

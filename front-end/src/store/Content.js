@@ -74,6 +74,11 @@ const Content ={
       await request('get', `/content/delete/${payload}`)
     },
 
+    // 게시글 수정
+    async contentUpdate({commit}, payload){
+      await request('post', '/content/update', payload)
+    },
+
   }
 }
 

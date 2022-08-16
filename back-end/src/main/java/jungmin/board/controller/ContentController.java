@@ -72,4 +72,12 @@ public class ContentController {
         contentService.contentContentDelete(contentId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    // 게시글 작성
+    @RequestMapping(value="/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> update(@RequestBody Content param) throws Exception{
+        contentService.contentUpdate(param);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

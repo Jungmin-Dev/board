@@ -26,9 +26,9 @@
         {{contentDetail.context}}
 
       </div>
-      <div class="content-detail-button">
-        <b-button variant="primary" @click="updateData">수정</b-button>
-        <b-button variant="success" @click="deleteData">삭제</b-button>
+      <div class="content-detail-button" >
+        <b-button v-if="userInfo.userEmail == contentDetail.userEmail" variant="primary" @click="updateData">수정</b-button>
+        <b-button v-if="userInfo.userEmail == contentDetail.userEmail || userInfo.userEmail == 1" variant="success" @click="deleteData">삭제</b-button>
       </div>
       <div class="content-detail-comment">
         <CommentList :contentId="contentId"></CommentList>
@@ -52,6 +52,7 @@ export default {
   },
   computed: {
     ...mapState("Content", ['contents', "contentDetail", "contentComment"]),
+    ...mapState(['userInfo'])
 
   },
   created() {

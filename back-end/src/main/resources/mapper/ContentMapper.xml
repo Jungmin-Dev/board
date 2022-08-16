@@ -41,10 +41,10 @@
             CONTENT c
                 INNER JOIN BOARD_COMMENT bc
                            ON c.CONTENT_ID = bc.CONTENT_ID
-        AND  c.CONTENT_ID = #{contentId}
+                               AND  c.CONTENT_ID = #{contentId}
                 INNER JOIN SUB_COMMENT sc
                            ON bc.COMMENT_ID = sc.COMMENT_ID
-        AND  sc.CONTENT_ID = #{contentId}
+                               AND  sc.CONTENT_ID = #{contentId}
 
     </select>
 
@@ -62,5 +62,25 @@
               )
     </insert>
 
+    <!--     게시글 삭제     -->
+    <delete id="contentContentDelete">
+        DELETE
+            CONTENT
+        WHERE
+            CONTENT_ID = #{contentId}
+    </delete>
+
+    <!--     게시글 수정     -->
+    <delete id="contentUpdate">
+        UPDATE
+            CONTENT
+        SET
+            title= #{title},
+            context = #{context},
+            UPDATED_AT = TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss')
+        WHERE
+            CONTENT_ID = #{contentId}
+          AND USER_EMAIL = #{userEmail}
+    </delete>
 
 </mapper>
