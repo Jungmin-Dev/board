@@ -15,10 +15,15 @@ public interface ContentMapper {
     public List<Content> contentComment(HashMap<String, Object> param) throws Exception;
     public List<Content> contentSubComment(HashMap<String, Object> param) throws Exception;
     public int contentInsert(HashMap<String, Object> param) throws Exception;
-    public int contentContentDelete(HashMap<String, Object> param) throws Exception;
+    public int contentDelete(HashMap<String, Object> param) throws Exception;
     public int contentUpdate(HashMap<String, Object> param) throws Exception;
     public int commentSubCreate(HashMap<String, Object> param) throws Exception;
     public int commentCreate(HashMap<String, Object> param) throws Exception;
+
+    public int commentDelete(HashMap<String, Object> param) throws Exception;
+    public int subCommentDelete(HashMap<String, Object> param) throws Exception;
+    public int commentUpdate(HashMap<String, Object> param) throws Exception;
+    public int subCommentUpdate(HashMap<String, Object> param) throws Exception;
 
 
 }

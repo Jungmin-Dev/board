@@ -70,7 +70,7 @@ const Content ={
       await request('post', '/content/insert', payload)
     },
     // 게시글 삭제
-    async contentContentDelete({commit}, payload){
+    async contentDelete({commit}, payload){
       await request('get', `/content/delete/${payload}`)
     },
 
@@ -87,6 +87,26 @@ const Content ={
     // 게시글 대댓글 작성
     async contentSubCommentCreate({commit}, payload){
       await request('post', '/content/subcomment/create', payload)
+    },
+
+    // 댓글 삭제
+    async commentDelete({commit}, payload){
+      await request('get', `/content/comment/delete/${payload}`)
+    },
+
+    // 대댓글 삭제
+    async subCommentDelete({commit}, payload){
+      await request('get', `/content/subcomment/delete/${payload}`)
+    },
+
+    // 댓글
+    async commentUpdate({commit}, payload){
+      await request('post', '/content/comment/update', payload)
+    },
+
+    // 대댓글 수정
+    async subCommentUpdate({commit}, payload){
+      await request('post', '/content/subcomment/update', payload)
     },
 
   }

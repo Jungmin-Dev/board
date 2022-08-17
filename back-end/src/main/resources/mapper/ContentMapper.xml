@@ -63,15 +63,15 @@
     </insert>
 
     <!--     게시글 삭제     -->
-    <delete id="contentContentDelete">
+    <delete id="contentDelete">
         DELETE
-            CONTENT
+        CONTENT
         WHERE
             CONTENT_ID = #{contentId}
     </delete>
 
     <!--     게시글 수정     -->
-    <delete id="contentUpdate">
+    <update id="contentUpdate">
         UPDATE
             CONTENT
         SET
@@ -81,7 +81,7 @@
         WHERE
             CONTENT_ID = #{contentId}
           AND USER_EMAIL = #{userEmail}
-    </delete>
+    </update>
 
     <!-- 댓글 작성 -->
     <insert id="commentCreate">
@@ -100,7 +100,7 @@
 
     <!-- 대 댓글 작성 -->
     <insert id="commentSubCreate">
-        INSERT INTO JUNGMIN.SUB_COMMENT
+        INSERT INTO SUB_COMMENT
         (SUBCOMMENT_ID, COMMENT_ID, USER_EMAIL, CONTEXT, CREATE_AT, UPDATE_AT, CONTENT_ID)
         VALUES(
                   subcomment_seq.NEXTVAL,
@@ -111,6 +111,49 @@
                   '',
                   #{contentId})
     </insert>
+    <!--     댓글 삭제     -->
+    <delete id="commentDelete">
+        DELETE
+        BOARD_COMMENT
+        WHERE
+        COMMENT_ID = #{commentId}
+    </delete>
+    <!--     대댓글 삭제     -->
+    <delete id="subCommentDelete">
+        DELETE
+        SUB_COMMENT
+        WHERE
+        SUBCOMMENT_ID = #{subCommentId}
+    </delete>
 
+    <!--     댓글 수정     -->
+    <update id="commentUpdate">
+        UPDATE
+            BOARD_COMMENT
+        SET
+            context = #{context},
+            UPDATED_AT = TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss')
+        WHERE
+            CONTENT_ID = #{contentId}
+          AND USER_EMAIL = #{userEmail}
+          AND COMMENT_ID = #{commentId}
+    </update>
+
+    <!--     대댓글 수정     -->
+    <update id="subCommentUpdate">
+        UPDATE
+            CONTENT
+        SET
+            context = #{context},
+            UPDATED_AT = TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss')
+        WHERE
+            CONTENT_ID = #{contentId}
+          AND
+            USER_EMAIL = #{userEmail}
+          AND
+            COMMENT_ID = #{commentId}
+          AND
+            SUBCOMMENT_ID = #{subCommentId}
+    </update>
 
 </mapper>

@@ -69,10 +69,10 @@ public class ContentController {
     @RequestMapping(value="/delete/{contentId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> delete(@PathVariable String contentId) throws Exception{
-        contentService.contentContentDelete(contentId);
+        contentService.contentDelete(contentId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    // 게시글 작성
+    // 게시글 수정
     @RequestMapping(value="/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> update(@RequestBody Content param) throws Exception{
@@ -96,5 +96,35 @@ public class ContentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // 댓글 수정
+    @RequestMapping(value="/comment/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> commentUpdate(@RequestBody Content param) throws Exception{
+        contentService.commentUpdate(param);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 대댓글 수정
+    @RequestMapping(value="/subcomment/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> subCommentUpdate(@RequestBody Content param) throws Exception{
+        contentService.subCommentUpdate(param);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 댓글 삭제
+    @RequestMapping(value="/comment/delete/{contentId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> commentDelete(@PathVariable String contentId) throws Exception{
+        contentService.commentDelete(contentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    // 대댓글 삭제
+    @RequestMapping(value="/subcomment/delete/{subContentId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> subCommentDelete(@PathVariable String subContentId) throws Exception{
+        contentService.subCommentDelete(subContentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

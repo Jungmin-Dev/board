@@ -58,9 +58,9 @@ export default {
     this.contentDetailLoad(Number(this.$route.params.contentId));
   },
   methods: {
-    ...mapActions("Content",['contentDetailLoad', "contentList", "contentContentDelete"]),
+    ...mapActions("Content",['contentDetailLoad', "contentList", "contentDelete"]),
     async deleteData() {
-      await this.contentContentDelete(Number(this.$route.params.contentId));
+      await this.contentDelete(Number(this.$route.params.contentId));
 
       await this.$router.push({
         path: '/board-page',

@@ -8,13 +8,13 @@
         </div>
         <div class="comment-list-item-context"> {{item?.commentContext}} </div>
         <div class="comment-list-item-button">
-          <b-button variant="info">수정</b-button>
-          <b-button variant="info" @click="deleteComment">삭제</b-button>
+          <b-button variant="info" v-if="userInfo.userEmail == item?.commentEmail" @click="updateComment()">수정</b-button>
+          <b-button variant="info" v-if="userInfo.userEmail == item?.commentEmail || userInfo.userEmail == 1" @click="deleteComment(item.commentId)">삭제</b-button>
           <b-button variant="info" @click="subCommentToggle(item.commentId)">댓글 달기</b-button>
         </div>
       </div>
-      <template v-if="subCommentCreateToggle == item.commentId">
-        <CommentCreate :isSubComment="true" :commentId="item.commentId" :subCommentToggle="subCommentToggle"></CommentCreate>
+      <template v-if="subCommentCreate == item.commentId && toggle==true">
+        <CommentCreate :isSubComment="true" :commentId="item.commentId" ></CommentCreate>
       </template>
       <template v-if="contentComment.length > 0">
         <div  v-for="item2 in contentCommentSub" :key="item2.subCommentId">
@@ -29,9 +29,9 @@
             <div class="comment-list-item-context">
               {{item2?.subCommentContext}}
             </div>
-            <div class="comment-list-item-button">
-              <b-button variant="info">수정</b-button>
-              <b-button variant="info">삭제</b-button>
+            <div class="comment-list-item-button" v-if="userInfo.userEmail == item2.subCommentEmail">
+              <b-button variant="info" v-if="userInfo.userEmail == item2.subCommentEmail" >수정</b-button>
+              <b-button variant="info" v-if="userInfo.userEmail == item2.subCommentEmail || userInfo.userEmail == 1" @click="subDeleteComment(item2?.subCommentId)">삭제</b-button>
             </div>
           </div>
         </div>
@@ -47,26 +47,34 @@ export default{
   name: 'CommentListItem',
   components: {CommentCreate},
   computed:{
-    ...mapState('Content',['contentComment', 'contentCommentSub'])
+    ...mapState(['userInfo']),
+    ...mapState('Content',['contentComment', 'contentCommentSub', 'contentDetail'])
   },
   data(){
     return {
-      subCommentCreateToggle: Number,
+      subCommentCreate: Number,
+      toggle: Boolean,
+      commentUpdateToggle: false,
+      subCommentUpdateToggle: Number,
     }
   },
 
-  methods:{
-    subCommentToggle(commentId){
-      this.subCommentCreateToggle = commentId;
-
+  methods: {
+    ...mapActions('Content', ['subCommentDelete', 'subCommentUpdate', 'commentDelete', 'commentUpdate']),
+    subCommentToggle(commentId) {
+      this.subCommentCreate = commentId;
+      this.toggle = !this.toggle;
     },
 
-    //   deleteComment(){
-    //     const comment_index = data.Comment.findIndex(item => item.comment_id === this.commentObject.comment_id)
-    //     data.Comment.splice(comment_index, 1);
-    //     this.$router.push({
-    //       path: '/board-page',
-    //     })
+    deleteComment(commentId){
+      this.commentDelete(commentId);
+      this.$router.go();
+    },
+    subDeleteComment(subCommentId){
+      this.subCommentDelete(subCommentId);
+      this.$router.go();
+    },
+
   },
 }
 </script>

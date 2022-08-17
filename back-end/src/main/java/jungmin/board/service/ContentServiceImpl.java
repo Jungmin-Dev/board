@@ -16,6 +16,41 @@ import java.util.Optional;
 @Service
 public class ContentServiceImpl implements ContentService{
     @Override
+    public int commentDelete(String param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("commentId", param);
+        return contentMapper.commentDelete(map);
+    }
+
+    @Override
+    public int commentUpdate(Content param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userEmail", param.getUserEmail());
+        map.put("context", param.getContext());
+        map.put("contentId", param.getContentId());
+        map.put("commentId", param.getCommentId());
+        return contentMapper.commentUpdate(map);
+    }
+
+    @Override
+    public int subCommentDelete(String param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("subCommentId", param);
+        return contentMapper.subCommentDelete(map);
+    }
+
+    @Override
+    public int subCommentUpdate(Content param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userEmail", param.getUserEmail());
+        map.put("context", param.getContext());
+        map.put("contentId", param.getContentId());
+        map.put("commentId", param.getCommentId());
+        map.put("subCommentId", param.getSubCommentId());
+        return contentMapper.subCommentUpdate(map);
+    }
+
+    @Override
     public int commentCreate(Content param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("userEmail", param.getUserEmail());
@@ -56,10 +91,10 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
-    public int contentContentDelete(String param) throws Exception {
+    public int contentDelete(String param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("contentId", param);
-        return contentMapper.contentContentDelete(map);
+        return contentMapper.contentDelete(map);
     }
 
     @Override

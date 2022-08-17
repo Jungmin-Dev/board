@@ -1,5 +1,5 @@
 <template>
-  <div class="comment-create" v-if="loading">
+  <div class="comment-create" v-if="!commentUpdateToggle">
     <b-input-group :prepend="createCommentInfo.userEmail" class="mt-3">
       <b-form-textarea
           id="textarea"
@@ -13,6 +13,20 @@
       </b-input-group-append>
     </b-input-group>
   </div>
+  <div v-else-if="commentUpdateToggle">
+    <b-input-group :prepend="createCommentInfo.userEmail" class="mt-3">
+      <b-form-textarea
+          id="textarea"
+          v-model="contentComment.context"
+          :placeholder=contentComment.context
+          rows="3"
+          max-rows="6"
+      ></b-form-textarea>
+      <b-input-group-append>
+        <b-button variant="info" @click="isSubComment ? createSubComment() : createComment()">수정하기</b-button>
+      </b-input-group-append>
+    </b-input-group>
+  </div>
 </template>
 
 <script>
@@ -23,7 +37,7 @@ export default{
     contentId : Number,
     commentId : Number,
     isSubComment : Boolean,
-    subCommentToggle : Function,
+    commentUpdateToggle : Boolean,
   },
   computed:{
     ...mapState(['userInfo']),
@@ -35,11 +49,9 @@ export default{
     this.createCommentInfo.contentId = this.$route.params.contentId;
     this.createCommentInfo.commentId = this.commentId;
     this.createCommentInfo.context = '';
-    this.loading = true;
   },
   data(){
     return{
-      loading : false,
       createCommentInfo: {
         userEmail: '',
         contentId: '',
@@ -54,16 +66,13 @@ export default{
     async createComment() {
       await this.contentCommentCreate(this.createCommentInfo);
       this.createCommentInfo.context = "";
-      this.subCommentToggle;
       this.$router.go();
 
     },
     async createSubComment(){
       await this.contentSubCommentCreate(this.createCommentInfo);
       this.createCommentInfo.context = ""
-      this.subCommentToggle;
       this.$router.go();
-
     }
   }
 }
