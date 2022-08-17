@@ -1,7 +1,6 @@
 <template>
   <div>
-
-    <div v-for="(item, index) in contentComment" :key="index">
+    <div v-for="item in contentComment" :key="item.commentId">
       <div class="comment-list-item">
         <div class="comment-list-item-name">
           <div>{{ item?.commentEmail }}</div>
@@ -11,25 +10,29 @@
         <div class="comment-list-item-button">
           <b-button variant="info">수정</b-button>
           <b-button variant="info" @click="deleteComment">삭제</b-button>
-          <b-button variant="info" @click="subCommentToggle">댓글 달기</b-button>
+          <b-button variant="info" @click="subCommentToggle(item.commentId)">댓글 달기</b-button>
         </div>
       </div>
-      <template v-if="subCommentCreateToggle">
+      <template v-if="subCommentCreateToggle == item.commentId">
         <CommentCreate :isSubComment="true" :commentId="item.commentId" :subCommentToggle="subCommentToggle"></CommentCreate>
       </template>
       <template v-if="contentComment.length > 0">
-        <div
-            class="comment-list-item-subcomment-list"
-            v-if="contentCommentSub[index]"
-            >
-          <div class="comment-list-item-name" >
-            <div>{{contentCommentSub[index]?.subCommentEmail }}</div>
-            <div>{{contentCommentSub[index]?.subCommentCreatedat }}</div>
-          </div>
-          <div class="comment-list-item-context">{{contentCommentSub[index]?.subCommentContext}}</div>
-          <div class="comment-list-item-button">
-            <b-button variant="info">수정</b-button>
-            <b-button variant="info">삭제</b-button>
+        <div  v-for="item2 in contentCommentSub" :key="item2.subCommentId">
+          <div
+              class="comment-list-item-subcomment-list"
+              v-if="item2.commentId == item.commentId"
+          >
+            <div class="comment-list-item-name">
+              <div>{{item2?.subCommentEmail }}</div>
+              <div>{{item2?.subCommentCreatedAt }}</div>
+            </div>
+            <div class="comment-list-item-context">
+              {{item2?.subCommentContext}}
+            </div>
+            <div class="comment-list-item-button">
+              <b-button variant="info">수정</b-button>
+              <b-button variant="info">삭제</b-button>
+            </div>
           </div>
         </div>
       </template>
@@ -48,31 +51,22 @@ export default{
   },
   data(){
     return {
-      subCommentCreateToggle: false
+      subCommentCreateToggle: Number,
     }
   },
 
   methods:{
-      // subCommentToggle(){
-      //   this.subCommentCreateToggle = !this.subCommentCreateToggle;
-      // },
-    //   reloadSubComment(){
-    //     this.subCommentList = data.SubComment.filter(
-    //         item => item.comment_id === this.commentObject.comment_id
-    //     ).map(subCommentItem => ({
-    //       ...subCommentItem,
-    //       user_name: data.User.filter(
-    //           item => item.user_id === subCommentItem.user_id
-    //       )[0].name
-    //     }));
-    //   },
+    subCommentToggle(commentId){
+      this.subCommentCreateToggle = commentId;
+
+    },
+
     //   deleteComment(){
     //     const comment_index = data.Comment.findIndex(item => item.comment_id === this.commentObject.comment_id)
     //     data.Comment.splice(comment_index, 1);
     //     this.$router.push({
     //       path: '/board-page',
     //     })
-    //     this.reloadComment();
   },
 }
 </script>

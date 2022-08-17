@@ -31,12 +31,13 @@
                 INNER JOIN BOARD_COMMENT bc
                            ON c.CONTENT_ID = bc.CONTENT_ID
         WHERE  c.CONTENT_ID = #{contentId}
+        ORDER BY bc.CREATED_AT
     </select>
 
     <!-- 게시글 대댓글 -->
     <select id="contentSubComment" resultType="Content">
         SELECT
-            sc.CONTENT_ID, sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATE_AT AS SUB_COMMENT_CREATEDAT , sc.UPDATE_AT  AS SUB_COMMENT_UPDATED_AT
+            sc.COMMENT_ID, sc.CONTENT_ID, sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATE_AT AS SUB_COMMENT_CREATEDAT , sc.UPDATE_AT  AS SUB_COMMENT_UPDATED_AT
         FROM
             CONTENT c
                 INNER JOIN BOARD_COMMENT bc
@@ -45,7 +46,6 @@
                 INNER JOIN SUB_COMMENT sc
                            ON bc.COMMENT_ID = sc.COMMENT_ID
                                AND  sc.CONTENT_ID = #{contentId}
-
     </select>
 
     <!--     게시글 작성     -->
@@ -82,5 +82,35 @@
             CONTENT_ID = #{contentId}
           AND USER_EMAIL = #{userEmail}
     </delete>
+
+    <!-- 댓글 작성 -->
+    <insert id="commentCreate">
+        INSERT INTO
+            BOARD_COMMENT(COMMENT_ID, USER_EMAIL, CONTENT_ID, CONTEXT, CREATED_AT, UPDATE_AT)
+        VALUES
+            (
+                comment_seq.NEXTVAL,
+                #{userEmail},
+                #{contentId},
+                #{context},
+                TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss'),
+                ''
+            )
+    </insert>
+
+    <!-- 대 댓글 작성 -->
+    <insert id="commentSubCreate">
+        INSERT INTO JUNGMIN.SUB_COMMENT
+        (SUBCOMMENT_ID, COMMENT_ID, USER_EMAIL, CONTEXT, CREATE_AT, UPDATE_AT, CONTENT_ID)
+        VALUES(
+                  subcomment_seq.NEXTVAL,
+                  #{commentId},
+                  #{userEmail},
+                  #{context},
+                  TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss'),
+                  '',
+                  #{contentId})
+    </insert>
+
 
 </mapper>

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import {request} from "@/api";
 import router from '../router'
 import Content from "./Content";
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
@@ -178,6 +179,12 @@ const store = new Vuex.Store({
   },
   modules: {
     Content,
-  }
+
+  },
+  plugins: [
+    createPersistedState({
+      storage: window.sessionStorage,
+    })
+  ]
 })
 export default store;

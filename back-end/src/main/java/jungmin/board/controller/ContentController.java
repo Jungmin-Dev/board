@@ -80,4 +80,21 @@ public class ContentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // 댓글 작성
+    @RequestMapping(value="/comment/create", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> commentCreate(@RequestBody Content param) throws Exception{
+        contentService.commentCreate(param);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 대댓글 작성
+    @RequestMapping(value="/subcomment/create", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> commentSubCreate(@RequestBody Content param) throws Exception{
+        contentService.commentSubCreate(param);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

@@ -79,6 +79,16 @@ const Content ={
       await request('post', '/content/update', payload)
     },
 
+    // 게시글 댓글 작성
+    async contentCommentCreate({commit}, payload){
+      await request('post', '/content/comment/create', payload)
+    },
+
+    // 게시글 대댓글 작성
+    async contentSubCommentCreate({commit}, payload){
+      await request('post', '/content/subcomment/create', payload)
+    },
+
   }
 }
 

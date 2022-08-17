@@ -24,7 +24,6 @@
       </div>
       <div class="content-detail-content">
         {{contentDetail.context}}
-
       </div>
       <div class="content-detail-button" >
         <b-button v-if="userInfo.userEmail == contentDetail.userEmail" variant="primary" @click="updateData">수정</b-button>

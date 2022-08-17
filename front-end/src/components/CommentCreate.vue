@@ -1,9 +1,9 @@
 <template>
-  <div class="comment-create">
-    <b-input-group :prepend="name" class="mt-3">
+  <div class="comment-create" v-if="loading">
+    <b-input-group :prepend="createCommentInfo.userEmail" class="mt-3">
       <b-form-textarea
           id="textarea"
-          v-model="context"
+          v-model="createCommentInfo.context"
           :placeholder="isSubComment ? '덧글에 덧글을 달아주세요~!' : '코멘트를 달아주세요~!'"
           rows="3"
           max-rows="6"
@@ -16,52 +16,54 @@
 </template>
 
 <script>
-import data from '@/store/testdata'
+import {mapActions, mapState, mapMutations} from "vuex";
 export default{
   name: 'CommentCreate',
   props:{
     contentId : Number,
-    reloadComment : Function,
     commentId : Number,
     isSubComment : Boolean,
-    reloadSubComments: Function,
-    subCommentToggle: Function,
+    subCommentToggle : Function,
+  },
+  computed:{
+    ...mapState(['userInfo']),
+    ...mapState('Content',['contentComment'])
+
+  },
+  created() {
+    this.createCommentInfo.userEmail = this.userInfo.userEmail;
+    this.createCommentInfo.contentId = this.$route.params.contentId;
+    this.createCommentInfo.commentId = this.commentId;
+    this.createCommentInfo.context = '';
+    this.loading = true;
   },
   data(){
     return{
-      name: 'jungmin',
-      context: "",
+      loading : false,
+      createCommentInfo: {
+        userEmail: '',
+        contentId: '',
+        commentId: '',
+        context: '',
+      }
     }
   },
 
   methods:{
-    createComment() {
-      const comment_id = data.Comment[data.Comment.length - 1].comment_id + 1;
-      data.Comment.push({
-        comment_id: comment_id,
-        user_id: 1,
-        content_id: this.contentId,
-        context: this.context,
-        created_at: new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] + "   " + new Date().toTimeString().split(" ")[0],
-        updated_at: null
-      });
-      this.reloadComment();
-      this.subCommentToggle();
-      this.context = "";
+    ...mapActions("Content",['contentCommentCreate', 'contentSubCommentCreate']),
+    async createComment() {
+      await this.contentCommentCreate(this.createCommentInfo);
+      this.createCommentInfo.context = "";
+      this.subCommentToggle;
+      this.$router.go();
+
     },
-    createSubComment(){
-      const subcomment_id = data.SubComment[data.SubComment.length - 1].subcomment_id + 1;
-      data.SubComment.push({
-        subcomment_id: subcomment_id,
-        comment_id: this.commentId,
-        user_id: 1,
-        context: this.context,
-        created_at: new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0] + "   " + new Date().toTimeString().split(" ")[0],
-        updated_at: null
-      });
-      this.reloadSubComments();
-      this.subCommentToggle();
-      this.context = "";
+    async createSubComment(){
+      await this.contentSubCommentCreate(this.createCommentInfo);
+      this.createCommentInfo.context = ""
+      this.subCommentToggle;
+      this.$router.go();
+
     }
   }
 }

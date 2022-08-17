@@ -15,7 +15,7 @@ export default{
   name: 'CommentList',
   components:{
     CommentListItem,
-    // CommentCreate,
+    CommentCreate,
   },
   props: {
     contentId : Number,

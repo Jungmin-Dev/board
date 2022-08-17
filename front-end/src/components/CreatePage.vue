@@ -17,12 +17,15 @@ import {mapActions, mapState, mapMutations} from "vuex";
 export default{
   name: 'CreatePage',
   computed:{
-    ...mapState(['userInfo', 'Content/contentDetail']),
-    ...mapState("Content", ['contents']),
+    ...mapState(['userInfo']),
+    ...mapState("Content", ['contents', 'contentDetail']),
   },
   created(){
     this.createInfo.userEmail = this.userInfo.userEmail;
-
+    if(this.$route.params.contentId > 0){
+      this.createInfo.title = this.contentDetail.title;
+      this.createInfo.context = this.contentDetail.context;
+    }
   },
   data () {
     return {
@@ -44,10 +47,6 @@ export default{
       })
     },
     async upload(){
-      // Data 삭제 후 DB에 업로드.
-      // 객체 형태로 제목 내용 등 받아서 작성하기
-      // 작성할 때 로그인 정보 넣어서 로그인된 계정으로 작성되게 만들기
-      // 정보들 DB에 Insert하기
       await this.contentInsert(this.createInfo);
       await this.$router.push({
         path: '/board-page'

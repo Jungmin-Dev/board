@@ -16,6 +16,25 @@ import java.util.Optional;
 @Service
 public class ContentServiceImpl implements ContentService{
     @Override
+    public int commentCreate(Content param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userEmail", param.getUserEmail());
+        map.put("context", param.getContext());
+        map.put("contentId", param.getContentId());
+        return contentMapper.commentCreate(map);
+    }
+
+    @Override
+    public int commentSubCreate(Content param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userEmail", param.getUserEmail());
+        map.put("context", param.getContext());
+        map.put("contentId", param.getContentId());
+        map.put("commentId", param.getCommentId());
+        return contentMapper.commentSubCreate(map);
+    }
+
+    @Override
     public int contentUpdate(Content param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("userEmail", param.getUserEmail());
