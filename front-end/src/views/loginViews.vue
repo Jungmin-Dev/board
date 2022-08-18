@@ -24,7 +24,8 @@
           <v-text-field
               v-model="user.userPassword"
               label="비밀번호를 입력하세요"
-              type="password">
+              type="password"
+              @keydown.enter="login(user)">
           </v-text-field>
             <b-button block variant="info" @click="join">회원가입</b-button>
             <b-button block variant="info" @click="findPw">비밀번호 찾기</b-button>
@@ -44,6 +45,12 @@ export default{
     return{
     }
   },
+  beforeDestroy(){
+    this.user.userEmail = null;
+    this.user.userPassword = null;
+    this.user.userName = null;
+    this.user.selfAuth = null;
+  },
   computed:{
     ...mapState(['isLogin', 'isLoginError', 'user'])
   },
@@ -58,7 +65,7 @@ export default{
       this.$router.push({
         name : 'PasswordFind',
       })
-    }
+    },
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-button class="pa-3 mt-3 ml-3" @click="back" > 게시글 목록 </b-button>
     <b-card v-if="contentDetail !== null">
       <div class="content-detail-content-info">
         <div class="content-detail-content-info-left">
@@ -69,7 +70,13 @@ export default {
     updateData() {
       this.$router.push({
         path: `/board-page/create-page/${this.contentId}`,
-      })}
+      })
+    },
+    back(){
+      this.$router.push({
+        path: `/board-page/`,
+      })
+    }
   }
 };
 </script>

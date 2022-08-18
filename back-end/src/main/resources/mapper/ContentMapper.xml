@@ -25,7 +25,7 @@
     <!-- 게시글 댓글 -->
     <select id="contentComment" resultType="Content">
         SELECT
-            bc.COMMENT_ID ,bc.USER_EMAIL AS COMMENT_EMAIL, bc.CONTEXT AS COMMENT_CONTEXT, bc.CREATED_AT AS COMMENT_CREATEDAT, bc.UPDATED_AT AS COMMENT_UPDATED_AT
+            bc.COMMENT_ID ,bc.USER_EMAIL AS COMMENT_EMAIL, bc.CONTEXT AS COMMENT_CONTEXT, bc.CREATED_AT AS COMMENT_CREATED_AT, bc.UPDATED_AT AS COMMENT_UPDATED_AT
         FROM
             CONTENT c
                 INNER JOIN BOARD_COMMENT bc
@@ -37,7 +37,7 @@
     <!-- 게시글 대댓글 -->
     <select id="contentSubComment" resultType="Content">
         SELECT
-            sc.COMMENT_ID, sc.CONTENT_ID, sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATED_AT AS SUB_COMMENT_CREATEDAT , sc.UPDATED_AT  AS SUB_COMMENT_UPDATED_AT
+            sc.COMMENT_ID, sc.CONTENT_ID, sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATED_AT AS SUB_COMMENT_CREATED_AT , sc.UPDATED_AT  AS SUB_COMMENT_UPDATED_AT
         FROM
             CONTENT c
                 INNER JOIN BOARD_COMMENT bc
@@ -46,6 +46,7 @@
                 INNER JOIN SUB_COMMENT sc
                            ON bc.COMMENT_ID = sc.COMMENT_ID
                                AND  sc.CONTENT_ID = #{contentId}
+        ORDER BY SUB_COMMENT_CREATED_AT
     </select>
 
     <!--     게시글 작성     -->

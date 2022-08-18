@@ -88,6 +88,16 @@ export default {
     return{
     }
   },
+  beforeDestroy(){
+    this.duplicateCheck = null;
+    this.user.userEmail = null;
+    this.user.userPassword = null;
+    this.user.userName = null;
+    this.user.selfAuth = null;
+    this.emailCheck = null;
+    this.emailSend = null;
+    this.emailValidate = null;
+  },
 
   methods:{
     ...mapActions(['duplicate', 'join', 'emailCheckActions', 'certificationCheck'])
