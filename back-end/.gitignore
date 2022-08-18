@@ -38,3 +38,4 @@ out/
 
 # 이메일 정보 #
 !**/src/main/**/config/MailConfig.java
+src/main/resources/application.properties
