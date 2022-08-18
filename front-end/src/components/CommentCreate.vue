@@ -97,15 +97,24 @@ export default{
     },
 
     async updateComment(){
-      await this.commentUpdate(this.createCommentInfo);
-      this.createCommentInfo.context = ""
-      this.$router.go();
+      if(this.createCommentInfo.context == ''){
+        alert("수정할 내용을 입력하세요.")
+      }
+      else{
+        await this.commentUpdate(this.createCommentInfo);
+        this.createCommentInfo.context = ""
+        this.$router.go();
+      }
     },
     async updateSubComment(){
-      console.log("대댓글 수정입니다.")
-      await this.subCommentUpdate(this.createCommentInfo);
-      this.createCommentInfo.context = ""
-      this.$router.go();
+      if(this.createCommentInfo.context == ''){
+        alert("수정할 내용을 입력하세요.")
+      }
+      else {
+        await this.subCommentUpdate(this.createCommentInfo);
+        this.createCommentInfo.context = ""
+        this.$router.go();
+      }
     },
 
   }

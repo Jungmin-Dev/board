@@ -34,7 +34,7 @@
             <div class="comment-list-item-context">
               {{item2?.subCommentContext}}
             </div>
-            <div class="comment-list-item-button" v-if="userInfo.userEmail == item2.subCommentEmail">
+            <div class="comment-list-item-button" v-if="userInfo.userEmail == item2.subCommentEmail || userInfo.userEmail == 1">
               <b-button variant="info" v-if="userInfo.userEmail == item2.subCommentEmail" @click="updateSubComment(item2.subCommentId)">수정</b-button>
               <b-button variant="info" v-if="userInfo.userEmail == item2.subCommentEmail || userInfo.userEmail == 1" @click="subDeleteComment(item2?.subCommentId)">삭제</b-button>
             </div>

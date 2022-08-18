@@ -47,17 +47,27 @@ export default{
       })
     },
     async upload(){
-      await this.contentInsert(this.createInfo);
-      await this.$router.push({
-        path: '/board-page'
-      })
+      if(this.createInfo.title=='' || this.createInfo.title==''){
+        alert("제목과 내용을 입력해주세요.");
+      }
+      else{
+        await this.contentInsert(this.createInfo);
+        await this.$router.push({
+          path: '/board-page'
+        })
+      }
     },
     async update(){
-      this.createInfo.contentId = this.$route.params.contentId;
-      await this.contentUpdate(this.createInfo);
-      await this.$router.push({
-        path: '/board-page'
-      })
+      if(this.createInfo.title=='' || this.createInfo.title==''){
+        alert("제목과 내용을 입력해주세요.");
+      }
+      else{
+        this.createInfo.contentId = this.$route.params.contentId;
+        await this.contentUpdate(this.createInfo);
+        await this.$router.push({
+          path: `/board-page/detail/${this.createInfo.contentId}`
+        })
+      }
     }
   }
 }
