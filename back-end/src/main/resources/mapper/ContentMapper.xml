@@ -25,7 +25,7 @@
     <!-- 게시글 댓글 -->
     <select id="contentComment" resultType="Content">
         SELECT
-            bc.COMMENT_ID ,bc.USER_EMAIL AS COMMENT_EMAIL, bc.CONTEXT AS COMMENT_CONTEXT, bc.CREATED_AT AS COMMENT_CREATEDAT, bc.UPDATE_AT AS COMMENT_UPDATED_AT
+            bc.COMMENT_ID ,bc.USER_EMAIL AS COMMENT_EMAIL, bc.CONTEXT AS COMMENT_CONTEXT, bc.CREATED_AT AS COMMENT_CREATEDAT, bc.UPDATED_AT AS COMMENT_UPDATED_AT
         FROM
             CONTENT c
                 INNER JOIN BOARD_COMMENT bc
@@ -37,7 +37,7 @@
     <!-- 게시글 대댓글 -->
     <select id="contentSubComment" resultType="Content">
         SELECT
-            sc.COMMENT_ID, sc.CONTENT_ID, sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATE_AT AS SUB_COMMENT_CREATEDAT , sc.UPDATE_AT  AS SUB_COMMENT_UPDATED_AT
+            sc.COMMENT_ID, sc.CONTENT_ID, sc.SUBCOMMENT_ID , sc.USER_EMAIL AS SUB_COMMENT_EMAIL, sc.CONTEXT AS SUB_COMMENT_CONTEXT, sc.CREATED_AT AS SUB_COMMENT_CREATEDAT , sc.UPDATED_AT  AS SUB_COMMENT_UPDATED_AT
         FROM
             CONTENT c
                 INNER JOIN BOARD_COMMENT bc
@@ -86,7 +86,7 @@
     <!-- 댓글 작성 -->
     <insert id="commentCreate">
         INSERT INTO
-            BOARD_COMMENT(COMMENT_ID, USER_EMAIL, CONTENT_ID, CONTEXT, CREATED_AT, UPDATE_AT)
+            BOARD_COMMENT(COMMENT_ID, USER_EMAIL, CONTENT_ID, CONTEXT, CREATED_AT, UPDATED_AT)
         VALUES
             (
                 comment_seq.NEXTVAL,
@@ -101,7 +101,7 @@
     <!-- 대 댓글 작성 -->
     <insert id="commentSubCreate">
         INSERT INTO SUB_COMMENT
-        (SUBCOMMENT_ID, COMMENT_ID, USER_EMAIL, CONTEXT, CREATE_AT, UPDATE_AT, CONTENT_ID)
+        (SUBCOMMENT_ID, COMMENT_ID, USER_EMAIL, CONTEXT, CREATED_AT, UPDATED_AT, CONTENT_ID)
         VALUES(
                   subcomment_seq.NEXTVAL,
                   #{commentId},
@@ -142,7 +142,7 @@
     <!--     대댓글 수정     -->
     <update id="subCommentUpdate">
         UPDATE
-            CONTENT
+            SUB_COMMENT
         SET
             context = #{context},
             UPDATED_AT = TO_CHAR(sysdate,'yyyy/mm/DD hh24:mi:ss')

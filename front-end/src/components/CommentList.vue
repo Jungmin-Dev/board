@@ -3,7 +3,7 @@
     <div>
       <CommentListItem></CommentListItem>
     </div>
-    <CommentCreate :contentId="contentId"></CommentCreate>
+    <CommentCreate :toggle=true :contentId="contentId"></CommentCreate>
   </div>
 </template>
 
