@@ -17,7 +17,7 @@
   <div v-else-if=updateToggle>
     <b-input-group :prepend="createCommentInfo.userEmail" class="mt-3">
       <b-form-textarea
-          id="textarea2"
+          id="textarea"
           v-model="createCommentInfo.context"
           :placeholder="contentComment[index].commentContext"
           rows="3"
@@ -32,7 +32,7 @@
   <div v-else-if="subUpdateToggle">
     <b-input-group :prepend="createCommentInfo.userEmail" class="mt-3">
       <b-form-textarea
-          id="textarea3"
+          id="textarea"
           v-model="createCommentInfo.context"
           :placeholder="contentCommentSub[index].subCommentContext"
           rows="3"
