@@ -50,6 +50,7 @@ export default {
           })
         }
         ,
+
         writeContent()
         {
           this.$router.push({
