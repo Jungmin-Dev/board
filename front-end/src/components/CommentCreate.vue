@@ -13,7 +13,6 @@
       </b-input-group-append>
     </b-input-group>
   </div>
-
   <div v-else-if=updateToggle>
     <b-input-group :prepend="createCommentInfo.userEmail" class="mt-3">
       <b-form-textarea
@@ -28,7 +27,6 @@
       </b-input-group-append>
     </b-input-group>
   </div>
-
   <div v-else-if="subUpdateToggle">
     <b-input-group :prepend="createCommentInfo.userEmail" class="mt-3">
       <b-form-textarea
