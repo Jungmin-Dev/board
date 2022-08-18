@@ -27,7 +27,7 @@
 
       <v-app-bar color="indigo" app fixed dark>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>Application</v-toolbar-title>
+        <v-toolbar-title @click="home" >자유 게시판</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-row
@@ -86,7 +86,18 @@ export default {
     }
   },
   methods:{
-    ...mapActions(['logout'])
+    ...mapActions(['logout']),
+    home(){
+      if(this.isLogin){
+        this.$router.push({
+          path: '/board-page'
+        })
+      }else if (!this.isLogin){
+        this.$router.push({
+          path: '/'
+        })
+      }
+    }
   }
 }
 </script>

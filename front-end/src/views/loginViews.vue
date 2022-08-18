@@ -27,9 +27,9 @@
               type="password"
               @keydown.enter="login(user)">
           </v-text-field>
+            <b-button block variant="info" @click="login(user)">로그인</b-button>
             <b-button block variant="info" @click="join">회원가입</b-button>
             <b-button block variant="info" @click="findPw">비밀번호 찾기</b-button>
-            <b-button block variant="info" @click="login(user)">로그인</b-button>
           </div>
         </v-card>
       </v-flex>
