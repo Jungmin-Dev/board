@@ -22,4 +22,4 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-/src/store/Content.js
+front-end/src/store/Content.js
