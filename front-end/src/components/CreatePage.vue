@@ -7,8 +7,10 @@
         rows="3"
         max-rows="6"
     >{{createInfo.context}}</b-form-textarea>
-    <b-button @click="updateMode ? update() : upload()">저장</b-button>
-    <b-button @click="cancle">취소</b-button>
+    <input multiple name="uploadFile" ref="fileInfo" @change="fileUpload" class="form-control" type="file">
+    <br>
+  <b-button @click="updateMode ? update() : upload()">저장</b-button>
+  <b-button @click="cancle">취소</b-button>
   </div>
 </template>
 
@@ -35,6 +37,7 @@ export default{
         context: this.updateMode ? this.contentDetail.context : '',
         userEmail: this.updateMode ? this.contentDetail.userEmail : '',
         contentId: '',
+        image: null,
       },
     }
   },
@@ -51,7 +54,18 @@ export default{
         alert("제목과 내용을 입력해주세요.");
       }
       else{
-        await this.contentInsert(this.createInfo);
+        let formData = new FormData();
+        formData.append('title', this.createInfo.title);
+        formData.append('context', this.createInfo.context);
+        formData.append('userEmail', this.createInfo.userEmail);
+        formData.append('contentId', this.createInfo.contentId);
+
+        if(this.$refs.fileInfo.files.length > -1){
+          for ( let i = 0; i < this.$refs.fileInfo.files.length; i++){
+            formData.append('image', this.$refs.fileInfo.files[i]);
+          }
+        }
+        await this.contentInsert(formData);
         await this.$router.push({
           path: '/board-page'
         })
@@ -68,7 +82,10 @@ export default{
           path: `/board-page/detail/${this.createInfo.contentId}`
         })
       }
-    }
+    },
+    fileUpload(){
+      this.createInfo.image = this.$refs.fileInfo.files;
+    },
   }
 }
 </script>

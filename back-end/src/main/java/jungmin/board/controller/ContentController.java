@@ -7,10 +7,14 @@ import jungmin.board.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -60,8 +64,9 @@ public class ContentController {
     // 게시글 작성
     @RequestMapping(value="/insert", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> insert(@RequestBody Content param) throws Exception{
-        contentService.contentInsert(param);
+    public ResponseEntity<Map<String, Object>> insert(@Nullable MultipartHttpServletRequest request, @RequestParam Map<String, Object> param) throws Exception{
+//        contentService.contentInsert(param);
+        System.out.println(param);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

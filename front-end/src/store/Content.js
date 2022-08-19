@@ -1,4 +1,4 @@
-import {request} from "@/api";
+import {request, requestImage} from "@/api";
 
 const Content ={
   namespaced: true,
@@ -67,7 +67,7 @@ const Content ={
     },
     // 게시글 작성
     async contentInsert({commit}, payload){
-      await request('post', '/content/insert', payload)
+      await requestImage('post', '/content/insert', payload)
     },
     // 게시글 삭제
     async contentDelete({commit}, payload){

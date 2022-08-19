@@ -3,6 +3,7 @@ package jungmin.board.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
@@ -26,8 +27,4 @@ public class Content {
     private String subCommentContext; // 대댓글 내용
     private String subCommentCreatedAt; // 대댓글 작성일
     private String subCommentUpdatedAt; // 대댓글 수정일
-
-
-
-
 }
