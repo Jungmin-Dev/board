@@ -62,7 +62,7 @@ export default{
 
         if(this.$refs.fileInfo.files.length > -1){
           for ( let i = 0; i < this.$refs.fileInfo.files.length; i++){
-            formData.append('image', this.$refs.fileInfo.files[i]);
+            formData.append('file', this.$refs.fileInfo.files[i]);
           }
         }
         await this.contentInsert(formData);

@@ -1,4 +1,4 @@
-import {request, requestImage} from "@/api";
+import {request} from "@/api";
 
 const Content ={
   namespaced: true,
@@ -8,6 +8,7 @@ const Content ={
     contentDetail: null,
     contentComment: null,
     contentCommentSub: null,
+    upLoadFile: null,
   },
   getters : {
 
@@ -34,6 +35,12 @@ const Content ={
     },
     contentCommentSubList(state, payload){
       state.contentCommentSub = payload;
+      if(!payload){
+        state.contentCommentSub = null;
+      }
+    },
+    upLoadFileList(state, payload){
+      state.upLoadFile = payload
       if(!payload){
         state.contentCommentSub = null;
       }
@@ -67,7 +74,8 @@ const Content ={
     },
     // 게시글 작성
     async contentInsert({commit}, payload){
-      await requestImage('post', '/content/insert', payload)
+      let upLoadFile = await request('post', '/content/insert', payload)
+      await commit("upLoadFileList", upLoadFile)
     },
     // 게시글 삭제
     async contentDelete({commit}, payload){

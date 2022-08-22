@@ -51,7 +51,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("Content", ['contents', "contentDetail", "contentComment"]),
+    ...mapState("Content", ['contents', "contentDetail", "contentComment", "upLoadFile"]),
     ...mapState(['userInfo'])
 
   },

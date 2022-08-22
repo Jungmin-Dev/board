@@ -1,9 +1,12 @@
 package jungmin.board.service;
 
 import jungmin.board.domain.Content;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ContentService {
@@ -11,7 +14,7 @@ public interface ContentService {
     public Content contentDetail(String param) throws Exception;
     public List<Content> contentComment(String param) throws Exception;
     public List<Content> contentCommentSub(String param) throws Exception;
-    public int contentInsert(Content param) throws Exception;
+    public int contentInsert(MultipartHttpServletRequest request, Map<String, Object> param) throws Exception;
     public int contentDelete(String param) throws Exception;
     public int contentUpdate(Content param) throws Exception;
     public int commentCreate(Content param) throws Exception;

@@ -6,15 +6,20 @@ import jungmin.board.mapper.ContentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
 @RequiredArgsConstructor
 @Log
 @Service
 public class ContentServiceImpl implements ContentService{
+
+    private final ContentMapper contentMapper;
     @Override
     public int commentDelete(String param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
@@ -79,15 +84,40 @@ public class ContentServiceImpl implements ContentService{
         return contentMapper.contentUpdate(map);
     }
 
-    private final ContentMapper contentMapper;
+
 
     @Override
-    public int contentInsert(Content param) throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("userEmail", param.getUserEmail());
-        map.put("title", param.getTitle());
-        map.put("context", param.getContext());
-        return contentMapper.contentInsert(map);
+    public int contentInsert(MultipartHttpServletRequest request, Map<String, Object> param) throws Exception {
+        Iterator<String> fileNames = request.getFileNames();
+        String path = "C://Users//kjm//Desktop//test//";
+        int contentId = contentMapper.fileInfoContentId();
+
+        while(fileNames.hasNext()){
+            String fileName = fileNames.next();
+            List<MultipartFile> mFile = request.getFiles(fileName);
+            for (MultipartFile mf : mFile){
+                Map<String ,Object> fileUpLoad = new HashMap<>();
+                UUID uuid = UUID.randomUUID();
+                String originalFilename = mf.getOriginalFilename();
+                fileUpLoad.put("contentId", contentId);
+                fileUpLoad.put("uuid", uuid.toString());
+                fileUpLoad.put("fileName", originalFilename);
+                fileUpLoad.put("fileSize", mf.getSize());
+                contentMapper.fileInfo(fileUpLoad);
+                String safeFile = path + uuid;
+                try {
+                    mf.transferTo(new File(safeFile));
+                } catch (IllegalStateException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        contentMapper.contentInsert(param);
+        return 1;
     }
 
     @Override

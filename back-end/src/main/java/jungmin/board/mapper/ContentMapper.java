@@ -5,6 +5,7 @@ import jungmin.board.domain.Info;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ContentMapper {
@@ -14,7 +15,7 @@ public interface ContentMapper {
     public Content contentDetail(HashMap<String, Object> param) throws Exception;
     public List<Content> contentComment(HashMap<String, Object> param) throws Exception;
     public List<Content> contentSubComment(HashMap<String, Object> param) throws Exception;
-    public int contentInsert(HashMap<String, Object> param) throws Exception;
+    public int contentInsert(Map<String, Object> param) throws Exception;
     public int contentDelete(HashMap<String, Object> param) throws Exception;
     public int contentUpdate(HashMap<String, Object> param) throws Exception;
     public int commentSubCreate(HashMap<String, Object> param) throws Exception;
@@ -24,6 +25,11 @@ public interface ContentMapper {
     public int subCommentDelete(HashMap<String, Object> param) throws Exception;
     public int commentUpdate(HashMap<String, Object> param) throws Exception;
     public int subCommentUpdate(HashMap<String, Object> param) throws Exception;
+
+    public int fileInfo(Map<String, Object> param) throws Exception;
+
+    public int fileInfoContentId() throws Exception;
+
 
 
 }
