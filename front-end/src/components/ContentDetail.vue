@@ -8,27 +8,38 @@
             {{contentId}}
           </div>
           <div class="content-detail-content-info-left-subject">
-            {{contentDetail.title}}
+            {{contentDetail[0].title}}
           </div>
         </div>
         <div class="content-detail-content-info-right">
           <div class="content-detail-content-info-right-user">
-            글쓴이: {{contentDetail.userEmail}}
+            글쓴이: {{contentDetail[0].userEmail}}
           </div>
           <div class="content-detail-content-info-right-created">
-            등록일: {{contentDetail.createdAt}}
+            등록일: {{contentDetail[0].createdAt}}
           </div>
-          <div class="content-detail-content-info-right-created" v-if="contentDetail.updatedAt">
-            수정됨: {{contentDetail.updatedAt}}
+          <div class="content-detail-content-info-right-created" v-if="contentDetail[0].updatedAt">
+            수정됨: {{contentDetail[0].updatedAt}}
           </div>
         </div>
       </div>
       <div class="content-detail-content">
-        {{contentDetail.context}}
+        {{contentDetail[0].context}}
       </div>
-      <div class="content-detail-button" >
-        <b-button v-if="userInfo.userEmail == contentDetail.userEmail" variant="primary" @click="updateData">수정</b-button>
-        <b-button v-if="userInfo.userEmail == contentDetail.userEmail || userInfo.userEmail == 1" variant="success" @click="deleteData">삭제</b-button>
+
+      <template v-if="contentDetail[0].fileName">
+      <div class="content-detail-file"
+      v-for="(item, index) in contentDetail" :key="index">
+        <div @click="downloadFile(item.uuid)">
+          {{item.fileName}} |
+          {{item.fileSize}}byte
+        </div>
+      </div>
+      </template>
+
+      <div class="content-detail-button">
+        <b-button v-if="userInfo.userEmail == contentDetail[0].userEmail" variant="primary" @click="updateData">수정</b-button>
+        <b-button v-if="userInfo.userEmail == contentDetail[0].userEmail || userInfo.userEmail == 1" variant="success" @click="deleteData">삭제</b-button>
       </div>
       <div class="content-detail-comment">
         <CommentList :contentId="contentId"></CommentList>
@@ -51,7 +62,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("Content", ['contents', "contentDetail", "contentComment", "upLoadFile"]),
+    ...mapState("Content", ['contents', "contentDetail", "contentComment"]),
     ...mapState(['userInfo'])
 
   },
@@ -59,7 +70,8 @@ export default {
     this.contentDetailLoad(Number(this.$route.params.contentId));
   },
   methods: {
-    ...mapActions("Content",['contentDetailLoad', "contentList", "contentDelete"]),
+    ...mapActions("Content",['contentDetailLoad', "contentList", "contentDelete", "fileDownLoad"]),
+
     async deleteData() {
       await this.contentDelete(Number(this.$route.params.contentId));
 
@@ -76,6 +88,9 @@ export default {
       this.$router.push({
         path: `/board-page/`,
       })
+    },
+    downloadFile(uuid){
+      this.fileDownLoad(uuid);
     }
   }
 };
@@ -117,5 +132,11 @@ export default {
   border: 1px solid black;
   margin-top: 1rem;
   padding: 2rem;
+}
+.content-detail-file {
+  border: 1px solid black;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  min-height: auto;
 }
 </style>

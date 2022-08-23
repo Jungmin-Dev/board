@@ -6,6 +6,7 @@ import jungmin.board.service.AuthService;
 import jungmin.board.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -130,6 +131,15 @@ public class ContentController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> subCommentDelete(@PathVariable String subContentId) throws Exception{
         contentService.subCommentDelete(subContentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 파일 다운로드
+    @RequestMapping(value="/download/{uuid}", method = RequestMethod.POST, produces= MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public ResponseEntity<byte[]> fileDownLoad(@PathVariable String uuid) throws Exception{
+//        return contentService.fileDownLoad(uuid);
+        System.out.println("uuid = " + uuid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
