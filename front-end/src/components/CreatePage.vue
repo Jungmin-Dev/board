@@ -8,9 +8,26 @@
         max-rows="6"
     >{{createInfo.context}}</b-form-textarea>
     <input multiple name="uploadFile" ref="fileInfo" @change="fileUpload" class="form-control" type="file">
+
+    <template v-if="updateMode && contentDetail[0].fileName"  >
+      <div class="content-detail-file"
+           v-for="(item, index) in contentDetail" :key="index">
+          {{item.fileName}} |
+          {{item.fileSize}}byte
+        <b-button variant="danger" @click="listDelete(index)">X</b-button>
+      </div>
+    </template>
+      <h2 class="mt-5" v-if="this.createInfo.file"> ↓ 추가 하는 파일 ↓ </h2>
+      <div class="content-detail-file"
+           v-for="(item, index) in this.createInfo.file" :key="index">
+        <div>
+          {{item.name}} |
+          {{item.size}}byte
+        </div>
+      </div>
     <br>
-  <b-button @click="updateMode ? update() : upload()">저장</b-button>
-  <b-button @click="cancle">취소</b-button>
+    <b-button @click="updateMode ? update() : upload()">저장</b-button>
+    <b-button @click="cancle">취소</b-button>
   </div>
 </template>
 
@@ -25,19 +42,19 @@ export default{
   created(){
     this.createInfo.userEmail = this.userInfo.userEmail;
     if(this.$route.params.contentId > 0){
-      this.createInfo.title = this.contentDetail.title;
-      this.createInfo.context = this.contentDetail.context;
+      this.createInfo.title = this.contentDetail[0].title;
+      this.createInfo.context = this.contentDetail[0].context;
     }
   },
   data () {
     return {
       updateMode : this.$route.params.contentId > 0 ? true: false,
       createInfo: {
-        title: this.updateMode ? this.contentDetail.title : '',
-        context: this.updateMode ? this.contentDetail.context : '',
-        userEmail: this.updateMode ? this.contentDetail.userEmail : '',
+        title: this.updateMode ? this.contentDetail[0].title : '',
+        context: this.updateMode ? this.contentDetail[0].context : '',
+        userEmail: this.updateMode ? this.contentDetail[0].userEmail : '',
         contentId: '',
-        image: null,
+        file: null,
       },
     }
   },
@@ -58,7 +75,7 @@ export default{
         formData.append('title', this.createInfo.title);
         formData.append('context', this.createInfo.context);
         formData.append('userEmail', this.createInfo.userEmail);
-        formData.append('contentId', this.createInfo.contentId);
+        formData.append('contentId', '');
 
         if(this.$refs.fileInfo.files.length > -1){
           for ( let i = 0; i < this.$refs.fileInfo.files.length; i++){
@@ -72,24 +89,55 @@ export default{
       }
     },
     async update(){
+
       if(this.createInfo.title=='' || this.createInfo.title==''){
         alert("제목과 내용을 입력해주세요.");
       }
       else{
-        this.createInfo.contentId = this.$route.params.contentId;
-        await this.contentUpdate(this.createInfo);
+        let formData = new FormData();
+        formData.append('title', this.createInfo.title);
+        formData.append('context', this.createInfo.context);
+        formData.append('userEmail', this.createInfo.userEmail);
+        formData.append('contentId', this.$route.params.contentId);
+
+        if(this.$refs.fileInfo.files.length > -1){
+          for ( let i = 0; i < this.$refs.fileInfo.files.length; i++){
+            formData.append('file', this.$refs.fileInfo.files[i]);
+          }
+        }
+        if(this.contentDetail.length > -1){
+          let detailFile = [];
+          for ( let i = 0; i < this.contentDetail.length; i++){
+            detailFile.push(this.contentDetail[i].uuid + '@@');
+          }
+          console.log(detailFile);
+          formData.append('detailFile', detailFile);
+
+        }
+
+        await this.contentUpdate(formData);
         await this.$router.push({
-          path: `/board-page/detail/${this.createInfo.contentId}`
+          path: `/board-page/detail/${this.$route.params.contentId}`
         })
       }
     },
+
     fileUpload(){
-      this.createInfo.image = this.$refs.fileInfo.files;
+      this.createInfo.file = this.$refs.fileInfo.files;
+    },
+
+    listDelete(index){
+      this.contentDetail = this.contentDetail.splice(index, 1);
     },
   }
 }
 </script>
 
 <style scoped>
-
+.content-detail-file {
+  border: 1px solid black;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  min-height: auto;
+}
 </style>

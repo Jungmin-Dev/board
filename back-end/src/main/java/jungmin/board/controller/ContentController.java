@@ -1,11 +1,11 @@
 package jungmin.board.controller;
 
 import jungmin.board.domain.Content;
+import jungmin.board.domain.FileDownLoad;
 import jungmin.board.domain.Info;
 import jungmin.board.service.AuthService;
 import jungmin.board.service.ContentService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -87,8 +83,8 @@ public class ContentController {
     // 게시글 수정
     @RequestMapping(value="/update", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> update(@RequestBody Content param) throws Exception{
-        contentService.contentUpdate(param);
+    public ResponseEntity<Map<String, Object>> update(MultipartHttpServletRequest request, @RequestParam Map<String, Object> param) throws Exception{
+        contentService.contentUpdate(request, param);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -140,30 +136,12 @@ public class ContentController {
     }
 
     // 파일 다운로드
-    @RequestMapping(value="/download/{uuid}", method = RequestMethod.GET, produces= MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @RequestMapping(value="/download", method = RequestMethod.POST)
     @ResponseBody
-    public void fileDownLoad(HttpServletRequest request, HttpServletResponse response, @PathVariable String uuid) throws Exception{
+    public ResponseEntity<byte[]> fileDownLoad(@RequestBody FileDownLoad uuid) throws Exception{
+        return contentService.fileDownLoad(uuid);
 //        System.out.println("uuid = " + uuid);
-//        return contentService.fileDownLoad(uuid);
-
-        System.out.println(response);
-
-        response.setHeader("Content-Disposition", "attachment; fileName=\"" + new String(uuid.getBytes("utf-8"), "iso-8859-1") + "\"");
-        response.setHeader("Content-Transfer-Encoding", "binary");
-
-        String uploadPath = "C:\\test\\"; // 집
-
-        File downloadFile = new File(uploadPath + uuid);
-
-        byte fileByte[] = FileUtils.readFileToByteArray(downloadFile);
-
-        response.setContentType("application/octet-stream; charset=utf-8");
-
-
-        response.getOutputStream().write(fileByte);
-        response.getOutputStream().flush();
-        response.getOutputStream().close();
+//        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 }

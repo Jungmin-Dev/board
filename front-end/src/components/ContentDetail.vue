@@ -30,10 +30,10 @@
       <template v-if="contentDetail[0].fileName">
       <div class="content-detail-file"
       v-for="(item, index) in contentDetail" :key="index">
-        <a @click="downloadFile(item.uuid)">
+        <div @click="downloadFile(item.uuid, item.fileName)">
           {{item.fileName}} |
           {{item.fileSize}}byte
-        </a>
+        </div>
       </div>
       </template>
 
@@ -63,8 +63,7 @@ export default {
   },
   computed: {
     ...mapState("Content", ['contents', "contentDetail", "contentComment"]),
-    ...mapState(['userInfo'])
-
+    ...mapState(['userInfo']),
   },
   created() {
     this.contentDetailLoad(Number(this.$route.params.contentId));
@@ -89,8 +88,8 @@ export default {
         path: `/board-page/`,
       })
     },
-    downloadFile(uuid){
-      this.fileDownLoad(uuid);
+    downloadFile(uuid, fileName){
+      this.fileDownLoad({uuid : uuid, fileName : fileName});
     }
   }
 };

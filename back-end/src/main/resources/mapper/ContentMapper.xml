@@ -181,4 +181,24 @@
             SEQUENCE_NAME='EMP_SEQ'
     </select>
 
+    <!--  파일 삭제를 위한 파일 찾기-->
+    <select id="fileDeleteFind" resultType="java.lang.String">
+        SELECT
+            UUID
+        FROM
+            FILEINFO
+        WHERE
+            CONTENT_ID = #{contentId}
+    </select>
+
+    <delete id="fileDelete">
+        DELETE
+        FROM
+            FILEINFO
+        WHERE
+            CONTENT_ID = #{contentId}
+    </delete>
+
+
+
 </mapper>
