@@ -8,7 +8,7 @@
           :headers="headers"
           :items="contents"
           item-key="contents.contentId"
-          :items-per-page="5"
+          :items-per-page="10"
           class="elevation-1"
           @click:row="rowClick"
       ></v-data-table>
@@ -71,7 +71,7 @@ export default {
   {
     this.contents = await this.contentList();
   }
-
+  ,
 }
 </script>
 <style scoped>

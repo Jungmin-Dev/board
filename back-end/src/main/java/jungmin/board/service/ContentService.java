@@ -4,6 +4,7 @@ import jungmin.board.domain.Content;
 import jungmin.board.domain.FileDownLoad;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public interface ContentService {
     public List<Content> contentCommentSub(String param) throws Exception;
     public int contentInsert(MultipartHttpServletRequest request, Map<String, Object> param) throws Exception;
     public int contentDelete(String param) throws Exception;
-    public int contentUpdate(Content param) throws Exception;
+    public int contentUpdate(MultipartHttpServletRequest request, @RequestParam Map<String, Object> param) throws Exception;
     public int commentCreate(Content param) throws Exception;
     public int commentSubCreate(Content param) throws Exception;
     public int commentDelete(String param) throws Exception;

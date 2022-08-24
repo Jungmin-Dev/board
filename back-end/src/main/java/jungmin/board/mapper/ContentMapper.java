@@ -16,8 +16,8 @@ public interface ContentMapper {
     public List<Content> contentComment(HashMap<String, Object> param) throws Exception;
     public List<Content> contentSubComment(HashMap<String, Object> param) throws Exception;
     public int contentInsert(Map<String, Object> param) throws Exception;
-    public int contentDelete(HashMap<String, Object> param) throws Exception;
-    public int contentUpdate(HashMap<String, Object> param) throws Exception;
+    public int contentDelete(String param) throws Exception;
+    public int contentUpdate(Map<String, Object> param) throws Exception;
     public int commentSubCreate(HashMap<String, Object> param) throws Exception;
     public int commentCreate(HashMap<String, Object> param) throws Exception;
 
@@ -29,6 +29,10 @@ public interface ContentMapper {
     public int fileInfo(Map<String, Object> param) throws Exception;
 
     public int fileInfoContentId() throws Exception;
+
+    public List<String> fileDeleteFind(String param) throws Exception;
+
+    public int fileDelete(String param) throws Exception;
 
 
 

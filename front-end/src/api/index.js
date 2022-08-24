@@ -22,7 +22,18 @@ export const requestFileDownLoad = (method , url , data) =>{
     data,
     responseType: "blob"
   }).then((res)=>{
-    return res.data
+    const url = window.URL.createObjectURL(new Blob([res.data], { type: res.data.type }))
+
+    const link = document.createElement('a')
+
+    link.href = url
+
+    link.setAttribute('download', data.fileName)
+
+    document.body.appendChild(link)
+
+    link.click()
+
   }).catch( res=>{
     throw res.response.data;
   });

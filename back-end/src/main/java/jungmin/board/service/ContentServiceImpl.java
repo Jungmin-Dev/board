@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -87,22 +88,14 @@ public class ContentServiceImpl implements ContentService{
             // InputStream 생성
             in = new FileInputStream(fileRoot + param.getUuid());
 
-            // 다운로드용 컨텐트 타입
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             // 파일 타입
             headers.add(HttpHeaders.CONTENT_TYPE, contentType);
 
-            // 큰 따옴표 내부에 " \"
-            // 바이트배열을 스트링으로
-            // iso-8859-1 서유럽언어
-            // new String(fileName.getBytes("utf-8"), "iso-8859-1")
-            headers.add("Content-Disposition", "attachment; filename=\"" + param.getFileName() + "\"");
-
             // 바이트 배열, 헤더
-            entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
+            entity = new ResponseEntity<>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+            entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } finally {
             if (in != null)
                 in.close(); // 스트림 닫기
@@ -130,23 +123,22 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
-    public int contentUpdate(Content param) throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("userEmail", param.getUserEmail());
-        map.put("title", param.getTitle());
-        map.put("context", param.getContext());
-        map.put("contentId", param.getContentId());
-        return contentMapper.contentUpdate(map);
-    }
+    public int contentUpdate(MultipartHttpServletRequest request, @RequestParam Map<String, Object> param) throws Exception {
 
-
-
-    @Override
-    public int contentInsert(MultipartHttpServletRequest request, Map<String, Object> param) throws Exception {
+        String fileRoot = "C:/Users/kjm/Desktop/test/";
         Iterator<String> fileNames = request.getFileNames();
-        String path = "C://Users//kjm//Desktop//test//";
-        int contentId = contentMapper.fileInfoContentId();
-        contentMapper.contentInsert(param);
+
+        String contentId = param.get("contentId").toString();
+
+        List<String> list = contentMapper.fileDeleteFind(contentId);
+
+        for(String str : list) {
+            File file = new File(fileRoot + str);
+            if (file.exists() == true) {
+                file.delete();
+            }
+        }
+        contentMapper.fileDelete(contentId);
         while(fileNames.hasNext()){
             String fileName = fileNames.next();
             List<MultipartFile> mFile = request.getFiles(fileName);
@@ -156,6 +148,42 @@ public class ContentServiceImpl implements ContentService{
                 UUID uuid = UUID.randomUUID();
                 String originalFilename = mf.getOriginalFilename();
                 fileUpLoad.put("contentId", contentId);
+                fileUpLoad.put("uuid", uuid + "." + prefix);
+                fileUpLoad.put("fileName", originalFilename);
+                fileUpLoad.put("fileSize", mf.getSize());
+                contentMapper.fileInfo(fileUpLoad);
+                String safeFile = fileRoot + uuid + "." + prefix;
+                try {
+                    mf.transferTo(new File(safeFile));
+                } catch (IllegalStateException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        return contentMapper.contentUpdate(param);
+    }
+
+
+
+    @Override
+    public int contentInsert(MultipartHttpServletRequest request, Map<String, Object> param) throws Exception {
+        contentMapper.contentInsert(param);
+        Iterator<String> fileNames = request.getFileNames();
+        String path = "C:/Users/kjm/Desktop/test/";
+        int contentId = contentMapper.fileInfoContentId();
+        while(fileNames.hasNext()){
+            String fileName = fileNames.next();
+            List<MultipartFile> mFile = request.getFiles(fileName);
+            for (MultipartFile mf : mFile){
+                Map<String ,Object> fileUpLoad = new HashMap<>();
+                String prefix = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf(".") +1 , mf.getOriginalFilename().length());
+                UUID uuid = UUID.randomUUID();
+                String originalFilename = mf.getOriginalFilename();
+                fileUpLoad.put("contentId", contentId-1);
                 fileUpLoad.put("uuid", uuid + "." + prefix);
                 fileUpLoad.put("fileName", originalFilename);
                 fileUpLoad.put("fileSize", mf.getSize());
@@ -178,9 +206,17 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     public int contentDelete(String param) throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("contentId", param);
-        return contentMapper.contentDelete(map);
+
+        String fileRoot = "C:/Users/kjm/Desktop/test/";
+        List<String> list = contentMapper.fileDeleteFind(param);
+
+        for(String str : list) {
+            File file = new File(fileRoot + str);
+            if (file.exists() == true) {
+                file.delete();
+            }
+        }
+        return contentMapper.contentDelete(param);
     }
 
     @Override
