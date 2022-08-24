@@ -105,6 +105,15 @@ export default{
             formData.append('file', this.$refs.fileInfo.files[i]);
           }
         }
+        if(this.contentDetail.length > -1){
+          let detailFile = [];
+          for ( let i = 0; i < this.contentDetail.length; i++){
+            detailFile.push(this.contentDetail[i].uuid + '@@');
+          }
+          console.log(detailFile);
+          formData.append('detailFile', detailFile);
+
+        }
 
         await this.contentUpdate(formData);
         await this.$router.push({

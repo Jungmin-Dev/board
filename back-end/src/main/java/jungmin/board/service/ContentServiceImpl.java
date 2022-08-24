@@ -125,6 +125,14 @@ public class ContentServiceImpl implements ContentService{
     @Override
     public int contentUpdate(MultipartHttpServletRequest request, @RequestParam Map<String, Object> param) throws Exception {
 
+        List<String> detailFile = new ArrayList<>();
+        String[] temp = param.get("detailFile").toString().split("@@");
+
+        for(String item : temp){
+        detailFile.add(item);
+        }
+
+
         String fileRoot = "C:/Users/kjm/Desktop/test/";
         Iterator<String> fileNames = request.getFileNames();
 
