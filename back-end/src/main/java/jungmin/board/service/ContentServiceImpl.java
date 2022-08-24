@@ -73,8 +73,8 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     public ResponseEntity<byte[]> fileDownLoad(FileDownLoad param) throws Exception {
-        String fileRoot = "C:/Users/kjm/Desktop/test/";
-
+//        String fileRoot = "C:/Users/kjm/Desktop/test/";
+        String fileRoot = "C:/test/";
         // 확장자 찾기
         Path path = Paths.get(fileRoot + param.getUuid());
         String contentType = Files.probeContentType(path);
@@ -133,7 +133,9 @@ public class ContentServiceImpl implements ContentService{
         }
 
 
-        String fileRoot = "C:/Users/kjm/Desktop/test/";
+//        String fileRoot = "C:/Users/kjm/Desktop/test/";
+        String fileRoot = "C:/test/";
+
         Iterator<String> fileNames = request.getFileNames();
 
         String contentId = param.get("contentId").toString();
@@ -181,7 +183,8 @@ public class ContentServiceImpl implements ContentService{
     public int contentInsert(MultipartHttpServletRequest request, Map<String, Object> param) throws Exception {
         contentMapper.contentInsert(param);
         Iterator<String> fileNames = request.getFileNames();
-        String path = "C:/Users/kjm/Desktop/test/";
+//        String path = "C:/Users/kjm/Desktop/test/";
+        String path = "C:/test/";
         int contentId = contentMapper.fileInfoContentId();
         while(fileNames.hasNext()){
             String fileName = fileNames.next();
@@ -215,7 +218,8 @@ public class ContentServiceImpl implements ContentService{
     @Override
     public int contentDelete(String param) throws Exception {
 
-        String fileRoot = "C:/Users/kjm/Desktop/test/";
+//        String fileRoot = "C:/Users/kjm/Desktop/test/";
+        String fileRoot = "C:/test/";
         List<String> list = contentMapper.fileDeleteFind(param);
 
         for(String str : list) {

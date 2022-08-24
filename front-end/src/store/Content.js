@@ -8,6 +8,7 @@ const Content ={
     contentDetail: null,
     contentComment: null,
     contentCommentSub: null,
+    deleteData : [],
   },
   getters : {
 
@@ -36,6 +37,12 @@ const Content ={
       state.contentCommentSub = payload;
       if(!payload){
         state.contentCommentSub = null;
+      }
+    },
+    deleteDataList(state, payload){
+      state.deleteData = payload;
+      if(!payload){
+        state.deleteData = null;
       }
     }
   },

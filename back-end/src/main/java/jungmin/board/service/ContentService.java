@@ -26,6 +26,6 @@ public interface ContentService {
     public int commentUpdate(Content param) throws Exception;
     public int subCommentDelete(String param) throws Exception;
     public int subCommentUpdate(Content param) throws Exception;
-    public ResponseEntity<byte[]> fileDownLoad(String param) throws Exception;
+    public ResponseEntity<byte[]> fileDownLoad(FileDownLoad param) throws Exception;
 
 }

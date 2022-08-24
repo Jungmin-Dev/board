@@ -9,7 +9,7 @@
     >{{createInfo.context}}</b-form-textarea>
     <input multiple name="uploadFile" ref="fileInfo" @change="fileUpload" class="form-control" type="file">
 
-    <template v-if="updateMode && contentDetail[0].fileName"  >
+    <template v-if="updateMode && contentDetail[0]"  >
       <div class="content-detail-file"
            v-for="(item, index) in contentDetail" :key="index">
           {{item.fileName}} |
@@ -37,7 +37,8 @@ export default{
   name: 'CreatePage',
   computed:{
     ...mapState(['userInfo']),
-    ...mapState("Content", ['contents', 'contentDetail']),
+    ...mapState("Content", ['contents', 'contentDetail', 'deleteData']),
+    ...mapMutations("Content", ['deleteDataList']),
   },
   created(){
     this.createInfo.userEmail = this.userInfo.userEmail;
@@ -105,17 +106,15 @@ export default{
             formData.append('file', this.$refs.fileInfo.files[i]);
           }
         }
-        if(this.contentDetail.length > -1){
+        if(this.deleteData.length > -1){
           let detailFile = [];
-          for ( let i = 0; i < this.contentDetail.length; i++){
-            detailFile.push(this.contentDetail[i].uuid + '@@');
+          for ( let i = 0; i < this.deleteData.length; i++){
+            detailFile.push(this.deleteData[i].uuid + '@@');
           }
-          console.log(detailFile);
           formData.append('detailFile', detailFile);
-
         }
 
-        await this.contentUpdate(formData);
+        // await this.contentUpdate(formData);
         await this.$router.push({
           path: `/board-page/detail/${this.$route.params.contentId}`
         })
@@ -127,7 +126,11 @@ export default{
     },
 
     listDelete(index){
+      console.log(this.contentDetail[index].uuid);
+      this.deleteData.push(this.contentDetail[index].uuid);
+      console.log(this.deleteData);
       this.contentDetail = this.contentDetail.splice(index, 1);
+      console.log(this.contentDetail);
     },
   }
 }
