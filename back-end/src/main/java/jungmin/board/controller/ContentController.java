@@ -5,6 +5,7 @@ import jungmin.board.domain.Info;
 import jungmin.board.service.AuthService;
 import jungmin.board.service.ContentService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -135,12 +140,30 @@ public class ContentController {
     }
 
     // 파일 다운로드
-    @RequestMapping(value="/download/{uuid}", method = RequestMethod.POST, produces= MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @RequestMapping(value="/download/{uuid}", method = RequestMethod.GET, produces= MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public ResponseEntity<byte[]> fileDownLoad(@PathVariable String uuid) throws Exception{
+    public void fileDownLoad(HttpServletRequest request, HttpServletResponse response, @PathVariable String uuid) throws Exception{
+//        System.out.println("uuid = " + uuid);
 //        return contentService.fileDownLoad(uuid);
-        System.out.println("uuid = " + uuid);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        System.out.println(response);
+
+        response.setHeader("Content-Disposition", "attachment; fileName=\"" + new String(uuid.getBytes("utf-8"), "iso-8859-1") + "\"");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+
+        String uploadPath = "C:\\test\\"; // 집
+
+        File downloadFile = new File(uploadPath + uuid);
+
+        byte fileByte[] = FileUtils.readFileToByteArray(downloadFile);
+
+        response.setContentType("application/octet-stream; charset=utf-8");
+
+
+        response.getOutputStream().write(fileByte);
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
     }
+
 
 }

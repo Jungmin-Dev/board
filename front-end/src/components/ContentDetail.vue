@@ -30,10 +30,10 @@
       <template v-if="contentDetail[0].fileName">
       <div class="content-detail-file"
       v-for="(item, index) in contentDetail" :key="index">
-        <div @click="downloadFile(item.uuid)">
+        <a @click="downloadFile(item.uuid)">
           {{item.fileName}} |
           {{item.fileSize}}byte
-        </div>
+        </a>
       </div>
       </template>
 

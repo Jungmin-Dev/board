@@ -71,11 +71,11 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
-    public ResponseEntity<byte[]> fileDownLoad(FileDownLoad param) throws Exception {
-        String fileRoot = "C:/Users/kjm/Desktop/test/";
-
+    public ResponseEntity<byte[]> fileDownLoad(String param) throws Exception {
+//        String fileRoot = "C:/Users/kjm/Desktop/test/"; // 회사
+        String fileRoot = "C:\\test\\"; // 집
         // 확장자 찾기
-        Path path = Paths.get(fileRoot + param.getUuid());
+        Path path = Paths.get(fileRoot + param);
         String contentType = Files.probeContentType(path);
 
         //서버의 파일을 다운로드하기 위한 스트림
@@ -85,7 +85,7 @@ public class ContentServiceImpl implements ContentService{
             // 헤더 구성성 객체
             HttpHeaders headers = new HttpHeaders();
             // InputStream 생성
-            in = new FileInputStream(fileRoot + param.getUuid());
+            in = new FileInputStream(fileRoot + param);
 
             // 다운로드용 컨텐트 타입
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -96,7 +96,7 @@ public class ContentServiceImpl implements ContentService{
             // 바이트배열을 스트링으로
             // iso-8859-1 서유럽언어
             // new String(fileName.getBytes("utf-8"), "iso-8859-1")
-            headers.add("Content-Disposition", "attachment; filename=\"" + param.getFileName() + "\"");
+            headers.add("Content-Disposition", "attachment; filename=\"" + param + "\"");
 
             // 바이트 배열, 헤더
             entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
@@ -144,7 +144,8 @@ public class ContentServiceImpl implements ContentService{
     @Override
     public int contentInsert(MultipartHttpServletRequest request, Map<String, Object> param) throws Exception {
         Iterator<String> fileNames = request.getFileNames();
-        String path = "C://Users//kjm//Desktop//test//";
+//        String path = "C://Users//kjm//Desktop//test//";
+        String path = "C:\\test\\"; // 집
         int contentId = contentMapper.fileInfoContentId();
         contentMapper.contentInsert(param);
         while(fileNames.hasNext()){

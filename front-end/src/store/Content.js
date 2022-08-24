@@ -1,4 +1,4 @@
-import {request} from "@/api";
+import {request, requestDownLoad} from "@/api";
 
 const Content ={
   namespaced: true,
@@ -111,7 +111,7 @@ const Content ={
 
     // 파일 다운로드
     async fileDownLoad({commit}, payload){
-      await request('post', `/content/download/${payload}`)
+      await requestDownLoad('get', `/content/download/${payload}`)
     },
   }
 }
