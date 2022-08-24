@@ -16,12 +16,10 @@
     <!--게시글 내용 자세히 가져오기(게시글 클릭 시)-->
     <select id="contentDetail" resultType="Content">
         SELECT
-            c.CONTENT_ID , c.USER_EMAIL , c.TITLE , c.CREATED_AT , c.UPDATED_AT , c.CONTEXT, f.FILE_NAME, f.FILE_SIZE, f.UUID
+            c.CONTENT_ID , c.USER_EMAIL , c.TITLE , c.CREATED_AT , c.UPDATED_AT , c.CONTEXT
         FROM
             CONTENT c
-        LEFT OUTER JOIN FILEINFO f
-        ON c.CONTENT_ID = f.CONTENT_ID
-        where c.CONTENT_ID = #{contentId}
+        where c.CONTENT_ID  =  #{contentId}
     </select>
 
     <!-- 게시글 댓글 -->
@@ -163,12 +161,11 @@
     <insert id="fileInfo">
         INSERT INTO
             FILEINFO
-            (UUID, FILE_NAME, FILE_SIZE, CONTENT_ID)
+            (UUID, FILE_NAME, FILE_SIZE)
         VALUES(
                   #{uuid},
                   #{fileName},
-                  #{fileSize},
-                  #{contentId}
+                  #{fileSize}
               )
     </insert>
 

@@ -1,4 +1,4 @@
-import {request, requestFileDownLoad} from "@/api";
+import {request} from "@/api";
 
 const Content ={
   namespaced: true,
@@ -8,7 +8,7 @@ const Content ={
     contentDetail: null,
     contentComment: null,
     contentCommentSub: null,
-    fileDownLoadCheck : null,
+    upLoadFile: null,
   },
   getters : {
 
@@ -39,10 +39,10 @@ const Content ={
         state.contentCommentSub = null;
       }
     },
-    fileDownLoadList(state, payload){
-      state.fileDownLoadCheck = payload;
+    upLoadFileList(state, payload){
+      state.upLoadFile = payload
       if(!payload){
-        state.fileDownLoadCheck = null;
+        state.contentCommentSub = null;
       }
     }
   },
@@ -74,7 +74,8 @@ const Content ={
     },
     // 게시글 작성
     async contentInsert({commit}, payload){
-      await request('post', '/content/insert', payload)
+      let upLoadFile = await request('post', '/content/insert', payload)
+      await commit("upLoadFileList", upLoadFile)
     },
     // 게시글 삭제
     async contentDelete({commit}, payload){
@@ -116,13 +117,6 @@ const Content ={
       await request('post', '/content/subcomment/update', payload)
     },
 
-    // 파일 다운로드
-    async fileDownLoad({commit}, payload){
-      const Check = await requestFileDownLoad('post', `/content/download`, payload)
-      // await commit("fileDownLoadList", Check)
-      // console.log(this.fileDownLoadCheck)
-
-    },
   }
 }
 

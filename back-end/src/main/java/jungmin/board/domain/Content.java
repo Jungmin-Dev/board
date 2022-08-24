@@ -28,7 +28,5 @@ public class Content {
     private String subCommentCreatedAt; // 대댓글 작성일
     private String subCommentUpdatedAt; // 대댓글 수정일
 
-    private String fileName; // 파일 이름
-    private String fileSize; // 파일 사이즈
-    private String UUID; // uuid
+    private MultipartFile File; // 업로드 파일
 }
