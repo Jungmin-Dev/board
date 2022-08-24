@@ -1,6 +1,7 @@
 package jungmin.board.controller;
 
 import jungmin.board.domain.Content;
+import jungmin.board.domain.FileDownLoad;
 import jungmin.board.domain.Info;
 import jungmin.board.service.AuthService;
 import jungmin.board.service.ContentService;
@@ -135,12 +136,12 @@ public class ContentController {
     }
 
     // 파일 다운로드
-    @RequestMapping(value="/download/{uuid}", method = RequestMethod.POST, produces= MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @RequestMapping(value="/download", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<byte[]> fileDownLoad(@PathVariable String uuid) throws Exception{
-//        return contentService.fileDownLoad(uuid);
-        System.out.println("uuid = " + uuid);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<byte[]> fileDownLoad(@RequestBody FileDownLoad uuid) throws Exception{
+        return contentService.fileDownLoad(uuid);
+//        System.out.println("uuid = " + uuid);
+
     }
 
 }

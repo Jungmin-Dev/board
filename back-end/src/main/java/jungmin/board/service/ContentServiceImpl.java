@@ -84,6 +84,7 @@ public class ContentServiceImpl implements ContentService{
         try {
             // 헤더 구성성 객체
             HttpHeaders headers = new HttpHeaders();
+
             // InputStream 생성
             in = new FileInputStream(fileRoot + param.getUuid());
 
@@ -96,7 +97,7 @@ public class ContentServiceImpl implements ContentService{
             // 바이트배열을 스트링으로
             // iso-8859-1 서유럽언어
             // new String(fileName.getBytes("utf-8"), "iso-8859-1")
-            headers.add("Content-Disposition", "attachment; filename=\"" + param.getFileName() + "\"");
+            headers.add("Content-Disposition", "attachment;filename=\"" + param.getFileName() + "\"");
 
             // 바이트 배열, 헤더
             entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
