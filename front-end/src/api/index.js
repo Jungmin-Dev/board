@@ -5,7 +5,22 @@ export const request = (method , url , data) =>{
   return axios({
     method,
     url : DOMAIN + url,
-    data
+    data,
+
+  }).then((res)=>{
+    return res.data
+  }).catch( res=>{
+    throw res.response.data;
+  });
+}
+
+
+export const requestFileDownLoad = (method , url , data) =>{
+  return axios({
+    method,
+    url : DOMAIN + url,
+    data,
+    responseType: "blob"
   }).then((res)=>{
     return res.data
   }).catch( res=>{

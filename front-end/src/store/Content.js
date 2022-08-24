@@ -1,4 +1,4 @@
-import {request} from "@/api";
+import {request, requestFileDownLoad} from "@/api";
 
 const Content ={
   namespaced: true,
@@ -8,6 +8,7 @@ const Content ={
     contentDetail: null,
     contentComment: null,
     contentCommentSub: null,
+    fileDownLoadCheck : null,
   },
   getters : {
 
@@ -36,6 +37,12 @@ const Content ={
       state.contentCommentSub = payload;
       if(!payload){
         state.contentCommentSub = null;
+      }
+    },
+    fileDownLoadList(state, payload){
+      state.fileDownLoadCheck = payload;
+      if(!payload){
+        state.fileDownLoadCheck = null;
       }
     }
   },
@@ -111,7 +118,10 @@ const Content ={
 
     // 파일 다운로드
     async fileDownLoad({commit}, payload){
-      await request('post', `/content/download/${payload}`)
+      const Check = await requestFileDownLoad('post', `/content/download`, payload)
+      // await commit("fileDownLoadList", Check)
+      // console.log(this.fileDownLoadCheck)
+
     },
   }
 }

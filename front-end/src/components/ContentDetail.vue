@@ -30,7 +30,7 @@
       <template v-if="contentDetail[0].fileName">
       <div class="content-detail-file"
       v-for="(item, index) in contentDetail" :key="index">
-        <div @click="downloadFile(item.uuid)">
+        <div @click="downloadFile(item.uuid, item.fileName)">
           {{item.fileName}} |
           {{item.fileSize}}byte
         </div>
@@ -89,8 +89,8 @@ export default {
         path: `/board-page/`,
       })
     },
-    downloadFile(uuid){
-      this.fileDownLoad(uuid);
+    downloadFile(uuid, fileName){
+      this.fileDownLoad({uuid: uuid, fileName: fileName});
     }
   }
 };
