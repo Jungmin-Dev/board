@@ -5,8 +5,7 @@
         <v-alert
             class = "mb-3"
             type="error"
-            :value="isLoginError"
-        >
+            :value="isLoginError">
           아이디와 비밀번호를 확인해주세요.
         </v-alert>
         <v-card>
@@ -16,17 +15,16 @@
             </v-toolbar-title>
           </v-toolbar>
           <div class="pa-3">
-          <v-text-field
-              v-model="user.userEmail"
-              label="아이디(이메일)를 입력하세요">
-          </v-text-field>
-
-          <v-text-field
-              v-model="user.userPassword"
-              label="비밀번호를 입력하세요"
-              type="password"
-              @keydown.enter="login(user)">
-          </v-text-field>
+            <v-text-field
+                v-model="user.userEmail"
+                label="아이디(이메일)를 입력하세요">
+            </v-text-field>
+            <v-text-field
+                v-model="user.userPassword"
+                label="비밀번호를 입력하세요"
+                type="password"
+                @keydown.enter="login(user)">
+            </v-text-field>
             <b-button block variant="info" @click="login(user)">로그인</b-button>
             <b-button block variant="info" @click="join">회원가입</b-button>
             <b-button block variant="info" @click="findPw">비밀번호 찾기</b-button>
@@ -41,19 +39,17 @@
 import {mapActions, mapState} from 'vuex'
 export default{
   name: 'loginViews',
-  data(){
-    return{
-    }
-  },
   beforeDestroy(){
     this.user.userEmail = null;
     this.user.userPassword = null;
     this.user.userName = null;
     this.user.selfAuth = null;
   },
+
   computed:{
     ...mapState(['isLogin', 'isLoginError', 'user'])
   },
+
   methods:{
     ...mapActions(['login']),
     join(){

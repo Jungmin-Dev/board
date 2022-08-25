@@ -1,9 +1,7 @@
 package jungmin.board.service;
 
-import io.swagger.annotations.Api;
 import jungmin.board.domain.Content;
 import jungmin.board.domain.FileDownLoad;
-import jungmin.board.mapper.AuthMapper;
 import jungmin.board.mapper.ContentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -31,11 +29,11 @@ public class ContentServiceImpl implements ContentService{
     private final ContentMapper contentMapper;
 
     // 파일 서버 경로
-    String fileRoot = "C:/Users/kjm/Desktop/test/"; // 회사 로컬
-//  String fileRoot = "C:/test/"; // 집 로컬
-//  String fileRoot = "/home/oracle/FILE_SERVER/"; // 테스트서버
+    String fileRoot = "C:/Users/kjm/Desktop/test/"; // 로컬
+    //  String fileRoot = "/home/oracle/FILE_SERVER/"; // 테스트 서버
 
     @Override
+    // 댓글 삭제
     public int commentDelete(String param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("commentId", param);
@@ -43,12 +41,14 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    // 댓글 수정
     public int commentUpdate(Content param) throws Exception {
         HashMap<String, Object> map = DataMapping(param);
         return contentMapper.commentUpdate(map);
     }
 
     @Override
+    // 대댓글 삭제
     public int subCommentDelete(String param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("subCommentId", param);
@@ -56,30 +56,29 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    // 대댓글 수정
     public int subCommentUpdate(Content param) throws Exception {
         HashMap<String, Object> map = DataMapping(param);
         return contentMapper.subCommentUpdate(map);
     }
 
     @Override
-
+    // 파일 다운로드
     public ResponseEntity<byte[]> fileDownLoad(FileDownLoad param) throws Exception {
         // 확장자 찾기
         Path path = Paths.get(fileRoot + param.getUuid());
         String contentType = Files.probeContentType(path);
 
         //서버의 파일을 다운로드하기 위한 스트림
-        InputStream in = null; // java.io
+        InputStream in = null;
         ResponseEntity<byte[]> entity = null;
         try {
             // 헤더 구성성 객체
             HttpHeaders headers = new HttpHeaders();
             // InputStream 생성
             in = new FileInputStream(fileRoot + param.getUuid());
-
             // 파일 타입
             headers.add(HttpHeaders.CONTENT_TYPE, contentType);
-
             // 바이트 배열, 헤더
             entity = new ResponseEntity<>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
         } catch (Exception e) {
@@ -93,35 +92,34 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    // 댓글 작성
     public int commentCreate(Content param) throws Exception {
         HashMap<String, Object> map = DataMapping(param);
         return contentMapper.commentCreate(map);
     }
 
     @Override
+    // 대댓글 작성
     public int commentSubCreate(Content param) throws Exception {
         HashMap<String, Object> map = DataMapping(param);
         return contentMapper.commentSubCreate(map);
     }
 
     @Override
+    // 게시판 수정
     public int contentUpdate(MultipartHttpServletRequest request, @RequestParam Map<String, Object> param) throws Exception {
-
         // 디렉토리 없을 경우 디렉토리 생성
         File Folder = new File(fileRoot);
         fileCreate(Folder);
 
+        // ** start ** 수정 된 파일 중 삭제된 파일 삭제
         List<String> detailFile = new ArrayList<>();
         String[] temp = param.get("detailFile").toString().split(",");
-
         for(String item : temp){
             detailFile.add(item);
         }
-
         Iterator<String> fileNames = request.getFileNames();
-
         int contentId = Integer.parseInt(param.get("contentId").toString());
-
         for(String str : detailFile) {
             File file = new File(fileRoot + str);
             if (file.exists() == true && str.length() > 0) {
@@ -129,32 +127,33 @@ public class ContentServiceImpl implements ContentService{
             }
         }
         contentMapper.fileDelete(temp);
+        // ** end ** 수정 된 파일 중 삭제된 파일 삭제
 
+        // 파일 업로드
         fileServerInsert(fileNames, contentId, request);
+
         return contentMapper.contentUpdate(param);
     }
 
     @Override
+    // 게시글 작성
     public int contentInsert(MultipartHttpServletRequest request, Map<String, Object> param) throws Exception {
         // 디렉토리 없을 경우 디렉토리 생성
         File Folder = new File(fileRoot);
         fileCreate(Folder);
-
         contentMapper.contentInsert(param);
         Iterator<String> fileNames = request.getFileNames();
-
+        // DB 시퀀스 번호 가져오기
         int contentId = contentMapper.fileInfoContentId();
-
         // DB 시퀀스 번호 맞추기 위해 -1
         fileServerInsert(fileNames, contentId-1, request);
-
         return 1;
     }
 
     @Override
+    // 게시글 삭제
     public int contentDelete(String param) throws Exception {
         List<String> list = contentMapper.fileDeleteFind(param);
-
         for(String str : list) {
             File file = new File(fileRoot + str);
             if (file.exists() == true) {
@@ -165,11 +164,13 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    // 게시글 목록 가져오기
     public List<Content> contentList() throws Exception {
         return contentMapper.contentList();
     }
 
     @Override
+    // 게시글 내용 자세히 보기(게시글 클릭 시)
     public List<Content> contentDetail(String param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("contentId", param);
@@ -177,6 +178,7 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    // 게시글 댓글 가져오기
     public List<Content> contentComment(String param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("contentId", param);
@@ -184,6 +186,7 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    // 게시글 대댓글 가져오기
     public List<Content> contentCommentSub(String param) throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("contentId", param);
@@ -202,7 +205,6 @@ public class ContentServiceImpl implements ContentService{
             }
         }
     }
-
     // 파일 서버에 파일 업로드
     public void fileServerInsert(Iterator<String> fileNames, int contentId, MultipartHttpServletRequest request){
         while(fileNames.hasNext()){
@@ -233,7 +235,6 @@ public class ContentServiceImpl implements ContentService{
             }
         }
     }
-
     // DB에 사용될 데이터 맵핑
     public HashMap<String, Object> DataMapping(Content param){
         HashMap<String, Object> map = new HashMap<>();

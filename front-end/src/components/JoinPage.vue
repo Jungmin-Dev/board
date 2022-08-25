@@ -49,10 +49,9 @@
               label="인증번호"
               hide-details="auto"
               :disabled="emailSend === null || emailSend === false || emailCheck===true"
-              v-model="user.selfAuth"
-          >
+              v-model="user.selfAuth">
           </v-text-field>
-<!--요기 아래 이벤트에는 인증번호 일치하는지 확인하는 걸루 짜서 다시 연결-->
+          <!--요기 아래 이벤트에는 인증번호 일치하는지 확인하는 걸루 짜서 다시 연결-->
           <b-button v-if="emailSend===true" @click="certificationCheck(user)" variant="info" class="mt-3" block> 인증하기 </b-button>
 
           <v-alert v-if="emailCheck===true" type="info" class="pa-3 mt-3"> 이메일 인증 성공. </v-alert>
@@ -84,10 +83,7 @@ export default {
   computed:{
     ...mapState(['duplicateCheck', "user", 'emailCheck', 'emailSend', 'emailValidate']),
   },
-  data() {
-    return{
-    }
-  },
+
   beforeDestroy(){
     this.duplicateCheck = null;
     this.user.userEmail = null;
@@ -104,7 +100,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 

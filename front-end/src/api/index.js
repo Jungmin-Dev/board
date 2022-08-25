@@ -14,7 +14,7 @@ export const request = (method , url , data) =>{
   });
 }
 
-
+// 파일 다운로드 요청
 export const requestFileDownLoad = (method , url , data) =>{
   return axios({
     method,

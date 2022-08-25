@@ -41,11 +41,10 @@
       </b-input-group-append>
     </b-input-group>
   </div>
-
 </template>
 
 <script>
-import {mapActions, mapState, mapMutations} from "vuex";
+import {mapActions, mapState} from "vuex";
 export default{
   name: 'CommentCreate',
   props:{
@@ -57,10 +56,12 @@ export default{
     index : Number,
     subCommentId : String,
   },
+
   computed:{
     ...mapState(['userInfo']),
     ...mapState('Content',['contentComment', 'contentCommentSub'])
   },
+
   created() {
     this.createCommentInfo.userEmail = this.userInfo.userEmail;
     this.createCommentInfo.contentId = this.$route.params.contentId;
@@ -68,6 +69,7 @@ export default{
     this.createCommentInfo.context = '';
     this.createCommentInfo.subCommentId = this.subCommentId;
   },
+
   data(){
     return{
       createCommentInfo: {
@@ -86,14 +88,12 @@ export default{
       await this.contentCommentCreate(this.createCommentInfo);
       this.createCommentInfo.context = "";
       this.$router.go();
-
     },
     async createSubComment(){
       await this.contentSubCommentCreate(this.createCommentInfo);
       this.createCommentInfo.context = ""
       this.$router.go();
     },
-
     async updateComment(){
       if(this.createCommentInfo.context == ''){
         alert("수정할 내용을 입력하세요.")
@@ -114,7 +114,6 @@ export default{
         this.$router.go();
       }
     },
-
   }
 }
 </script>

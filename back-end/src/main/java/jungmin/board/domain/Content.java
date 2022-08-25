@@ -3,7 +3,6 @@ package jungmin.board.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter

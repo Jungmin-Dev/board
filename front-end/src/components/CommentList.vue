@@ -17,20 +17,20 @@ export default{
     CommentListItem,
     CommentCreate,
   },
+
   props: {
     contentId : Number,
   },
+
   computed:{
     ...mapState('Content',['contentComment', 'contentCommentSub'])
   },
+
   created() {
     this.contentCommentLoad(this.contentId);
     this.contentCommentSubLoad(this.contentId);
   },
-  data(){
-    return{
-    }
-  },
+
   methods:{
     ...mapActions('Content', ['contentCommentLoad', 'contentCommentSubLoad'])
   }

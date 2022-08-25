@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = {"jungmin.board.config", "jungmin.board.controller" ,"jungmin.board.service" })
 public class BoardApplication {
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(BoardApplication.class, args);
 	}

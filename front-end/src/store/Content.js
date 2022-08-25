@@ -42,8 +42,8 @@ const Content ={
   actions : {
     // 게시글 불러오기
     async contentList({commit}){
-    const Check = await request('post', '/content/list');
-    await commit("contentList", Check.contentList);
+      const Check = await request('post', '/content/list');
+      await commit("contentList", Check.contentList);
     },
 
     // 게시글 자세히 보기(게시글 내용 불러오기)
@@ -99,7 +99,7 @@ const Content ={
       await request('get', `/content/subcomment/delete/${payload}`)
     },
 
-    // 댓글
+    // 댓글 수정
     async commentUpdate({commit}, payload){
       await request('post', '/content/comment/update', payload)
     },
@@ -111,7 +111,7 @@ const Content ={
 
     // 파일 다운로드
     async fileDownLoad({commit}, payload){
-     await requestFileDownLoad('post', `/content/download`, payload)
+      await requestFileDownLoad('post', `/content/download`, payload)
     },
   }
 }

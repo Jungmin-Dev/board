@@ -26,17 +26,15 @@
       <div class="content-detail-content">
         {{contentDetail[0].context}}
       </div>
-
       <template v-if="contentDetail[0].fileName">
-      <div class="content-detail-file"
-      v-for="(item, index) in contentDetail" :key="index">
-        <div @click="downloadFile(item.uuid, item.fileName)">
-          {{item.fileName}} |
-          {{item.fileSize}}byte
+        <div class="content-detail-file"
+             v-for="(item, index) in contentDetail" :key="index">
+          <div @click="downloadFile(item.uuid, item.fileName)">
+            {{item.fileName}} |
+            {{item.fileSize}}byte
+          </div>
         </div>
-      </div>
       </template>
-
       <div class="content-detail-button">
         <b-button v-if="userInfo.userEmail == contentDetail[0].userEmail" variant="primary" @click="updateData">수정</b-button>
         <b-button v-if="userInfo.userEmail == contentDetail[0].userEmail || userInfo.userEmail == 1" variant="success" @click="deleteData">삭제</b-button>
@@ -61,19 +59,21 @@ export default {
       contentId: Number(this.$route.params.contentId),
     };
   },
+
   computed: {
     ...mapState("Content", ['contents', "contentDetail", "contentComment"]),
     ...mapState(['userInfo']),
   },
+
   created() {
     this.contentDetailLoad(Number(this.$route.params.contentId));
   },
+
   methods: {
     ...mapActions("Content",['contentDetailLoad', "contentList", "contentDelete", "fileDownLoad"]),
 
     async deleteData() {
       await this.contentDelete(Number(this.$route.params.contentId));
-
       await this.$router.push({
         path: '/board-page',
       })
@@ -94,6 +94,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .content-detail-content-info {
   border: 1px solid black;

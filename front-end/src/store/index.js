@@ -15,15 +15,16 @@ const store = new Vuex.Store({
     emailCheck: null, // 인증번호 일치 여부
     emailValidate: null, // 이메일 유효성 검사 여부
     emailFind:null, // 비밀번호 찾기 시 존재하는 이메일인지 확인 여부
+    isLogin: false, // 로그인 성공 여부
+    isLoginError: false, // 로그인 성공 여부
     user: { // user 정보
       userEmail: '',
       userName: '',
       userPassword: '',
       selfAuth: '',
     },
-    isLogin: false, // 로그인 성공 여부
-    isLoginError: false, // 로그인 성공 여부
   },
+
   mutations: {
     // 로그인이 성공 했을 때
     loginSuccess(state, payload) {
@@ -84,9 +85,10 @@ const store = new Vuex.Store({
         state.emailFind=false;
     },
   },
-  getters:{
 
+  getters:{
   },
+
   actions: {
     // 회원 가입 시 ID 중복 체크
     async duplicate({commit}, payload){
@@ -102,7 +104,6 @@ const store = new Vuex.Store({
         commit('Validate', 0);
       }
     },
-
     // 회원 가입
     async join({commit}, payload){
       const Check = await request('post', '/auth/join', payload);
@@ -116,7 +117,6 @@ const store = new Vuex.Store({
         console.log("서버에러");
       }
     },
-
     // 로그인
     async login({commit}, payload) {
       const Check = await request('post', '/auth/login', payload);
@@ -137,6 +137,7 @@ const store = new Vuex.Store({
         name : 'Login'
       })
     },
+
     // 인증번호 보내기
     async emailCheckActions({commit}, payload){
       const Check = await request('post', '/auth/emailcheck', payload);
@@ -166,6 +167,7 @@ const store = new Vuex.Store({
         commit('Validate', 0);
       }
     },
+
     // 비밀번호 찾기(비밀번호 재설정)
     async changePw({commit}, payload) {
       const Check = await request('post', '/auth/changepw', payload);
@@ -173,13 +175,12 @@ const store = new Vuex.Store({
         await router.push({
           name: 'Login',
         })
-      commit('joinClear');
+        commit('joinClear');
       }
     }
   },
   modules: {
     Content,
-
   },
   plugins: [
     createPersistedState({

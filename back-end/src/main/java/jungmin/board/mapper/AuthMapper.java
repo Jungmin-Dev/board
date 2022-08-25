@@ -1,7 +1,6 @@
 package jungmin.board.mapper;
 
 import jungmin.board.domain.Info;
-
 import java.util.HashMap;
 import java.util.Optional;
 

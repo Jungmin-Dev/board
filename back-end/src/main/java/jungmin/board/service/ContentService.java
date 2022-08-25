@@ -3,14 +3,11 @@ package jungmin.board.service;
 import jungmin.board.domain.Content;
 import jungmin.board.domain.FileDownLoad;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 
 public interface ContentService {
     public List<Content> contentList() throws Exception;
@@ -27,5 +24,4 @@ public interface ContentService {
     public int subCommentDelete(String param) throws Exception;
     public int subCommentUpdate(Content param) throws Exception;
     public ResponseEntity<byte[]> fileDownLoad(FileDownLoad param) throws Exception;
-
 }

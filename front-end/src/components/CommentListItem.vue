@@ -24,10 +24,9 @@
         <div  v-for="(item2, index2) in contentCommentSub" :key="index2">
           <div
               class="comment-list-item-subcomment-list"
-              v-if="item2.commentId == item.commentId"
-          >
+              v-if="item2.commentId == item.commentId">
             <div class="comment-list-item-name">
-              <div>  {{item2?.subCommentEmail }}</div>
+              <div>{{item2?.subCommentEmail }}</div>
               <div> 작성일 : <br>  {{item2?.subCommentCreatedAt }} </div>
               <div v-if="item2.subCommentUpdatedAt"><br> 수정일: <br> {{item2.subCommentUpdatedAt }} </div>
             </div>
@@ -50,7 +49,7 @@
 </template>
 
 <script>
-import {mapActions, mapState, mapMutations} from "vuex";
+import {mapActions, mapState} from "vuex";
 import CommentCreate from "@/components/CommentCreate";
 export default{
   name: 'CommentListItem',
@@ -81,7 +80,6 @@ export default{
       this.toggle = true;
       this.subCommentCreate = commentId;
     },
-
     updateComment(commentId){
       console.log("commentUpdateNumber : " + commentId);
       this.subCommentCreate = null;
@@ -91,7 +89,6 @@ export default{
       this.updateToggle = true;
       this.commentUpdateNumber = commentId;
     },
-
     updateSubComment(subCommentId){
       console.log("subCommentUpdateNumber : " + subCommentId);
       this.subCommentCreate = null;
@@ -101,7 +98,6 @@ export default{
       this.subUpdateToggle = true;
       this.subCommentUpdateNumber = subCommentId;
     },
-
     deleteComment(commentId){
       this.commentDelete(commentId);
       this.$router.go();
@@ -142,9 +138,6 @@ export default{
   align-items: center;
   border: 0.5px solid black;
   padding: 1em;
-}
-.btn {
-  margin-bottom: 1em;
 }
 .comment-list-item-subcomment-list {
   display: flex;

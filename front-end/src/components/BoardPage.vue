@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <div align="right"> {{ this.userInfo.userName }}님 환영합니다.</div>
     <template>
@@ -19,14 +18,10 @@
 
 <script>
 import {mapState, mapActions} from "vuex";
-
 export default {
   name: "BoardPage",
-
   data() {
-
     return {
-
       headers: [
         {
           text: '글 번호',
@@ -39,41 +34,35 @@ export default {
         { text: '작성일', value: 'createdAt' },
       ],
     }
-  }
-  ,
+  },
+
   methods:
       {
-        rowClick(event, item)
-        {
+        rowClick(event, item) {
           this.$router.push({
             path: `/board-page/detail/${item.item.contentId}`,
           })
-        }
-        ,
-        writeContent()
-        {
+        },
+        writeContent(){
           this.$router.push({
             path: '/board-page/create-page'
           })
-        }
-        ,
-        ...
-            mapActions("Content", ['contentList']),
-      }
-  ,
+        },
+        ...mapActions("Content", ['contentList']),
+      },
+
   computed: {
     ...mapState("Content", ["contents"]),
     ...mapState(["userInfo"]),
+  },
 
-  }
-  ,
-  async created()
-  {
+  async created() {
     this.contents = await this.contentList();
-  }
-  ,
+  },
 }
+
 </script>
+
 <style scoped>
 
 </style>

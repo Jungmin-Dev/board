@@ -5,15 +5,11 @@ import jungmin.board.mapper.AuthMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -21,13 +17,12 @@ import java.util.Random;
 @Log
 @Service
 public class AuthServiceImpl implements AuthService {
-
     private final AuthMapper authMapper;
     private final JavaMailSender javaMailSender;
 
     @Override
+    // 회원가입
     public int join(Info param) throws Exception {
-        // 회원가입
         HashMap<String, Object> map = new HashMap<>();
         map.put("Password", param.getUserPassword());
         map.put("Name", param.getUserName());
@@ -36,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    // 인증번호 일치 확인
     public int Certification(Info param) throws Exception {
         int result = 0;
         Optional<Info> check = authMapper.userEmailCertificationCheck(param.getUserEmail());
@@ -47,8 +43,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    // 인증번호 전송
     public String mailCheck(Info param) throws Exception {
-
         String ePw = createKey();
         String FROM_ADDRESS = "jungminkim96@naver.com";
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -86,6 +82,40 @@ public class AuthServiceImpl implements AuthService {
         return "1";
     }
 
+    @Override
+    // 아이디(이메일) 중복 체크
+    public Optional duplicate(String param) throws Exception {
+        // 중복 체크
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Email", param);
+        return Optional.ofNullable(authMapper.userDuplicate(map));
+    }
+
+    @Override
+    // 로그인
+    public Optional login(Info param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Email", param.getUserEmail());
+        map.put("Password", param.getUserPassword());
+        return Optional.ofNullable(authMapper.userLogin(map));
+    }
+
+    @Override
+    // 비밀번호 찾기(아이디 유효 검사)
+    public Optional findPassword(String param) throws Exception {
+        return Optional.ofNullable(authMapper.userFindEmail(param));
+    }
+
+    @Override
+    // 비밀번호 찾기(비밀번호 변경)
+    public int changePassword(Info param) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Email", param.getUserEmail());
+        map.put("Password", param.getUserPassword());
+        return authMapper.userChangePw(map);
+    }
+
+    // 인증번호 생성
     public static String createKey() {
         StringBuffer key = new StringBuffer();
         Random rnd = new Random();
@@ -109,34 +139,5 @@ public class AuthServiceImpl implements AuthService {
             }
         }
         return key.toString();
-    }
-
-    @Override
-    public Optional duplicate(String param) throws Exception {
-        // 중복 체크
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("Email", param);
-        return Optional.ofNullable(authMapper.userDuplicate(map));
-    }
-
-    @Override
-    public Optional login(Info param) throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("Email", param.getUserEmail());
-        map.put("Password", param.getUserPassword());
-        return Optional.ofNullable(authMapper.userLogin(map));
-    }
-
-    @Override
-    public Optional findPassword(String param) throws Exception {
-        return Optional.ofNullable(authMapper.userFindEmail(param));
-    }
-
-    @Override
-    public int changePassword(Info param) throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("Email", param.getUserEmail());
-        map.put("Password", param.getUserPassword());
-        return authMapper.userChangePw(map);
     }
 }
