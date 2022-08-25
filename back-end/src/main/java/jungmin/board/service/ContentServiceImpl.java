@@ -29,8 +29,7 @@ public class ContentServiceImpl implements ContentService{
     private final ContentMapper contentMapper;
 
     // 파일 서버 경로
-    String fileRoot = "C:/Users/kjm/Desktop/test/"; // 로컬
-    //  String fileRoot = "/home/oracle/FILE_SERVER/"; // 테스트 서버
+    String fileRoot = "/home/oracle/FILE_SERVER/";
 
     @Override
     // 댓글 삭제
