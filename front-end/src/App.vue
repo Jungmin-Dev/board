@@ -7,7 +7,7 @@
         <v-list>
           <v-list-item router :to="{name : 'Login'}" exact>
             <v-list-item-action>
-              <icon class="mdi mdi-home pa-3"></icon>
+              <v-icon class="mdi mdi-home pa-3"></v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>로그인</v-list-item-title>
@@ -15,7 +15,7 @@
           </v-list-item>
           <v-list-item router :to="{name : 'BoardPage'}" exact>
             <v-list-item-action>
-              <icon class="mdi mdi-clipboard-text-multiple-outline pa-3"></icon>
+              <v-icon class="mdi mdi-clipboard-text-multiple-outline pa-3"></v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title >게시판</v-list-item-title>
@@ -59,7 +59,6 @@
           </v-row>
         </v-toolbar-items>
       </v-app-bar>
-
       <v-main>
         <router-view></router-view>
       </v-main>
@@ -68,11 +67,8 @@
 
 <script>
 import {mapState, mapActions} from "vuex";
-
 export default {
   name: 'App',
-  components: {
-  },
 
   computed:{
     ...mapState(['isLogin', 'isLoginError'])

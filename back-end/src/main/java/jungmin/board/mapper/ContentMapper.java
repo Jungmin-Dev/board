@@ -32,7 +32,7 @@ public interface ContentMapper {
 
     public List<String> fileDeleteFind(String param) throws Exception;
 
-    public int fileDelete(String param) throws Exception;
+    public int fileDelete(String[] param) throws Exception;
 
 
 

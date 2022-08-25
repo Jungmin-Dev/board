@@ -191,12 +191,18 @@
             CONTENT_ID = #{contentId}
     </select>
 
+<!--    파일 수정 시 삭제된 파일 삭제-->
     <delete id="fileDelete">
         DELETE
         FROM
             FILEINFO
         WHERE
-            CONTENT_ID = #{contentId}
+            UUID
+            IN(
+            <foreach collection="param" item="item" separator=",">
+            #{item}
+            </foreach>
+        )
     </delete>
 
 

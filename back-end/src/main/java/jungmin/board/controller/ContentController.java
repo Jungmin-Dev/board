@@ -2,23 +2,14 @@ package jungmin.board.controller;
 
 import jungmin.board.domain.Content;
 import jungmin.board.domain.FileDownLoad;
-import jungmin.board.domain.Info;
-import jungmin.board.service.AuthService;
 import jungmin.board.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -140,8 +131,6 @@ public class ContentController {
     @ResponseBody
     public ResponseEntity<byte[]> fileDownLoad(@RequestBody FileDownLoad uuid) throws Exception{
         return contentService.fileDownLoad(uuid);
-//        System.out.println("uuid = " + uuid);
-//        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -8,7 +8,6 @@ const Content ={
     contentDetail: null,
     contentComment: null,
     contentCommentSub: null,
-    deleteData : [],
   },
   getters : {
 
@@ -39,12 +38,6 @@ const Content ={
         state.contentCommentSub = null;
       }
     },
-    deleteDataList(state, payload){
-      state.deleteData = payload;
-      if(!payload){
-        state.deleteData = null;
-      }
-    }
   },
   actions : {
     // 게시글 불러오기

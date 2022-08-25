@@ -1,6 +1,7 @@
 package jungmin.board.controller;
 
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jungmin.board.domain.Info;
 import jungmin.board.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping(value = "/auth")
 @Controller
+@Api(tags = "로그인 관련 Controller")
 @CrossOrigin(origins="*")
 public class AuthController {
 
     private final AuthService authService;
 
-    // 아이디(이메일) 중복 체크
+    @ApiOperation(value = "아이디(이메일) 중복 체크", notes = "아이디(이메일) 중복 체크")
     @RequestMapping(value="/duplicate", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> duplicate(@RequestBody Info param) throws Exception{
