@@ -31,7 +31,7 @@ public class AuthController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    // 회원가입
+    @ApiOperation(value = "회원가입", notes = "회원가입")
     @RequestMapping(value="/join", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> join(@RequestBody Info param) throws Exception{
@@ -40,7 +40,7 @@ public class AuthController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    // 로그인
+    @ApiOperation(value = "로그인", notes = "로그인")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> login(@RequestBody Info param) throws Exception{
         Map<String, Object> map = new HashMap<>();
@@ -54,7 +54,7 @@ public class AuthController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    // 인증번호 보내기
+    @ApiOperation(value = "인증번호 전송", notes = "인증번호 전송")
     @RequestMapping(value="/emailcheck", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> emailCheck(@RequestBody Info param) throws Exception{
@@ -69,7 +69,7 @@ public class AuthController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    // 인증번호 일치하는지 확인
+    @ApiOperation(value = "인증번호 일치 확인", notes = "인증번호 일치 확인")
     @RequestMapping(value="/certificationcheck", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> certificationcheck(@RequestBody Info param) throws Exception{
@@ -82,8 +82,7 @@ public class AuthController {
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-
-    // 비밀번호 찾기(아이디 유효 검사)
+    @ApiOperation(value = "비밀번호 찾기(아이디 유효 검사)", notes = "비밀번호 찾기(아이디 유효 검사)")
     @RequestMapping(value="/emailfind", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> findPassword(@RequestBody Info param) throws Exception{
@@ -97,8 +96,7 @@ public class AuthController {
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-
-    // 비밀번호 찾기(비밀번호 변경)
+    @ApiOperation(value = "비밀번호 찾기(비밀번호 변경)", notes = "비밀번호 찾기(비밀번호 변경)")
     @RequestMapping(value="/changepw", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Object>> changePw(@RequestBody Info param) throws Exception{
