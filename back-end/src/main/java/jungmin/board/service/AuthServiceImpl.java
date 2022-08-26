@@ -3,7 +3,7 @@ package jungmin.board.service;
 import jungmin.board.domain.Info;
 import jungmin.board.mapper.AuthMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import javax.mail.Message;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @RequiredArgsConstructor
-@Log
+@Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
     private final AuthMapper authMapper;
@@ -94,6 +94,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     // 로그인
     public Optional login(Info param) throws Exception {
+        log.info("로그인 하셨습니다.");
         HashMap<String, Object> map = new HashMap<>();
         map.put("Email", param.getUserEmail());
         map.put("Password", param.getUserPassword());
